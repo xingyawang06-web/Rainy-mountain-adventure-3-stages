@@ -11,9 +11,10 @@ With Playwright available:
 
     node tests/phase1.cjs
     node tests/stage3-regression.cjs
+    node tests/phase3.cjs
     node tests/phase2.cjs
 
-Both scripts default to the local file:// index.html. Set CHROMIUM_PATH if Chromium
+The scripts default to the local file:// index.html. Set CHROMIUM_PATH if Chromium
 is not at /usr/bin/chromium. If a managed browser policy prohibits file://, set
 GAME_URL to a temporary local test-server URL. A server test does not verify the
 file:// protocol itself.
@@ -25,9 +26,18 @@ exact paragraph text and return-state preservation; ink tools, individual erasin
 undo/redo, clear/cancel, screen-return persistence; scrolling, reflow, and fullscreen
 alignment; hidden teacher notes; Home, stage switching, Restart, and audio controls.
 
-Stage 3 regression checks preserve the pre-Phase-2 key, door, tree, and reflection
-flow. They also exercise ink on the tree, a challenge, and a landscape with emulated
-touch input, mobile layouts, and reduced motion.
+Phase 3 checks at 1280×720 and 1920×1080 use a completed-gate fixture, then
+award all three keys through actual teacher-led UI interaction. (Phase 1 and the
+Stage 1/2 suite separately earn all five clues through actual student interaction.)
+The tests sample both door transforms during animation, verify a landscape-only
+arrival with no timed tree reveal, then exercise the three roots, trunk, and exactly
+four canopy examples. Every teaching reveal is teacher-controlled. They check
+original paragraph wording, evidence returns including final paragraph P15 and
+oral-tradition P8, Historical Connection P1/P5/P15, shared tree ink, separate
+assignment ink, all assignment prompts, key review, fullscreen, Home, stage
+switching, Restart, interrupted door transitions, mobile and reduced motion.
+Cross-stage regression also checks ink on challenge/landscape screens, real emulated
+touch drawing, and Interact mode. Physical whiteboard/stylus input remains manual.
 
 Manual classroom checks: open index.html with Internet disconnected; verify audible
 sound/mute and visual projection quality; check the actual interactive whiteboard or
@@ -41,11 +51,13 @@ cover the complete gate art and attached-lock geometry; teacher-only progressive
 Key 1 branches; simultaneous Clue Cards for Keys 2 and 3; every original evidence
 link; knowledge-map and ink restoration; category reveal versus explicit key award;
 revisiting collected keys; reference copies in independent rehearsal; navigation,
-Restart, mobile/reduced motion; and no automatic transition into the tree.
+Restart, mobile/reduced motion; and no automatic reveal of the tree.
 
-After all three keys, Phase 2 stops at the unlocked gate. The previously existing
-roots activity remains available through an explicitly labeled teacher-only control.
-The new landscape-only/tree/assignment presentation is reserved for Phase 3.
+After all three keys, Phase 3 opens the original door panels and arrives at the
+unchanged landscape. Only teacher clicks reveal the cultural roots, identity,
+canopy examples, and personal-reflection assignment. The original tree PNG is
+masked into aligned layers without modifying the artwork. Notes are optional;
+there is no automatic grading, documentary requirement, or second drawing task.
 
 # Comprehensive Stage 1/2 verification and walking fixes
 
@@ -81,3 +93,18 @@ The focused suite also verifies walking direction by checking the rendered image
 transform, and interrupts an actively rendering footstep in the same browser task.
 It checks that the source count immediately becomes zero and measures a silent
 waveform after pause and mute, while muted road movement remains active.
+
+# Phase 3 verification limits
+
+In this managed Chromium environment, direct file:// navigation fails with
+`net::ERR_BLOCKED_BY_ADMINISTRATOR`. Browser interactions were therefore tested
+using a temporary loopback-only HTTP server, with zero external runtime requests.
+This is a testing fallback, not a classroom requirement. All runtime scripts,
+styles, original numbered text, images and Web Audio synthesis remain local;
+there are no fetch calls, modules, CDNs or installed runtime dependencies.
+
+On the MacBook Air, verify direct local opening in Safari/Chrome with the Internet
+disconnected, audible speaker output and mute, fullscreen, and actual classroom
+input hardware. Automated AnalyserNode measurements verify rendered footstep PCM,
+not physical sound heard by a person. Progress and ink persist within the current
+browser session; reopening/reloading starts a new learning journey.

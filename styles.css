@@ -212,3 +212,39 @@ button[aria-current="step"]:hover:not(:disabled),button.selected:hover:not(:disa
 .phrase { font-size:clamp(1.5rem,1.7vw,1.625rem); }
 .road-explorers::after { content:''; position:absolute; left:15%; right:15%; height:5px; bottom:-1px; border-radius:50%; background:#11251d33; z-index:-1; }
 .road-explorers img { transform:scaleX(var(--walker-facing,1)); }
+
+/* Phase 3 uses the original gate panels and masks the unchanged complete tree. */
+.phase3-opening { background-image:url('assets/background-stage 3.png'); perspective:1200px; }
+.phase3-opening .complete-gate { clip-path:polygon(evenodd,0 0,100% 0,100% 100%,0 100%,0 0,25% 14.5%,25% 93.5%,75% 93.5%,75% 14.5%,25% 14.5%); }
+.phase3-opening .original-leaf { display:block; backface-visibility:hidden; animation-duration:2.2s; animation-timing-function:ease-in-out; animation-fill-mode:both; }
+.phase3-opening .original-left { transform-origin:left center; animation-name:phase3-left; }
+.phase3-opening .original-right { transform-origin:right center; animation-name:phase3-right; }
+@keyframes phase3-left { from {transform:rotateY(0);} to {transform:rotateY(-105deg);} }
+@keyframes phase3-right { from {transform:rotateY(0);} to {transform:rotateY(105deg);} }
+.cultural-presentation { max-width:1400px; margin:auto; }
+.cultural-landscape { position:relative; width:100%; aspect-ratio:16/9; background:url('assets/background-stage 3.png') center/cover; overflow:hidden; border-radius:1rem; box-shadow:0 5px 30px #0007; }
+.phase3-art { position:absolute; inset:0; width:100%; height:100%; }
+.phase3-layer { position:absolute; inset:0; width:100%; height:100%; object-fit:fill; pointer-events:none; }
+.phase3-root,.phase3-leaf,.phase3-trunk-label { position:absolute; z-index:2; padding:.35em .65em; border:1px solid #f2ce83; background:#102b24eb; border-radius:.5rem; font-size:clamp(.8rem,2vw,1.7rem); text-align:center; box-shadow:0 2px 8px #0008; }
+.phase3-root { bottom:2%; max-width:31%; }
+.root-name-0 { left:2%; }.root-name-1 { left:50%; transform:translateX(-50%); }.root-name-2 { right:2%; }
+.phase3-trunk-label { left:50%; top:64%; transform:translate(-50%,-50%); border-width:3px; color:#fff1b2; white-space:nowrap; }
+.phase3-leaf { top:22%; max-width:24%; }.leaf-name-0 { left:2%; top:33%; }.leaf-name-1 { left:27%; top:15%; }.leaf-name-2 { left:53%; top:8%; }.leaf-name-3 { right:2%; top:33%; }
+.presentation-discussion { margin-top:1rem; }.presentation-prompt { font-size:clamp(1.5rem,2.3vw,2rem); line-height:1.45; }
+.presentation-discussion p { font-size:clamp(1.1rem,1.8vw,1.65rem); }.presentation-discussion .small { font-size:1rem; }
+.presentation-controls { display:flex; gap:.8rem; flex-wrap:wrap; margin:1rem 0; }
+.presentation-controls button { font-size:clamp(1rem,1.7vw,1.4rem); }
+.identity-insight { border-left:5px solid var(--gold); padding:.7rem 1rem; background:#214531; }
+.assignment-screen { max-width:1250px; margin:auto; }.assignment-screen h3 { font-size:clamp(1.5rem,2.6vw,2.2rem); color:var(--gold); }
+.assignment-question,.assignment-task,.assignment-screen li { font-size:clamp(1.25rem,2vw,1.8rem); line-height:1.6; }
+.assignment-task { padding:1rem; background:#365a3b; border:2px solid var(--gold); border-radius:.7rem; }.assignment-screen li { margin:.65rem 0; }
+@media(prefers-reduced-motion:reduce) { .phase3-opening .original-leaf { animation-duration:1ms; } }
+@media(max-width:600px) { .phase3-root,.phase3-leaf,.phase3-trunk-label { font-size:.65rem; padding:.25em; }.presentation-controls button { width:100%; } }
+.tree-just-revealed { animation:tree-grow .85s ease-out both; transform-origin:50% 90%; }
+@keyframes tree-grow { from {opacity:0; transform:scaleY(.94);} to {opacity:1; transform:scaleY(1);} }
+@media(prefers-reduced-motion:reduce) { .tree-just-revealed { animation:none; } }
+/* Keep each reveal and its teacher controls visible together on a 16:9 projector. */
+.cultural-landscape { width:min(100%,calc((100svh - 10rem)*16/9)); margin:0 auto; }
+.phase3-art { left:7.8125%; width:84.375%; }
+.door-transition .final-gate-scene { width:min(100%,calc((100svh - 5rem)*1672/941)); }
+.presentation-discussion { width:100%; }.presentation-controls { margin-top:0; }

@@ -337,6 +337,7 @@ function knowledgeEvidenceHTML(){
 function screenIdentity(){
  const mode=teacher?'rehearsal':'student';
  if(evidenceView)return `${mode}:text:${evidenceView.refs[evidenceView.index]}`;
+ if(currentStage===2&&!keyActivity&&state().presentation!=='gate')return `${mode}:presentation:${state().presentation==='opening'?'opening':state().presentationStep==='assignment'?'assignment':state().presentationStep==='landscape'?'landscape':'tree'}`;
  return `${mode}:stage:${currentStage}:gate:${checkpoint??'map'}:question:${checkpoint===null?'':state().checkpoints[checkpoint].step}:key:${currentStage===2?(keyActivity?activeKey:'gate'):''}`;
 }
 function openEvidence(refs){
@@ -353,7 +354,7 @@ function closeEvidence(){
 }
 function evidenceHTML(){
  const {refs,index}=evidenceView,n=refs[index];
- return `<section class="panel evidence-reader"><div class="evidence-controls"><button data-action="back-evidence">${currentStage===2?'Back to Knowledge Map':'Back to Activity'}</button><button data-action="text-previous" ${index===0?'disabled':''}>← Previous paragraph</button><button data-action="text-next" ${index===refs.length-1?'disabled':''}>Next paragraph →</button></div><h2>Return to the Text</h2><nav aria-label="Evidence paragraphs">${refs.map((p,i)=>`<button data-text-index="${i}" aria-pressed="${i===index}">P${p}</button>`).join('')}</nav><article><h3>Paragraph ${n}</h3><p class="original-passage" data-ink-region="paragraph-${n}">${escapeHTML(CONTENT.paragraphs[n])}</p></article></section>`;
+ return `<section class="panel evidence-reader"><div class="evidence-controls"><button data-action="back-evidence">${currentStage===2?(keyActivity?'Back to Knowledge Map':'Back to Cultural Identity Tree'):'Back to Activity'}</button><button data-action="text-previous" ${index===0?'disabled':''}>← Previous paragraph</button><button data-action="text-next" ${index===refs.length-1?'disabled':''}>Next paragraph →</button></div><h2>Return to the Text</h2><nav aria-label="Evidence paragraphs">${refs.map((p,i)=>`<button data-text-index="${i}" aria-pressed="${i===index}">P${p}</button>`).join('')}</nav><article><h3>Paragraph ${n}</h3><p class="original-passage" data-ink-region="paragraph-${n}">${escapeHTML(CONTENT.paragraphs[n])}</p></article></section>`;
 }
 function teacherNotes(html){return presenter||teacher?`<details class="teacher-notes"><summary>Teacher notes · not shown in student mode</summary>${html}</details>`:'';}
 const LANDSCAPE = [
@@ -391,7 +392,7 @@ const OBSERVER_REFLECTION = ['How did the game support or limit learning?','How 
 function freshState() {
   return {matched:[], selected:null, landscape:{}, reconstruction:{}, reconstructed:false, stage1:false,
     checkpoints:CONTENT.checkpoints.map(c => ({step:0, solved:false, evidence:{}, confirmed:[], complete:false, answers:{}, finalDiscussion:''})),
-    keys:KEYS.map(() => ({revealed:0,answerShown:false,discussion:'',unlocked:false})),mapPosition:0,mapFacing:1,mapWalk:null,gateOpen:false,roots:0,trunk:false,growth:[],growthDraft:'',growthKind:'Experiences',rootDiscussion:'',reflections:{},complete:false};
+    keys:KEYS.map(() => ({revealed:0,answerShown:false,discussion:'',unlocked:false})),mapPosition:0,mapFacing:1,mapWalk:null,gateOpen:false,presentation:'gate',presentationStep:'landscape',openingStarted:0,canopy:0,roots:0,trunk:false,growth:[],growthDraft:'',growthKind:'Experiences',rootDiscussion:'',reflections:{},complete:false};
 }
 let studentState=freshState(), teacherState=freshState(), teacher=false;
 let currentStage=-1, checkpoint=null, activeKey=0, soundEnabled=false, audio=null;
@@ -421,6 +422,7 @@ function goStage(n) {
 function focusMain() {
  $('#adventure').focus({preventScroll:true});
  if(currentStage===1&&checkpoint===null&&!evidenceView){focusMap();return;}
+ if(currentStage===2&&!evidenceView&&!keyActivity&&state().presentation!=='gate'){const scene=$('.cultural-landscape,.phase3-opening');if(scene){scene.scrollIntoView({block:'start',behavior:'instant'});return;}}
  if(currentStage===0&&!evidenceView){$('.landscape-layout')?.scrollIntoView({block:'center',behavior:'instant'});return;}
  window.scrollTo({top:0,behavior:'instant'});
 }
@@ -451,8 +453,10 @@ function render(){
   observeMap();
   startTravel();
   notify(feedback);
+  treeReveal='';
+  syncDoorOpening();
 }
-function homeHTML(){return `<section class="welcome panel"><p class="eyebrow">An offline classroom adventure</p><h2>Follow the landscape.<br>Discover the connections.</h2><img class="explorers" src="assets/explorers.png" alt="Q-style explorers ready for their journey"><p>Explore N. Scott Momaday’s <cite>The Way to Rainy Mountain</cite> through close reading, evidence, and team discussion.</p><ol><li>Unlock the Landscape — language and visual reconstruction.</li><li>Journey Through History and Memory — five gates.</li><li>Finding Our Cultural Roots — three keys and an identity tree.</li></ol><button data-action="begin">Begin / resume exploration →</button><details><summary>Learning objectives & classroom use</summary>${list(['Recognize, understand, and apply key vocabulary and expressions.','Interpret and reconstruct the text using textual evidence; develop awareness of transfer to future teaching.','Develop a text-based understanding of the sources of cultural identity.','Extend understanding of how cultural identity can continue to develop.'])}<p>ICAP framework · Read, discuss, find evidence, and make decisions as an explorer team. Teacher access allows independent presentation; it is a classroom control, not a password-protected role.</p><p>Everything runs locally. No answers leave this page. Use Restart to clear the current journey, or copy your written reflections before closing.</p></details>${presenter||teacher?`<details><summary>Teacher presentation · 10-minute demonstration</summary>${list(['Briefly recall clues from the five Gates.','Guide students through three progressively completed mind maps.','Students induce the names of the three categories.','Unlock the final gate and arrive at Rainy Mountain.','Use P14–P15 to discuss the journey’s meaning.','Build three roots of the Cultural Identity Tree.','Pose the open question of cultural growth.','Assign branches-and-leaves extension task.'])}<p>Focus: Objective 3; supported by evidence of Objective 2 and an extension toward Objective 4. Teacher access uses a separate rehearsal journey; no student achievements are fabricated.</p></details>`:''}</section>`;}
+function homeHTML(){return `<section class="welcome panel"><p class="eyebrow">An offline classroom adventure</p><h2>Follow the landscape.<br>Discover the connections.</h2><img class="explorers" src="assets/explorers.png" alt="Q-style explorers ready for their journey"><p>Explore N. Scott Momaday’s <cite>The Way to Rainy Mountain</cite> through close reading, evidence, and team discussion.</p><ol><li>Unlock the Landscape — language and visual reconstruction.</li><li>Journey Through History and Memory — five gates.</li><li>Finding Our Cultural Roots — three keys and an identity tree.</li></ol><button data-action="begin">Begin / resume exploration →</button><details><summary>Learning objectives & classroom use</summary>${list(['Recognize, understand, and apply key vocabulary and expressions.','Interpret and reconstruct the text using textual evidence; develop awareness of transfer to future teaching.','Develop a text-based understanding of the sources of cultural identity.','Extend understanding of how cultural identity can continue to develop.'])}<p>ICAP framework · Read, discuss, find evidence, and make decisions as an explorer team. Teacher access allows independent presentation; it is a classroom control, not a password-protected role.</p><p>Everything runs locally. No answers leave this page. Use Restart to clear the current journey, or copy your written reflections before closing.</p></details>${presenter||teacher?`<details><summary>Teacher presentation · 10-minute demonstration</summary>${list(['Briefly recall clues from the five Gates.','Guide students through three progressively completed mind maps.','Students induce the names of the three categories.','Unlock the final gate and arrive at Rainy Mountain.','Use P14–P15 to discuss the journey’s meaning.','Build three roots of the Cultural Identity Tree.','Pose the open question of cultural growth.','Assign the 2–3-minute personal reflection on evolving cultural identity.'])}<p>Focus: Objective 3; supported by evidence of Objective 2 and an extension toward Objective 4. Teacher access uses a separate rehearsal journey; no student achievements are fabricated.</p></details>`:''}</section>`;}
 function landscapeHTML(){
  const s=state();
  return `<section><div class="panel intro"><p class="eyebrow">Stage 1 · P1</p><h2>Unlock the Landscape</h2><p class="guiding">What does Rainy Mountain look like?</p><p>Select a textual expression, then click the landscape area that represents it. You can also use Tab and Enter on numbered regions.</p><p class="small">This illustration combines seasons and exaggerates scale. Identify what the text describes; P1 does not say winter blizzards and summer heat occur together. Tree species are identified by the text, not by botanical details in the artwork.</p>${source([1])}</div>
@@ -484,20 +488,22 @@ function checkpointHTML(){
 }
 function gateHTML(){
  const s=state();if(keyActivity)return keyHTML();
+ if(s.presentation==='opening')return openingHTML();
+ if(s.presentation==='landscape')return treeHTML();
  const ready=s.keys.every(k=>k.unlocked);
  return `<section class="final-gate-screen"><div class="panel gate-heading"><p class="eyebrow">Stage 3 · The Final Gate</p><h2>Discover the Three Keys</h2><p>Explore the evidence together. Your teacher controls when each shared meaning is revealed.</p></div>
- <div class="final-gate-scene ${s.gateOpen?'legacy-open':''} ${animateGate?'legacy-opening':''}" aria-label="${s.gateOpen?'Open double-door gate':'Fully closed double-door gate'}">
+ <div class="final-gate-scene " aria-label="Fully closed double-door gate">
  <div class="gate-beyond"><img src="assets/explorers.png" alt="Explorers arriving at Rainy Mountain"></div>
  <img class="complete-gate" src="assets/whole%20gate.png" alt="The original complete double-door gate in its landscape">
  <div class="original-leaf original-left"><img src="assets/left%20door.png" alt="Original left door"></div>
  <div class="original-leaf original-right"><img src="assets/right%20door.png" alt="Original right door"></div>
- ${s.gateOpen?'':s.keys.map((k,i)=>`<button type="button" class="door-lock lock-${i} ${k.unlocked?'is-unlocked':''} ${unlockAnimation===i?'just-unlocked':''}" data-open-key="${i}" aria-label="${k.unlocked?`Review ${KEYS[i].name}`:`Explore lock ${i+1}`}" data-ink-region="door-lock-${i}"><img src="assets/${k.unlocked?'lock.png':'lock%20closed.png'}" alt="${k.unlocked?'Unlocked':'Locked'}"><span>${i+1}${k.unlocked?' ✓':''}</span>${unlockAnimation===i?'<img class="turning-key" src="assets/key.png" alt="Key unlocking the lock">':''}</button>`).join('')}
+ ${s.keys.map((k,i)=>`<button type="button" class="door-lock lock-${i} ${k.unlocked?'is-unlocked':''} ${unlockAnimation===i?'just-unlocked':''}" data-open-key="${i}" aria-label="${k.unlocked?`Review ${KEYS[i].name}`:`Explore lock ${i+1}`}" data-ink-region="door-lock-${i}"><img src="assets/${k.unlocked?'lock.png':'lock%20closed.png'}" alt="${k.unlocked?'Unlocked':'Locked'}"><span>${i+1}${k.unlocked?' ✓':''}</span>${unlockAnimation===i?'<img class="turning-key" src="assets/key.png" alt="Key unlocking the lock">':''}</button>`).join('')}
  </div>
  <div class="panel gate-status"><p role="status">${s.keys.filter(k=>k.unlocked).length} of 3 keys collected. ${ready?'All three locks are unlocked. The gate is ready.':'Click a lock to open its knowledge map.'}</p>
  <div class="earned-keys">${s.keys.map((k,i)=>k.unlocked?`<span><img src="assets/key.png" alt="Earned key">${escapeHTML(KEYS[i].name)}</span>`:'').join('')}</div>
  ${teacherNotes('<p>Use Teacher presentation to guide this student journey. Independent rehearsal has separate progress and can use reference copies of clue cards without earning them.</p>')}
- ${ready&&!s.gateOpen?'<p class="small">Phase 2 complete. The new door transition and cultural identity sequence belong to Phase 3.</p>'+((presenter||teacher)?'<details><summary>Previously existing roots activity</summary><p>This optional activity is unchanged. It is separate from the planned Phase 3 redesign.</p><button data-action="legacy-roots">Open gate & visit existing activity</button></details>':''):''}
- </div>${s.gateOpen?treeHTML():''}</section>`;
+ ${ready&&s.gateOpen?'<button data-action="resume-presentation">Return to the landscape / tree</button>':''}
+ </div></section>`;
 }
 function keyHTML(){
  const s=state(),k=KEYS[activeKey],progress=s.keys[activeKey],control=presenter||teacher;
@@ -517,18 +523,51 @@ function keyHTML(){
  <details><summary>Optional team discussion notes</summary>${textArea('connections','Record the connections your team discussed. Notes are not graded or required to unlock the key.',progress.discussion,'key-discussion')}</details>
  <button data-action="back-gate">Back to the Gate</button></section>`;
 }
-function treeHTML(){
+// Only the door transition uses a clock. Every teaching reveal requires a teacher click.
+const CANOPY_WORDS=['Writing','Storytelling','Language','Cultural Exchange'];
+let openingTimer=null,treeReveal='';
+function openingHTML(){
+ return `<section class="door-transition"><h2>The Three Keys Open the Way</h2><div class="final-gate-scene phase3-opening" aria-label="Double doors opening onto Rainy Mountain"><img class="complete-gate" src="assets/whole%20gate.png" alt="Original gate frame"><div class="original-leaf original-left"><img src="assets/left%20door.png" alt="Left door opening"></div><div class="original-leaf original-right"><img src="assets/right%20door.png" alt="Right door opening"></div></div><p role="status">The doors are opening onto Rainy Mountain.</p></section>`;
+}
+function syncDoorOpening(){
+ clearTimeout(openingTimer);openingTimer=null;
+ const s=state();if(currentStage!==2||evidenceView||keyActivity||s.presentation!=='opening')return;
+ const duration=matchMedia('(prefers-reduced-motion: reduce)').matches?1:2200;
+ const elapsed=Math.max(0,performance.now()-s.openingStarted);
+ document.querySelectorAll('.phase3-opening .original-leaf').forEach(el=>el.style.animationDelay=`-${Math.min(duration,elapsed)}ms`);
+ openingTimer=setTimeout(()=>{
+  if(s!==state()||s.presentation!=='opening')return;
+  s.gateOpen=true;s.presentation='landscape';
+  if(currentStage===2&&!evidenceView&&!keyActivity){feedback='Arrive at Rainy Mountain. Your teacher controls the next reveal.';render();focusMain();}
+ },Math.max(0,duration-elapsed));
+}
+function treeArtwork(s){
+ const roots=KEYS.map(k=>k.name);
+ // All layers use precisely the same original artwork and coordinate system.
+ return `<div class="phase3-art" data-ink-region="cultural-tree-art" aria-label="Cultural Identity Tree: ${s.roots} roots, ${s.trunk?'trunk':'no trunk'}, ${s.canopy} canopy examples">
+ ${roots.slice(0,s.roots).map((name,i)=>`<img class="phase3-layer root-piece root-piece-${i} ${treeReveal===`root-${i}`?'tree-just-revealed':''}" src="assets/cultural%20identity%20tree.png" alt="${name} root" style="clip-path:inset(79% ${100-(i+1)*100/3}% 0 ${i*100/3}%)"><span class="phase3-root root-name-${i}" data-ink-region="root-name-${i}">${name}</span>`).join('')}
+ ${s.trunk?`<img class="phase3-layer identity-trunk ${treeReveal==='trunk'?'tree-just-revealed':''}" src="assets/cultural%20identity%20tree.png" alt="Trunk connecting the cultural roots" style="clip-path:inset(43% 0 21% 0)"><strong class="phase3-trunk-label" data-ink-region="cultural-identity">CULTURAL IDENTITY</strong>`:''}
+ ${CANOPY_WORDS.slice(0,s.canopy).map((word,i)=>`<img class="phase3-layer canopy-piece ${treeReveal===`canopy-${i}`?'tree-just-revealed':''}" src="assets/cultural%20identity%20tree.png" alt="Growing tree canopy" style="clip-path:inset(0 ${100-(i+1)*25}% 57% ${i*25}%)"><span class="phase3-leaf leaf-name-${i}" data-ink-region="canopy-word-${i}">${word}</span>`).join('')}
+ </div>`;
+}
+function assignmentHTML(){
  const s=state();
- return `<div class="panel roots"><h3>Mission 1 — Discover the Roots</h3><p class="guiding">Why does Momaday bring together the ancestral land, tribal history, and family memories in his journey to Rainy Mountain?</p>${source([14,15])}${list(ROOT_QUESTIONS)}${textArea('roots','Support your interpretation using the text.',s.rootDiscussion,'roots')}
- <div class="identity-tree"><div class="tree-art" aria-label="Cultural Identity Tree: ${s.roots} roots revealed${s.trunk?', trunk revealed':''}, ${s.growth.length} growth contributions">
- ${s.roots?`<img class="tree-layer root-layer" src="assets/cultural%20identity%20tree.png" alt="Tree roots" style="clip-path:inset(79% ${100-s.roots/3*100}% 0 0)">`:''}
- ${s.trunk?'<img class="tree-layer trunk-layer" src="assets/cultural%20identity%20tree.png" alt="Tree trunk">':''}
- ${s.growth.length?`<img class="tree-layer crown-layer" src="assets/cultural%20identity%20tree.png" alt="Growing branches and leaves" style="clip-path:inset(${Math.max(0,43-s.growth.length*15)}% 0 57% 0)">`:''}
- <div class="root-labels">${KEYS.slice(0,s.roots).map(k=>`<span>${escapeHTML(k.name)}</span>`).join('')}</div>${s.trunk?'<strong class="trunk-label">Momaday’s Cultural Identity</strong>':''}</div></div>
- ${s.roots<3?'<button data-action="reveal-root">Teacher: confirm interpretation & reveal next root</button>':!s.trunk?'<button data-action="reveal-trunk">Teacher: connect the roots & reveal the trunk</button>':''}
- ${s.trunk?`<h3>Mission 2 — Let the Tree Grow</h3><p>Is cultural identity shaped only by the past? Can it continue to develop through new experiences?</p><p>As Momaday leaves Rainy Mountain, does he leave his cultural roots behind? Why or why not?</p>${textArea('extension','Discuss cultural continuity and growth.',s.reflections.extension,'reflections')}<p>Complete the Cultural Identity Tree with branches and leaves, explaining how new experiences, relationships, practices or choices contribute to cultural growth.</p><label>Growth category <select id="growth-kind">${['Experiences','Relationships','Practices','Choices'].map(v=>`<option ${s.growthKind===v?'selected':''}>${v}</option>`).join('')}</select></label>${textArea('growth','Explain one contribution to cultural growth.',s.growthDraft,'growth')}<button data-action="add-growth">Add a branch / leaf</button><ol class="growth-list">${s.growth.map(g=>`<li><strong>${escapeHTML(g.kind)}:</strong> ${escapeHTML(g.text)}</li>`).join('')}</ol><p>Language connection · P7: revisit “a profusion of” and “luxuriant” to enrich the tree metaphor.</p>${source([7])}
- ${s.growth.length?`<p class="takeaway">Cultural identity is rooted in the past, but it is not fixed. It continues to grow and develop through new experiences, memories, and the transmission of cultural traditions.</p><h3>Unit Reflection — Two Roles</h3><div class="reflection-grid"><div><h4>As a Learner</h4>${list(LEARNER_REFLECTION)}${textArea('learner','Reflect on your learning.',s.reflections.learner,'reflections')}</div><div><h4>As a Teaching Observer</h4>${list(OBSERVER_REFLECTION)}${textArea('observer','Reflect on the teaching and interaction.',s.reflections.observer,'reflections')}</div></div><button data-action="finish">Complete unit reflection</button>${s.complete?'<p class="success">Journey complete. Keep growing, and take your roots with you.</p>':''}<button data-action="download-notes">Save my written field notes (.txt)</button>`:''}`:''}
- <p class="small">All notes remain in this session until reload or Restart. Use Save my written field notes or copy your responses before closing.</p></div>`;
+ return `<section class="panel assignment-screen" data-ink-region="after-class-assignment"><p class="eyebrow">Take your roots with you</p><h2>After-Class Assignment</h2><h3>My Evolving Cultural Identity</h3><p class="assignment-question">How has your cultural identity been shaped and changed through your life experiences?</p><ol><li>What cultural influences have shaped who you are today?</li><li>How have new experiences, people, places, or cultures enriched or changed your cultural identity?</li><li>How might your cultural identity continue to develop in the future?</li></ol><p class="assignment-task">Prepare a 2–3-minute personal reflection to share in the next class. Use specific examples from your own life.</p>
+ ${(presenter||teacher)?`<details><summary>Optional classroom reflection · learner and teaching observer</summary><div class="reflection-grid"><div><h4>As a Learner</h4>${list(LEARNER_REFLECTION)}${textArea('learner','Reflect on your learning.',s.reflections.learner,'reflections')}</div><div><h4>As a Teaching Observer</h4>${list(OBSERVER_REFLECTION)}${textArea('observer','Reflect on the teaching and interaction.',s.reflections.observer,'reflections')}</div></div></details>`:''}
+ <button data-action="return-tree">Return to the Cultural Identity Tree</button><button data-action="download-notes">Save my written field notes (.txt)</button><p class="small">Progress and annotations stay in this session. Reloading or Restart clears learning progress; save your written notes before closing.</p></section>`;
+}
+function treeHTML(){
+ const s=state(),control=presenter||teacher,step=s.presentationStep;
+ if(step==='assignment')return assignmentHTML();
+ const prompt=step==='roots'?'Why does Momaday write about his homeland, the history of the Kiowa people, and his memories of Aho?':step==='identity'?'As Momaday leaves Rainy Mountain, does he leave his cultural roots behind? Why or why not?':'If our cultural roots remain with us, can our cultural identity continue to grow as we experience new places, people, and cultures? How?';
+ const actions=step==='landscape'?'<button data-action="start-roots">Teacher: begin Cultural Roots</button>':step==='roots'?s.roots<3?'<button data-action="reveal-root">Teacher: reveal next root</button>':'<button data-action="reveal-trunk">Teacher: connect roots & grow trunk</button>':step==='identity'?'<button data-action="start-growth">Teacher: discuss continuity & growth</button>':s.canopy<4?'<button data-action="reveal-canopy">Teacher: grow next canopy example</button>':'<button data-action="show-assignment">Teacher: show After-Class Assignment</button>';
+ return `<section class="cultural-presentation" data-presentation-step="${step}">
+ <div class="cultural-landscape ${step==='landscape'?'landscape-only':''}" data-ink-region="rainy-mountain-landscape" aria-label="Rainy Mountain landscape">${step==='landscape'?'':treeArtwork(s)}</div>
+ <div class="panel presentation-discussion"><div class="presentation-controls">${control?actions:'<p>Your teacher controls each reveal using Teacher presentation.</p>'}<button data-action="visit-gate">Review the Three Keys</button></div>${step==='landscape'?'':`<p class="eyebrow">${step==='roots'?'Cultural Roots':step==='identity'?'Cultural Identity':'Cultural Continuity & Growth'}</p><h2 class="presentation-prompt" data-ink-region="discussion-${step}">${prompt}</h2>${step==='roots'?source([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]):source([15])}
+ ${step==='identity'?'<p class="identity-insight">These cultural roots help Momaday understand who he is culturally. Leaving Rainy Mountain physically does not mean abandoning his cultural roots: they remain connected to his cultural identity.</p>':''}
+ ${step==='growth'?`<p>Momaday’s writing and the Kiowa oral tradition show how culture can be expressed and transmitted.</p>${source([8])}<p class="presentation-followup">What other ways can help us preserve, express, and develop our cultural identity?</p><p class="small">The four canopy keywords are examples for discussion, not exhaustive answers.</p>`:''}`}
+
+ ${step==='landscape'?'':`<details><summary>Optional discussion notes</summary>${textArea('roots','Record ideas and evidence from your discussion.',s.rootDiscussion,'roots')}</details>`}</div></section>`;
 }
 
 function response(message, success=false, redraw=false){feedback=message;notify(message);if(success)tone();if(redraw)render();}
@@ -540,6 +579,7 @@ function acceptKey(){
  const s=state(),progress=s.keys[activeKey];if(!progress.answerShown||progress.unlocked)return;
  progress.unlocked=true;unlockAnimation=activeKey;keyActivity=false;s.gateOpen=false;
  feedback=`Key awarded: ${KEYS[activeKey].name}. Lock ${activeKey+1} is unlocked.`;
+ if(s.keys.every(k=>k.unlocked)){s.presentation='opening';s.openingStarted=performance.now();}
  tone();render();focusMain();
 }
 function maybeCompleteLandscape(){
@@ -675,12 +715,15 @@ const ACTIONS={
  'reveal-land-branch':()=>{if(!(presenter||teacher)||activeKey!==0)return;revealedBranch=state().keys[0].revealed;state().keys[0].revealed=Math.min(3,state().keys[0].revealed+1);feedback='';render();},
  'reveal-key-meaning':()=>{if(!(presenter||teacher))return;const p=state().keys[activeKey];if(activeKey===0&&p.revealed<3)return;p.answerShown=true;response('Shared meaning revealed. Discuss before awarding the key.',true,true);},
  'award-key':acceptKey,
- 'legacy-roots':()=>{if(!(presenter||teacher)||!state().keys.every(k=>k.unlocked))return;state().gateOpen=true;animateGate=true;render();focusMain();},
- 'replay-gate':()=>{animateGate=true;render();tone();},
- 'reveal-root':()=>{const s=state();if(!s.rootDiscussion.trim()){response('Record a text-supported interpretation before teacher confirmation.');return;}s.roots=Math.min(3,s.roots+1);response(`Root ${s.roots} revealed: ${KEYS[s.roots-1].name}.`,true,true);},
- 'reveal-trunk':()=>{const s=state();if(s.roots!==3)return;s.trunk=true;response('The three roots connect with Momaday’s Cultural Identity.',true,true);},
- 'add-growth':()=>{const s=state();if(!s.growthDraft.trim()){response('Explain how an experience, relationship, practice, or choice contributes to cultural growth.');return;}s.growth.push({kind:s.growthKind,text:s.growthDraft.trim()});s.growthDraft='';response('A new branch or leaf joins the tree. Keep discussing how identity can grow.',true,true);},
- finish:()=>{const s=state();if(!['extension','learner','observer'].every(k=>s.reflections[k]?.trim())){response('Complete the growth discussion and both reflection roles before finishing.');return;}s.complete=true;response('Journey complete. Keep growing!',true,true);},
+ 'visit-gate':()=>{state().presentation='gate';keyActivity=false;render();focusMain();},
+ 'resume-presentation':()=>{if(!state().gateOpen)return;state().presentation='landscape';render();focusMain();},
+ 'start-roots':()=>{if(!(presenter||teacher)||!state().gateOpen)return;state().presentationStep='roots';render();focusMain();},
+ 'reveal-root':()=>{const s=state();if(!(presenter||teacher)||s.presentationStep!=='roots'||!s.gateOpen)return;treeReveal=`root-${s.roots}`;s.roots=Math.min(3,s.roots+1);response(`Root ${s.roots} revealed: ${KEYS[s.roots-1].name}.`,true,true);focusMain();},
+ 'reveal-trunk':()=>{const s=state();if(!(presenter||teacher)||s.roots!==3)return;treeReveal='trunk';s.trunk=true;s.presentationStep='identity';response('The cultural roots connect with Cultural Identity.',true,true);focusMain();},
+ 'start-growth':()=>{const s=state();if(!(presenter||teacher)||!s.trunk)return;s.presentationStep='growth';render();focusMain();},
+ 'reveal-canopy':()=>{const s=state();if(!(presenter||teacher)||s.presentationStep!=='growth')return;treeReveal=`canopy-${s.canopy}`;s.canopy=Math.min(4,s.canopy+1);response(`Canopy example: ${CANOPY_WORDS[s.canopy-1]}.`,true,true);focusMain();},
+ 'show-assignment':()=>{const s=state();if(!(presenter||teacher)||s.canopy!==4)return;s.presentationStep='assignment';s.complete=true;render();focusMain();},
+ 'return-tree':()=>{state().presentationStep='growth';render();focusMain();},
  'download-notes':()=>{
   const s=state(),notes=['Rainy Mountain Adventure · '+(teacher?'Teacher rehearsal':'Student journey'),'LANDSCAPE',...Object.entries(s.landscape).map(([k,v])=>`${k}: ${v}`),...s.checkpoints.flatMap((c,i)=>[`GATE ${i+1}: ${CONTENT.checkpoints[i].title}`,...Object.entries(c.evidence).map(([k,v])=>`Challenge ${Number(k)+1}: ${v}`),c.finalDiscussion]),...s.keys.map((k,i)=>`KEY ${i+1}: ${k.discussion}`),'ROOTS',s.rootDiscussion,'GROWTH',...s.growth.map(g=>`${g.kind}: ${g.text}`),'REFLECTIONS',...Object.entries(s.reflections).map(([k,v])=>`${k}: ${v}`)].join('\n\n');
   const url=URL.createObjectURL(new Blob([notes],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='rainy-mountain-field-notes.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
