@@ -3,65 +3,41 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rainy Mountain Adventure</title>
+  <title>Rainy Mountain Adventure V2</title>
   <link rel="stylesheet" href="styles.css">
   <script src="game.js" defer></script>
 </head>
 <body>
   <header>
-    <p class="eyebrow">A journey through land, history, and memory</p>
-    <h1>Rainy Mountain Adventure</h1>
+    <div class="brand"><span class="eyebrow">Read · Explore · Connect</span><h1>Rainy Mountain Adventure</h1></div>
+    <div class="toolbar">
+      <button id="home" type="button">Home</button>
+      <button id="map-return" type="button">Return to Map</button>
+      <button id="sound" type="button" aria-pressed="false">Sound: off</button>
+      <button id="fullscreen" type="button">Fullscreen</button>
+      <label class="teacher-toggle"><input id="teacher" type="checkbox"> Teacher access</label>
+    </div>
     <nav aria-label="Adventure stages">
-      <button type="button" data-stage="0">1 · Begin the journey</button>
-      <button type="button" data-stage="1">2 · Discover the keys</button>
-      <button type="button" data-stage="2">3 · Find your roots</button>
+      <button type="button" data-stage="0">1 · Unlock the Landscape</button>
+      <button type="button" data-stage="1">2 · History and Memory</button>
+      <button type="button" data-stage="2">3 · Cultural Roots</button>
     </nav>
+    <p id="mode-note" class="small"></p>
   </header>
-  <main id="adventure">
-    <section id="stage-0" aria-labelledby="heading-0">
-      <div class="panel">
-        <p class="eyebrow">Stage 1 · Begin the journey</p>
-        <h2 id="heading-0" tabindex="-1">A place to return to</h2>
-        <p>Explore the land, history, and family memories in N. Scott Momaday’s <cite>The Way to Rainy Mountain</cite>.</p>
-        <p>Momaday returns to Rainy Mountain after his grandmother Aho’s death. What brings him back?</p>
-        <div class="answers" role="group" aria-label="Choose a reason for the journey">
-          <button type="button" data-answer="incorrect">To win a mountain race</button>
-          <button type="button" data-answer="correct">To visit Aho’s grave and reconnect with his past</button>
-        </div>
-        <p id="answer-feedback" class="feedback" role="status"></p>
-      </div>
-    </section>
-    <section id="stage-1" aria-labelledby="heading-1" hidden>
-      <div class="panel">
-        <p class="eyebrow">Stage 2 · Discover the keys</p>
-        <h2 id="heading-1" tabindex="-1">Three connections to the past</h2>
-        <p>Explore each clue to collect the three keys. Use the source text to discuss how each connection shapes Momaday’s journey.</p>
-        <div class="keys">
-          <button type="button" data-key="land" aria-pressed="false"><strong>Ancestral land</strong><span>The landscape, Aho’s grave, and connections with ancestors.</span></button>
-          <button type="button" data-key="history" aria-pressed="false"><strong>Tribal history</strong><span>Kiowa origins, migration, transformation, and the disruption of traditions.</span></button>
-          <button type="button" data-key="memory" aria-pressed="false"><strong>Family memories</strong><span>Aho’s prayers, family gatherings, and stories shared across generations.</span></button>
-        </div>
-        <p id="key-feedback" class="feedback" role="status">0 of 3 keys collected.</p>
-      </div>
-    </section>
-    <section id="stage-2" aria-labelledby="heading-2" hidden>
-      <div class="panel">
-        <p class="eyebrow">Stage 3 · Find your roots</p>
-        <h2 id="heading-2" tabindex="-1">Let your identity tree grow</h2>
-        <p>Land, shared history, and family memories can connect us with cultural roots. New experiences can help those roots grow.</p>
-        <label for="reflection">What place, memory, tradition, or new experience helps shape who you are?</label>
-        <textarea id="reflection" rows="4" placeholder="Add a leaf to your identity tree…"></textarea>
-        <button type="button" id="finish">Add my leaf</button>
-        <p id="reflection-feedback" class="feedback" role="status"></p>
-        <p class="note">Your reflection stays in this page only. Nothing is sent or saved after you close or reload it.</p>
-      </div>
-    </section>
-  </main>
+  <main id="adventure" tabindex="-1"></main>
   <footer>
-    <button type="button" id="previous">← Previous</button>
-    <p id="progress" aria-live="polite">Stage 1 of 3</p>
-    <button type="button" id="next">Next →</button>
-    <button type="button" id="restart">Restart</button>
+    <button id="previous" type="button">← Previous stage</button>
+    <p id="progress" aria-live="polite">Adventure home</p>
+    <button id="next" type="button">Next stage →</button>
+    <button id="restart" type="button">Restart</button>
   </footer>
+  <p id="announcement" class="announcement" role="status" aria-live="polite"></p>
+  <dialog id="restart-dialog" aria-labelledby="restart-title">
+    <h2 id="restart-title">Restart this journey?</h2>
+    <p>This clears answers, clues, keys, and reflections for the current student journey or teacher rehearsal.</p>
+    <button id="cancel-restart" type="button">Keep exploring</button>
+    <button id="confirm-restart" type="button">Restart journey</button>
+  </dialog>
+  <noscript><p class="panel">Enable JavaScript to explore this offline adventure.</p></noscript>
 </body>
 </html>
