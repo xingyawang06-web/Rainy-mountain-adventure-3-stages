@@ -386,7 +386,8 @@ function tone(success=true) {
     });
   }catch {soundEnabled=false;$('#sound').textContent='Sound unavailable';notify('Sound is unavailable. All activities still work.');}
 }
-function unlockedStage(n){return teacher||n===0||(n===1?state().stage1:state().checkpoints.every(c=>c.complete));}function goStage(n) {
+function unlockedStage(n){return teacher||n===0||(n===1?state().stage1:state().checkpoints.every(c=>c.complete));}
+function goStage(n) {
   if(!Number.isInteger(n)||n<0||n>2)return;
   if(!unlockedStage(n)){notify(n===1?'Complete the landscape activities first. Teachers can use Teacher access.':'Collect all five checkpoint clues first. Teachers can use Teacher access.');return;}
   currentStage=n;checkpoint=null;feedback='';render();focusMain();
