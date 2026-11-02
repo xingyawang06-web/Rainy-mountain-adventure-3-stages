@@ -1,0 +1,30 @@
+:root { color-scheme: dark; font-family: system-ui, sans-serif; background: #102723; color: #fff8e8; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; }
+header, footer { padding: 1.5rem max(1.25rem, calc((100vw - 1100px) / 2)); background: #102723; }
+h1 { margin: .4rem 0 1.5rem; font-family: Georgia, serif; font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-family: Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); margin: .6rem 0; }
+p { line-height: 1.65; }
+.eyebrow { text-transform: uppercase; letter-spacing: .13em; color: #f2ce83; font-size: .8rem; }
+nav, footer, .answers { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+button { font: inherit; cursor: pointer; color: inherit; background: #23483f; border: 1px solid #8ba995; border-radius: .55rem; padding: .8rem 1rem; }
+button:hover { background: #365f50; }
+button[aria-current="step"], button[aria-pressed="true"] { background: #e1b86b; color: #142d26; border-color: #e1b86b; }
+button:disabled { opacity: .4; cursor: default; }
+:focus-visible { outline: 3px solid #ffe2a4; outline-offset: 4px; }
+section { min-height: 600px; padding: 3rem 1.25rem; background-size: cover; background-position: center; }
+section[hidden] { display: none; }
+#stage-0 { background-image: linear-gradient(#10272355, #10272388), url('assets/background-stage1.png'); }
+#stage-1 { background-image: linear-gradient(#10272355, #10272388), url('assets/background-stage%202.png'); }
+#stage-2 { background-image: linear-gradient(#10272355, #10272388), url('assets/background-stage%203.png'); }
+.panel { max-width: 900px; margin: auto; background: #102723f2; padding: clamp(1.25rem, 4vw, 3rem); border: 1px solid #b0b68b88; border-radius: 1rem; }
+.keys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; }
+.keys button { text-align: left; }
+.keys strong, .keys span { display: block; }
+.keys span { font-size: .95rem; line-height: 1.5; margin-top: .7rem; }
+.feedback { min-height: 1.6em; color: #ffe2a4; }
+label { display: block; line-height: 1.6; }
+textarea { width: 100%; margin: .75rem 0; padding: 1rem; font: inherit; background: #f9f3e5; color: #142d26; border-radius: .5rem; border: 2px solid #8ba995; resize: vertical; }
+.note { font-size: .8rem; color: #c8d4cb; }
+footer p { margin-right: auto; }
+@media (max-width: 650px) { .keys { grid-template-columns: 1fr; } section { min-height: 550px; padding: 1.25rem .75rem; } nav button { width: 100%; } }
