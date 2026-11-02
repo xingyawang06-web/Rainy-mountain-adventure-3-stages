@@ -113,3 +113,39 @@ button + button { margin-left:.1rem; }
  .explorers { float:none; display:block; width:160px; margin:1rem auto; }.key-fields { grid-template-columns:1fr; }.tree-art { aspect-ratio:1.25; }.tree-layer { object-fit:fill; }
 }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.001ms !important; transition:none !important; scroll-behavior:auto !important; } }
+
+/* Phase 1: projection typography, text reader, road explorer, and local ink. */
+main { position:relative; }
+.phrase { font-size:clamp(1.25rem,1.7vw,1.625rem); line-height:1.4; }
+.landscape-layout { grid-template-columns:minmax(290px,350px) minmax(0,1fr); }
+.challenge-question { font:600 clamp(1.65rem,2.3vw,2rem)/1.35 system-ui,sans-serif; }
+.checkpoint { max-width:1300px; }
+.checkpoint .option { font-size:clamp(1.3rem,2vw,1.75rem); }
+.text-return { font-size:clamp(1.2rem,1.8vw,1.625rem); margin:.6rem 0; }
+.evidence-reader { max-width:1300px; margin:auto; }
+.original-passage { font:clamp(1.6rem,2vw,1.875rem)/1.85 Georgia,serif; white-space:pre-line; overflow-wrap:anywhere; }
+.evidence-controls { display:flex; flex-wrap:wrap; gap:.6rem; position:sticky; top:0; background:#102b24f5; padding:.5rem 0; z-index:2; }
+.evidence-links { display:flex; gap:.5rem; flex-wrap:wrap; margin:.8rem 0; }
+.scene > img.road-explorers { position:absolute; width:13%; height:auto; transform:translate(-50%,-100%); pointer-events:none; filter:drop-shadow(0 4px 3px #0008); }
+.clue-reward { text-align:center; }
+.clue-card { white-space:pre-line; text-align:left; font-size:clamp(1.4rem,2vw,1.8rem); line-height:1.8; background:#294f3b; border:2px solid var(--gold); padding:1.5rem; border-radius:1rem; animation:clue-arrival .6s ease-out; margin:1rem 0; }
+.reward-star { color:var(--gold); font-size:3rem; }
+@keyframes clue-arrival { from {opacity:0;transform:translateY(15px) scale(.96);} to {opacity:1;transform:none;} }
+.annotation-overlay { position:absolute; left:0; top:0; z-index:8; overflow:hidden; pointer-events:none; }
+#annotation-toolbar { position:fixed; right:1rem; top:1rem; width:min(390px,calc(100vw - 2rem)); max-height:70vh; overflow:auto; z-index:30; background:#102b24fa; border:2px solid var(--gold); border-radius:1rem; padding:1rem; box-shadow:0 8px 40px #0009; }
+#annotation-toolbar[hidden],#annotation-toggle[hidden] { display:none; }
+#annotation-toolbar label { display:flex; align-items:center; gap:.6rem; }
+#annotation-toolbar select { flex:1; }
+#annotation-toolbar input { width:55%; }
+#annotation-toolbar button { margin:.25rem; }
+#ink-clear-dialog { z-index:40; }
+.teacher-notes { border-color:var(--gold); }
+@media(max-width:1000px) { .landscape-layout { grid-template-columns:1fr; }.phrase-bank { position:static; }.phrase-bank .phrase { display:inline-block; width:auto; font-size:1.5rem; margin:.25rem; } }
+.challenge-question { font-size:clamp(1.875rem,2.3vw,2rem); }
+.checkpoint .option { font-size:clamp(1.625rem,2vw,1.75rem); }
+.text-return { font-size:clamp(1.5rem,1.8vw,1.625rem); }
+/* Dock the expanded tools beside the page instead of covering teaching content. */
+@media(min-width:1001px) { body.ink-tools-open { padding-right:370px; } #annotation-toolbar { width:340px; } }
+@media(max-width:1000px) { #annotation-toolbar { position:static; width:100%; margin:1rem 0 0; max-height:none; } }
+@media(max-width:600px) { .challenge-question { font-size:1.6rem; }.checkpoint .option { font-size:1.3rem; } }
+button[aria-current="step"]:hover:not(:disabled),button.selected:hover:not(:disabled),button[aria-pressed="true"]:hover:not(:disabled) { background:var(--gold); color:#142e24; }

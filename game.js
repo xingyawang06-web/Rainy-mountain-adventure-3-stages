@@ -58,7 +58,7 @@ const CONTENT = {
           "notes": ""
         }
       ],
-      "clue": "Clue Card 1 — Origins\n• Original homeland: The high country in western Montana\n• Original way of life: Mountain people and hunters\n• Historical stage: Before acquiring horses and undergoing their later cultural transformation",
+      "clue": "Clue Card 1 — Origins\n• Original Homeland: The high country in western Montana\n• Original Way of Life: Mountain people and hunters",
       "guide": "Gate 1 — Origins\nText  P4\nGuiding Question  Where did the Kiowas come from, and how did they originally live?\nChallenge 1 — Locate the Origins\nQuestion  Where did the Kiowas originally live?\nA. In the high country of western Montana.\nB. On the southern Plains of Oklahoma.\nCorrect Answer  A\nEvidence  P4: original homeland\nFollow-up / Feedback  Their early homeland was in the northern highlands.\nChallenge 2 — Discover Their Early Life\nQuestion  How did the Kiowas originally live?\nA. As nomadic people who relied on horses \nB. As mountain hunters who depended on hunting for survival\nCorrect Answer  B\nEvidence  P4: early hunting and later transformation\nFollow-up / Feedback  Find the words describing their early way of life.\nAfter students answer both multiple-choice questions correctly, display an Evidence Challenge:\n“Which expressions in Paragraph 4 support your answers?”\nStudents discuss and identify the relevant textual evidence.\nThe teacher uses a Confirm Evidence button to reveal the evidence and unlock the clue card.\nClue Card 1 — Origins\n• Original homeland: The high country in western Montana\n• Original way of life: Mountain people and hunters\n• Historical stage: Before acquiring horses and undergoing their later cultural transformation\nCompletion  Gate completed; clues saved to the team collection."
     },
     {
@@ -128,7 +128,7 @@ const CONTENT = {
           "notes": "Evidence Challenge\nFind textual evidence to support your choices.\nExpected Textual Evidence and Interpretation:\n* A. The mythical origin of a natural landscape feature: The tree stump rises into the air, and the bear leaves claw marks on its surface. The legend provides a mythical explanation for the formation and appearance of Devil’s Tower.\n* B. A spiritual connection with the stars: The seven sisters become the stars of the Big Dipper. The author describes them as “their kinsmen in the night sky,” suggesting an enduring spiritual connection between the Kiowas and the stars.\nDistractor Explanations:\n* C: The legend gives Devil’s Tower cultural and spiritual significance but does not establish it as a site for religious ceremonies.\n* D: The seven sisters become stars, but the text does not state that the stars protect the Kiowas during migration.\nConcluding Reflection — Migration & Transformation\nAfter students complete the Evidence Challenge, draw their attention to the author’s concluding reflection:\nKey Textual Evidence:\n* “Whatever they were in the mountains, they could be no more.”\n* “they had found a way out of the wilderness.”\n\nTeacher’s Guiding Question:\nWhat do these two statements suggest about the Kiowas’ transformation?\nExpected Understanding:\nThe Kiowas’ migration was more than a geographical journey. It marked a transformation in their way of life, cultural and religious traditions, and collective values and identity.\nLeaving the wilderness represents both a physical movement away from the mountainous forests and a broader transition into a new stage of tribal history.\nDespite the hardships they had experienced and would face again, the Kiowas had become a different people.\nTeaching Sequence:\nStudents select the correct interpretations → identify supporting evidence → discuss the cultural significance of the legend → interpret the author’s concluding reflection → complete Challenge 3. \n"
         }
       ],
-      "clue": "Clue Card 2 — Migration & Transformation\n1. Migration Route\n* Origin: The high country of western Montana\n* Direction: Southward and eastward\n* Destination region: The southern Plains\n2. Major Transformations\n* Lifestyle: Acquisition of horses; greater mobility; transformation beyond basic survival.\n* Cultural Practices and Religious Beliefs: Tai-me, Sun Dance, and worship of the sun.\n* Collective Values and Identity: A growing sense of destiny, courage, and pride; a transformed society of fighters, hunters, and priests of the sun.\n* Relationship with the Environment: Movement from mountainous forests toward open landscapes; cultural and spiritual connections with natural landmarks and the night sky.\n3. Mythology and Cultural Traditions\n* Devil’s Tower: A natural landmark explained through the legend of the seven sisters.\n* The Big Dipper: The seven sisters become stars, establishing an enduring spiritual connection between the Kiowas and the night sky.\n4. Key Textual Insight\n “Whatever they were in the mountains, they could be no more.”\n “They had found a way out of the wilderness.”\nCentral Understanding:\nThe Kiowas’ migration was more than a geographical journey. It marked a profound transformation in their way of life, cultural and religious traditions, collective values, and identity.\nTeaching Sequence:\n\nStudents complete Challenges 1–3 → review and integrate their textual evidence → teacher confirms the findings → collect Clue Card 2 — Migration & Transformation.\nThe collected clue card will be used in the Final Gate’s Tribal History mind-mapping activity.",
+      "clue": "Clue Card 2 — Migration & Transformation\n• Migration Route: From western Montana to the Southern Plains\n• Major Transformations: Lifestyle; Cultural practices and religious beliefs; Collective values and identity; Relationship with the environment.",
       "guide": "Gate 2 — Migration & Transformation\nText  P4, P6–P8\nGuiding Question  How did migration transform the Kiowas and their way of life?\nChallenge 1 — Trace the Journey\nText: Paragraph 4\nQuestion: According to Paragraph 4, in which direction did the Kiowas migrate, and which region did they eventually enter?\nComplete the migration route:\nThe high country in western Montana\n↓\nTo the ________ and ________\n↓\nThe ________ Plains\nCorrect Answers:\n1. south\n2. east\n3. southern\nEvidence Challenge:\nFind the expressions in Paragraph 4 that support your answers.\nExpected Textual Evidence:\n• “to the south and east”\n• “the southern Plains”\nCorrect Feedback:\nWell done! You have traced the Kiowas’ migration route.\nIncorrect Feedback:\nCheck Paragraph 4 again. Pay attention to the direction of migration and the region the Kiowas entered.\nChallenge 2 — Discover the Transformation\nQuestion Type: Multiple Selection (Select All That Apply)\nText Reference: Paragraphs 4 and 6–8\nQuestion: What major changes did the Kiowas experience during their migration?\nSelect all that apply. Find textual evidence to support your choices.\nOptions:\nA. Lifestyle\nB. Political Institutions\nC. Cultural Practices and Religious Beliefs\nD. Collective Values and Identity\nE. Relationship with the Environment\nCorrect Answers: A, C, D, E\nIncorrect Answer: B\nEvidence Challenge\nFind textual evidence to support each of your choices.\nExpected Textual Evidence:\n* A. Lifestyle (P4): Acquisition of horses; nomadic spirit freed of the ground; no longer slaves to the simple necessity of survival.\n* C. Cultural Practices and Religious Beliefs (P4, P7–8): Tai-me; Sun Dance; divinity of the sun; Devil’s Tower legend.\n* D. Collective Values and Identity (P4, P6): A sense of destiny, courage, and pride; fighters, hunters, and priests of the sun; reckoning their stature by the distance they could see.\n* E. Relationship with the Environment (P6–8): The contrast between forests and open landscapes; the experience of leaving the northern mountains; the spiritual connection between the Kiowas, Devil’s Tower, and the night sky.\nDistractor Explanation:\n* B. Political Institutions: The referenced paragraphs do not provide sufficient evidence of changes in the Kiowas’ political institutions during migration.\nTeaching Sequence:\nStudents select the relevant categories → identify textual evidence → discuss and confirm their interpretations → proceed to the next challenge. \nChallenge 3 — The Legend of Devil’s Tower\nQuestion Type: Multiple Selection (Select All That Apply)\nText Reference: Paragraphs 8: The Seven Sisters Legend and the Author’s Reflection\nQuestion: What does the legend of the seven sisters reveal?\nSelect all that apply. Find textual evidence to support your choices.\nOptions:\nA. A mythical explanation for the origin of a natural landscape feature\nB. A spiritual connection between the Kiowas and the stars\nC. The belief that Devil’s Tower was a sacred site for religious ceremonies\nD. The belief that the stars protected the Kiowas from dangers during migration\nCorrect Answers: A, B\nIncorrect Answers: C, D\nEvidence Challenge\nFind textual evidence to support your choices.\nExpected Textual Evidence and Interpretation:\n* A. The mythical origin of a natural landscape feature: The tree stump rises into the air, and the bear leaves claw marks on its surface. The legend provides a mythical explanation for the formation and appearance of Devil’s Tower.\n* B. A spiritual connection with the stars: The seven sisters become the stars of the Big Dipper. The author describes them as “their kinsmen in the night sky,” suggesting an enduring spiritual connection between the Kiowas and the stars.\nDistractor Explanations:\n* C: The legend gives Devil’s Tower cultural and spiritual significance but does not establish it as a site for religious ceremonies.\n* D: The seven sisters become stars, but the text does not state that the stars protect the Kiowas during migration.\nConcluding Reflection — Migration & Transformation\nAfter students complete the Evidence Challenge, draw their attention to the author’s concluding reflection:\nKey Textual Evidence:\n* “Whatever they were in the mountains, they could be no more.”\n* “they had found a way out of the wilderness.”\n\nTeacher’s Guiding Question:\nWhat do these two statements suggest about the Kiowas’ transformation?\nExpected Understanding:\nThe Kiowas’ migration was more than a geographical journey. It marked a transformation in their way of life, cultural and religious traditions, and collective values and identity.\nLeaving the wilderness represents both a physical movement away from the mountainous forests and a broader transition into a new stage of tribal history.\nDespite the hardships they had experienced and would face again, the Kiowas had become a different people.\nTeaching Sequence:\nStudents select the correct interpretations → identify supporting evidence → discuss the cultural significance of the legend → interpret the author’s concluding reflection → complete Challenge 3. \nAfter students complete all three challenges, present an integrated summary of their findings.\nClue Card 2 — Migration & Transformation\n1. Migration Route\n* Origin: The high country of western Montana\n* Direction: Southward and eastward\n* Destination region: The southern Plains\n2. Major Transformations\n* Lifestyle: Acquisition of horses; greater mobility; transformation beyond basic survival.\n* Cultural Practices and Religious Beliefs: Tai-me, Sun Dance, and worship of the sun.\n* Collective Values and Identity: A growing sense of destiny, courage, and pride; a transformed society of fighters, hunters, and priests of the sun.\n* Relationship with the Environment: Movement from mountainous forests toward open landscapes; cultural and spiritual connections with natural landmarks and the night sky.\n3. Mythology and Cultural Traditions\n* Devil’s Tower: A natural landmark explained through the legend of the seven sisters.\n* The Big Dipper: The seven sisters become stars, establishing an enduring spiritual connection between the Kiowas and the night sky.\n4. Key Textual Insight\n “Whatever they were in the mountains, they could be no more.”\n “they had found a way out of the wilderness.”\nCentral Understanding:\nThe Kiowas’ migration was more than a geographical journey. It marked a profound transformation in their way of life, cultural and religious traditions, collective values, and identity.\nTeaching Sequence:\n\nStudents complete Challenges 1–3 → review and integrate their textual evidence → teacher confirms the findings → collect Clue Card 2 — Migration & Transformation.\nThe collected clue card will be used in the Final Gate’s Tribal History mind-mapping activity.\nCompletion  Gate 2 completed; clues saved to the team collection."
     },
     {
@@ -190,7 +190,7 @@ const CONTENT = {
         }
       ],
       "clue": "Clue Card\n• Power and prosperity on southern Plains\n• Skilled horsemen and warriors\n• Military defeat and surrender\n• Disruption of Sun Dance and traditional life",
-      "guide": "Gate 3 — Rise & Decline\nText  P3–P4, P9\nGuiding Question  How did the Kiowas rise to power, and what happened during their decline?\nChallenge 1 — Historical Sequence\nQuestion  Arrange the events chronologically.\nA. Rise to power → military defeat → disruption of traditional ceremonies.\nB. Military defeat → acquisition of horses → rise to power.\nCorrect Answer  A\nEvidence  P3, P9\nFollow-up / Feedback  This is a broad historical sequence, not a single causal chain.\nChallenge 2 — Understand Their Glory\nQuestion  What characterized their period of power?\nA. Cultural exchange and trade with neighboring tribes.\nB. Skilled horsemen and powerful warriors on the southern Plains.\nCorrect Answer  B\nEvidence  P3–P4\nFollow-up / Feedback  Identify the text’s details about their power.\nChallenge 3 — Understand Their Loss\nQuestion  What does the account of the last Sun Dances reveal?\nA. Disruption of a central religious and cultural tradition.\nB. The Kiowas had no religious traditions.\nCorrect Answer  A\nEvidence  P9\nFollow-up / Feedback  Was the decline only military and political? Explain.\nClue Card\n• Power and prosperity on southern Plains\n• Skilled horsemen and warriors\n• Military defeat and surrender\n• Disruption of Sun Dance and traditional life\nCompletion  Checkpoint completed; clues saved to the team collection."
+      "guide": "Gate 3 — Rise & Decline\nText  P3–P4, P9\nGuiding Question  How did the Kiowas rise to power, and what happened during their decline?\nChallenge 1 — Historical Sequence\nQuestion  Arrange the events chronologically.\nA. Rise to power → military defeat → disruption of traditional ceremonies.\nB. Military defeat → acquisition of horses → rise to power.\nCorrect Answer  A\nEvidence  P3, P9\nFollow-up / Feedback  This is a broad historical sequence, not a single causal chain.\nChallenge 2 — Understand Their Glory\nQuestion  What characterized their period of power?\nA. Cultural exchange and trade with neighboring tribes.\nB. Skilled horsemen and powerful warriors on the southern Plains.\nCorrect Answer  B\nEvidence  P3–P4\nFollow-up / Feedback  Identify the text’s details about their power.\nChallenge 3 — Understand Their Loss\nQuestion  What does the account of the last Sun Dances reveal?\nA. Disruption of a central religious and cultural tradition.\nB. The Kiowas had no religious traditions.\nCorrect Answer  A\nEvidence  P9\nFollow-up / Feedback  Was the decline only military and political? Explain.\nClue Card\n• Power and prosperity on southern Plains\n• Skilled horsemen and warriors\n• Military defeat and surrender\n• Disruption of Sun Dance and traditional life\nCompletion  Gate completed; clues saved to the team collection."
     },
     {
       "title": "Aho’s Life and Memories",
@@ -198,13 +198,13 @@ const CONTENT = {
       "challenges": [
         {
           "title": "Aho’s Place in History",
-          "question": "When was Aho born in relation to Kiowa history?",
+          "question": "What was the Kiowas’ historical situation when Aho was born?",
           "options": [
-            "Near the end of their great era.",
-            "After Kiowas surrendered to the soldiers at Fort Sill ."
+            "The Kiowas were still enjoying the height of their power and freedom.",
+            "The Kiowas had already been defeated, and Aho was born into the aftermath of their defeat."
           ],
           "answers": [
-            0
+            1
           ],
           "type": "single",
           "refs": [
@@ -249,7 +249,7 @@ const CONTENT = {
         }
       ],
       "clue": "Clue Card\n• Birth during historical change\n• Inherited memories of ancestral lands\n• Reverence for the sun\n• Sun Dance memories and Kiowa traditions",
-      "guide": "Gate 4 — Aho’s Life and Memories\nText  P3, P5, P9\nGuiding Question  How was Aho’s life connected to Kiowa history and cultural traditions?\nChallenge 1 — Aho’s Place in History\nQuestion  When was Aho born in relation to Kiowa history?\nA. Near the end of their great era.\nB. After Kiowas surrendered to the soldiers at Fort Sill .\nCorrect Answer  A\nEvidence  P3\nFollow-up / Feedback  How was her life shaped by historical change?\nChallenge 2 — Memory of Ancestral Lands\nQuestion  Why did lands Aho had never seen still matter?\nA. She had witnessed the glory of every ancestral place in person.\nB. She inherited a cultural connection to the ancestral past.\nCorrect Answer  B\nEvidence  P5\nFollow-up / Feedback  Find “like memory in her blood”; distinguish inherited and personal memory.\nChallenge 3 — Aho and Cultural Traditions\nQuestion  What do her Sun Dance memories suggest?\nA. She retained connections to Kiowa religious traditions.\nB. She remembered the Sun Dance mainly as a social gathering.\nCorrect Answer  A\nEvidence  P9\nFollow-up / Feedback  Identify beliefs and practices significant to Aho.\nClue Card\n• Birth during historical change\n• Inherited memories of ancestral lands\n• Reverence for the sun\n• Sun Dance memories and Kiowa traditions\nCompletion  Gate completed; clues saved to the team collection."
+      "guide": "Gate 4 — Aho’s Life and Memories\nText  P3, P5, P9\nGuiding Question  How was Aho’s life connected to Kiowa history and cultural traditions?\nChallenge 1 — Aho’s Place in History\nQuestion  What was the Kiowas’ historical situation when Aho was born?\nA. The Kiowas were still enjoying the height of their power and freedom.\nB. The Kiowas had already been defeated, and Aho was born into the aftermath of their defeat.\nCorrect Answer  B\nEvidence  P3\nFollow-up / Feedback  How was her life shaped by historical change?\nChallenge 2 — Memory of Ancestral Lands\nQuestion  Why did lands Aho had never seen still matter?\nA. She had witnessed the glory of every ancestral place in person.\nB. She inherited a cultural connection to the ancestral past.\nCorrect Answer  B\nEvidence  P5\nFollow-up / Feedback  Find “like memory in her blood”; distinguish inherited and personal memory.\nChallenge 3 — Aho and Cultural Traditions\nQuestion  What do her Sun Dance memories suggest?\nA. She retained connections to Kiowa religious traditions.\nB. She remembered the Sun Dance mainly as a social gathering.\nCorrect Answer  A\nEvidence  P9\nFollow-up / Feedback  Identify beliefs and practices significant to Aho.\nClue Card\n• Birth during historical change\n• Inherited memories of ancestral lands\n• Reverence for the sun\n• Sun Dance memories and Kiowa traditions\nCompletion  Gate completed; clues saved to the team collection."
     },
     {
       "title": "Momaday’s Memories",
@@ -319,9 +319,42 @@ const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'
 const normalize = value => value.trim().toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
 const list = items => `<ul>${items.map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>`;
 const paragraphRefs = refs => refs.map(n => `P${n}`).join(', ');
+// Shared original-text reader. Mapping is also used by the next phase's knowledge maps.
+const EVIDENCE_LINKS = {
+  land: [{label:'Landscape',refs:[1]},{label:'Family Connection',refs:[2,15]},{label:'Historical Connection',refs:[1,5,15]}],
+  history: [{label:'Clue Card 1 — Origins',refs:[4]},{label:'Clue Card 2 — Migration & Transformation',refs:[4,6,7,8]},{label:'Clue Card 3 — Rise & Decline',refs:[3,4,9]}],
+  memory: [{label:'Clue Card 4 — Aho’s Life & Memories',refs:[3,5,9]},{label:'Clue Card 5 — Momaday’s Memories',refs:[8,10,11,12,13]}]
+};
+let evidenceView=null, presenter=false, mapTravel=null, travelTimer=null;
 function source(refs) {
-  return `<details class="source"><summary>Return to the text · ${paragraphRefs(refs)}</summary>${refs.map(n => `<article><h4>Paragraph ${n}</h4><p>${escapeHTML(CONTENT.paragraphs[n])}</p></article>`).join('')}</details>`;
+ return `<button type="button" class="text-return" data-text-refs="${refs.join(',')}">Return to the Text · ${paragraphRefs(refs)}</button>`;
 }
+function knowledgeEvidenceHTML(){
+ const links=[EVIDENCE_LINKS.land,EVIDENCE_LINKS.history,EVIDENCE_LINKS.memory][activeKey];
+ return `<div class="evidence-links">${links.map(link=>`<button type="button" data-text-refs="${link.refs.join(',')}">${escapeHTML(link.label)} · ${paragraphRefs(link.refs)}</button>`).join('')}</div>`;
+}
+function screenIdentity(){
+ const mode=teacher?'rehearsal':'student';
+ if(evidenceView)return `${mode}:text:${evidenceView.refs[evidenceView.index]}`;
+ return `${mode}:stage:${currentStage}:gate:${checkpoint??'map'}:question:${checkpoint===null?'':state().checkpoints[checkpoint].step}:key:${currentStage===2?activeKey:''}`;
+}
+function openEvidence(refs){
+ const valid=[...new Set(refs)].filter(n=>Object.hasOwn(CONTENT.paragraphs,n));if(!valid.length)return;
+ if(!evidenceView)evidenceView={refs:valid,index:0,origin:{stage:currentStage,checkpoint,key:activeKey,scroll:window.scrollY,details:[...document.querySelectorAll('#adventure details')].map(el=>el.open)}};
+ else {evidenceView.refs=valid;evidenceView.index=0;}
+ feedback='';render();focusMain();
+}
+function closeEvidence(){
+ if(!evidenceView)return;const saved=evidenceView.origin;evidenceView=null;
+ currentStage=saved.stage;checkpoint=saved.checkpoint;activeKey=saved.key;feedback='';render();
+ document.querySelectorAll('#adventure details').forEach((el,i)=>el.open=!!saved.details[i]);
+ requestAnimationFrame(()=>window.scrollTo({top:saved.scroll,behavior:'instant'}));
+}
+function evidenceHTML(){
+ const {refs,index}=evidenceView,n=refs[index];
+ return `<section class="panel evidence-reader"><div class="evidence-controls"><button data-action="back-evidence">${currentStage===2?'Back to Knowledge Map':'Back to Activity'}</button><button data-action="text-previous" ${index===0?'disabled':''}>← Previous paragraph</button><button data-action="text-next" ${index===refs.length-1?'disabled':''}>Next paragraph →</button></div><h2>Return to the Text</h2><nav aria-label="Evidence paragraphs">${refs.map((p,i)=>`<button data-text-index="${i}" aria-pressed="${i===index}">P${p}</button>`).join('')}</nav><article><h3>Paragraph ${n}</h3><p class="original-passage" data-ink-region="paragraph-${n}">${escapeHTML(CONTENT.paragraphs[n])}</p></article></section>`;
+}
+function teacherNotes(html){return presenter||teacher?`<details class="teacher-notes"><summary>Teacher notes · not shown in student mode</summary>${html}</details>`:'';}
 const LANDSCAPE = [
   {phrase:'blizzards', area:'Snow-filled winter sky', x:11,y:20,w:17,h:22, meaning:'Severe snowstorms with strong winds.', quote:'Winter brings blizzards'},
   {phrase:'tornadic winds',area:'Spiraling spring wind',x:24,y:29,w:13,h:24,meaning:'Violent winds associated with tornadoes.',quote:'hot tornadic winds arise in the spring'},
@@ -343,11 +376,11 @@ const EVIDENCE = [
   [ [[4,'the high country in western Montana']], [[4,'They were a mountain people, a mysterious tribe of hunters']] ],
   [ [[4,'to the south and east'],[4,'the southern Plains']], [[4,'They acquired horses'],[4,'They acquired Tai-me, the sacred Sun Dance doll'],[4,'the sense of destiny, therefore courage and pride'],[6,'The Kiowas reckoned their stature by the distance they could see']], [[8,'it began to rise into the air'],[8,'scored the bark all around with its claws'],[8,'they became the stars of the Big Dipper'],[8,'the Kiowas have kinsmen in the night sky'],[8,'Whatever they were in the mountains, they could be no more.'],[8,'they had found a way out of the wilderness.']] ],
   [ [[3,'they had ruled the whole of the southern Plains'],[3,'they surrendered to the soldiers at Fort Sill'],[9,'under orders to disperse the tribe']], [[3,'among the finest horsemen the world has ever known'],[4,'hunters and priests of the sun']], [[9,'Forbidden without cause the essential act of their faith']] ],
-  [ [[3,'the Kiowas were living the last great moment of their history']], [[5,'like memory in her blood'],[5,'the Black Hills, where she had never been']], [[9,'My grandmother had a reverence for the sun'],[9,'she never forgot her birthright']] ],
+  [ [[3,'she must have known from birth the affliction of defeat, the dark brooding of old warriors.']], [[5,'like memory in her blood'],[5,'the Black Hills, where she had never been']], [[9,'My grandmother had a reverence for the sun'],[9,'she never forgot her birthright']] ],
   [ [[10,'turning meat in a great iron skillet'],[10,'bent above her beadwork'],[10,'I do not speak Kiowa, and I never understood her prayers']], [[12,'feasting and talk'],[13,'There were frequent prayer meetings, and great nocturnal feasts.'],[13,'I played with my cousins outside']], [[8,'My grandmother said:'],[8,'the Kiowas have kinsmen in the night sky']] ]
 ];
 const KEYS = [
-  {refs:[1,2,15], opening:'What have we learned about Rainy Mountain?',
+  {refs:[1,2,5,15], opening:'What have we learned about Rainy Mountain?',
    fields:[['A solitary','knoll'],['The ________ of Oklahoma','Plains'],['A place Aho','lived'],['Momaday’s return to visit her','grave']],
    context:['Distinctive seasonal weather and surroundings','Resting place of family members and ancestors','A place associated with the family’s past'],
    questions:['Is Rainy Mountain simply a beautiful place?','Why is this particular place important to Momaday?','What do we call a place connecting someone with ancestors and family history?'],
@@ -367,7 +400,7 @@ const OBSERVER_REFLECTION = ['How did the game support or limit learning?','How 
 function freshState() {
   return {matched:[], selected:null, landscape:{}, reconstruction:{}, reconstructed:false, stage1:false,
     checkpoints:CONTENT.checkpoints.map(c => ({step:0, solved:false, evidence:{}, confirmed:[], complete:false, answers:{}, finalDiscussion:''})),
-    keys:KEYS.map(() => ({phase:0,values:[],discussion:'',guess:'',unlocked:false})),gateOpen:false,roots:0,trunk:false,growth:[],growthDraft:'',growthKind:'Experiences',rootDiscussion:'',reflections:{},complete:false};
+    keys:KEYS.map(() => ({phase:0,values:[],discussion:'',guess:'',unlocked:false})),mapPosition:0,gateOpen:false,roots:0,trunk:false,growth:[],growthDraft:'',growthKind:'Experiences',rootDiscussion:'',reflections:{},complete:false};
 }
 let studentState=freshState(), teacherState=freshState(), teacher=false;
 let currentStage=-1, checkpoint=null, activeKey=0, soundEnabled=false, audio=null;
@@ -391,7 +424,7 @@ function unlockedStage(n){return teacher||n===0||(n===1?state().stage1:state().c
 function goStage(n) {
   if(!Number.isInteger(n)||n<0||n>2)return;
   if(!unlockedStage(n)){notify(n===1?'Complete the landscape activities first. Teachers can use Teacher access.':'Collect all five checkpoint clues first. Teachers can use Teacher access.');return;}
-  currentStage=n;checkpoint=null;feedback='';render();focusMain();
+  evidenceView=null;currentStage=n;checkpoint=null;feedback='';render();focusMain();
 }
 function focusMain() {$('#adventure').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});}
 function render(){
@@ -400,17 +433,21 @@ function render(){
     const n=Number(button.dataset.stage);button.disabled=!unlockedStage(n);
     if(n===currentStage)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');
   });
-  $('#mode-note').textContent=teacher?'Teacher rehearsal · independent access to every stage and checkpoint. Rehearsal progress is separate from the student journey.':'Student journey · progress stays while switching screens. Teacher confirmation buttons support classroom discussion. Reloading clears this session.';
+  $('#mode-note').textContent=teacher?'Teacher rehearsal · independent access to every stage and gate. Rehearsal progress is separate from the student journey.':'Student journey · progress stays while switching screens. Teacher presentation controls are optional; student progression does not require Teacher Access. Reloading clears this session.';
+  $('#annotation-toggle').hidden=!(presenter||teacher);
+  window.Annotations?.setTeacher(presenter||teacher);
   $('#previous').disabled=currentStage<=0;
   $('#next').disabled=currentStage<0||currentStage===2||!unlockedStage(currentStage+1);
   $('#map-return').disabled=!unlockedStage(1);
-  $('#progress').textContent=currentStage<0?'Adventure home':`Stage ${currentStage+1} of 3${checkpoint!==null?` · Checkpoint ${checkpoint+1}`:''}`;
+  $('#progress').textContent=currentStage<0?'Adventure home':`Stage ${currentStage+1} of 3${checkpoint!==null?` · Gate ${checkpoint+1}`:''}`;
   $('#adventure').className=currentStage<0?'home-screen':`stage-${currentStage}`;
-  $('#adventure').innerHTML=currentStage<0?homeHTML():currentStage===0?landscapeHTML():currentStage===1?(checkpoint===null?mapHTML():checkpointHTML()):gateHTML();
+  $('#adventure').innerHTML=evidenceView?evidenceHTML():currentStage<0?homeHTML():currentStage===0?landscapeHTML():currentStage===1?(checkpoint===null?mapHTML():checkpointHTML()):gateHTML();
   animateGate=false;
+  window.Annotations?.mount(screenIdentity());
+  startTravel();
   notify(feedback);
 }
-function homeHTML(){return `<section class="welcome panel"><p class="eyebrow">An offline classroom adventure</p><h2>Follow the landscape.<br>Discover the connections.</h2><img class="explorers" src="assets/explorers.png" alt="Q-style explorers ready for their journey"><p>Explore N. Scott Momaday’s <cite>The Way to Rainy Mountain</cite> through close reading, evidence, and team discussion.</p><ol><li>Unlock the Landscape — language and visual reconstruction.</li><li>Journey Through History and Memory — five checkpoints.</li><li>Finding Our Cultural Roots — three keys and an identity tree.</li></ol><button data-action="begin">Begin / resume exploration →</button><details><summary>Learning objectives & classroom use</summary>${list(['Recognize, understand, and apply key vocabulary and expressions.','Interpret and reconstruct the text using textual evidence; develop awareness of transfer to future teaching.','Develop a text-based understanding of the sources of cultural identity.','Extend understanding of how cultural identity can continue to develop.'])}<p>ICAP framework · Read, discuss, find evidence, and make decisions as an explorer team. Teacher access allows independent presentation; it is a classroom control, not a password-protected role.</p><p>Everything runs locally. No answers leave this page. Use Restart to clear the current journey, or copy your written reflections before closing.</p></details><details><summary>Teacher presentation · 10-minute demonstration</summary>${list(['Briefly recall clues from the five Checkpoints.','Guide students through three progressively completed mind maps.','Students induce the names of the three categories.','Unlock the final gate and arrive at Rainy Mountain.','Use P14–P15 to discuss the journey’s meaning.','Build three roots of the Cultural Identity Tree.','Pose the open question of cultural growth.','Assign branches-and-leaves extension task.'])}<p>Focus: Objective 3; supported by evidence of Objective 2 and an extension toward Objective 4. Teacher access uses a separate rehearsal journey; no student achievements are fabricated.</p></details></section>`;}
+function homeHTML(){return `<section class="welcome panel"><p class="eyebrow">An offline classroom adventure</p><h2>Follow the landscape.<br>Discover the connections.</h2><img class="explorers" src="assets/explorers.png" alt="Q-style explorers ready for their journey"><p>Explore N. Scott Momaday’s <cite>The Way to Rainy Mountain</cite> through close reading, evidence, and team discussion.</p><ol><li>Unlock the Landscape — language and visual reconstruction.</li><li>Journey Through History and Memory — five gates.</li><li>Finding Our Cultural Roots — three keys and an identity tree.</li></ol><button data-action="begin">Begin / resume exploration →</button><details><summary>Learning objectives & classroom use</summary>${list(['Recognize, understand, and apply key vocabulary and expressions.','Interpret and reconstruct the text using textual evidence; develop awareness of transfer to future teaching.','Develop a text-based understanding of the sources of cultural identity.','Extend understanding of how cultural identity can continue to develop.'])}<p>ICAP framework · Read, discuss, find evidence, and make decisions as an explorer team. Teacher access allows independent presentation; it is a classroom control, not a password-protected role.</p><p>Everything runs locally. No answers leave this page. Use Restart to clear the current journey, or copy your written reflections before closing.</p></details>${presenter||teacher?`<details><summary>Teacher presentation · 10-minute demonstration</summary>${list(['Briefly recall clues from the five Gates.','Guide students through three progressively completed mind maps.','Students induce the names of the three categories.','Unlock the final gate and arrive at Rainy Mountain.','Use P14–P15 to discuss the journey’s meaning.','Build three roots of the Cultural Identity Tree.','Pose the open question of cultural growth.','Assign branches-and-leaves extension task.'])}<p>Focus: Objective 3; supported by evidence of Objective 2 and an extension toward Objective 4. Teacher access uses a separate rehearsal journey; no student achievements are fabricated.</p></details>`:''}</section>`;}
 function landscapeHTML(){
  const s=state();
  return `<section><div class="panel intro"><p class="eyebrow">Stage 1 · P1</p><h2>Unlock the Landscape</h2><p class="guiding">What does Rainy Mountain look like?</p><p>Select a textual expression, then click the landscape area that represents it. You can also use Tab and Enter on numbered regions.</p><p class="small">This illustration combines seasons and exaggerates scale. Identify what the text describes; P1 does not say winter blizzards and summer heat occur together. Tree species are identified by the text, not by botanical details in the artwork.</p>${source([1])}</div>
@@ -420,26 +457,25 @@ function landscapeHTML(){
  ${s.matched.length===LANDSCAPE.length?`<h3>Explain and reconstruct</h3><p>Use your own English, then compare and discuss with your teacher. These P1-based activities extend the design’s open tasks.</p>${textArea('fire','Explain “steaming foliage seems almost to writhe in fire.”',s.landscape.fire,'landscape')}${textArea('brittle','Explain “brittle and brown” and what it suggests about summer.',s.landscape.brittle,'landscape')}
  <h4>Reconstruct the landscape</h4><p>Select the P1-supported features to assemble your landscape record.</p>${RECONSTRUCTION.map((r,i)=>`<fieldset><legend>${r.name}</legend>${r.choices.map((v,j)=>`<label class="option"><input type="radio" name="reconstruction-${i}" data-reconstruction="${i}" value="${j}" ${s.reconstruction[i]===j?'checked':''}>${escapeHTML(v)}</label>`).join('')}</fieldset>`).join('')}<button data-action="reconstruct">Check reconstruction</button>${s.reconstructed?`<div class="reconstructed"><h4>Your landscape record</h4>${list(RECONSTRUCTION.map(r=>r.choices[r.answer]))}</div>`:''}
  ${textArea('overall','Explain the landscape’s overall characteristics, including isolation, scale, and its effect on the imagination.',s.landscape.overall,'landscape')}
- <details><summary>Teacher comparison notes · P1 interpretations</summary><p>The foliage appears to move or twist in intense heat as if in fire; the text uses imaginative language rather than describing literal burning. Brittle grass is dry and breaks easily. A solitary knoll and isolated objects create loneliness; the open landscape affects proportion and brings the imagination to life.</p></details>
- <button data-action="landscape-confirm">Teacher: confirm explanations & unlock map</button>`:'<p>Match all nine expressions to unlock explanation and reconstruction.</p>'}
+ ${teacherNotes('<p>The foliage appears to move or twist in intense heat as if in fire; this is a comparison, not a literal forest fire. Brittle grass is dry and breaks easily. Isolation and scale awaken the imagination.</p>')}
+ <button data-action="landscape-confirm">Complete landscape & unlock map</button>`:'<p>Match all nine expressions to unlock explanation and reconstruction.</p>'}
  ${s.stage1?'<p class="success">Landscape reconstructed. The adventure map is unlocked.</p><button data-action="to-map">Explore the map →</button>':''}</div></section>`;
 }
 function textArea(id,label,value,group){return `<label for="${group}-${id}">${escapeHTML(label)}</label><textarea id="${group}-${id}" rows="3" data-group="${group}" data-field="${id}">${escapeHTML(value)}</textarea>`;}
 function mapHTML(){
  const s=state(),points=[[26.6,85.6],[44,72.8],[64.7,58.8],[45,47.5],[68.8,39.8],[92.5,37.5]];
- return `<section><div class="panel intro"><p class="eyebrow">Stage 2 · Read → Find Evidence → Discuss → Choose a Path → Collect a Clue</p><h2>Journey Through History and Memory</h2><p>Follow the five checkpoints in order. A wrong turn returns you to the text; earned clues stay in your collection.</p>${teacher?'<p class="success">Teacher rehearsal: select any checkpoint independently.</p>':''}</div><div class="scene map-scene"><img src="assets/background-stage%202.png" alt="Adventure trail with five checkpoints leading to the final gate.">${points.map(([x,y],i)=>{const locked=i<5?!teacher&&i>0&&!s.checkpoints[i-1].complete:!unlockedStage(2);return `<button class="map-marker ${i<5&&s.checkpoints[i].complete?'earned':''}" style="left:${x}%;top:${y}%" ${i<5?`data-checkpoint="${i}"`:'data-action="final-gate"'} ${locked?'disabled':''} aria-label="${i<5?`Checkpoint ${i+1}: ${escapeHTML(CONTENT.checkpoints[i].title)}`:'Final Gate'}">${i<5?(s.checkpoints[i].complete?'✓':i+1):'Gate'}</button>`;}).join('')}</div><div class="panel"><h3>Route & clue collection · ${s.checkpoints.filter(c=>c.complete).length} / 5</h3><div class="route-list">${CONTENT.checkpoints.map((c,i)=>`<button data-checkpoint="${i}" ${!teacher&&i>0&&!s.checkpoints[i-1].complete?'disabled':''}>${i+1}. ${escapeHTML(c.title)} ${s.checkpoints[i].complete?'✓':''}</button>`).join('')}</div>${s.checkpoints.map((c,i)=>c.complete?`<details><summary>Clue ${i+1} · ${escapeHTML(CONTENT.checkpoints[i].title)}</summary><div class="document-notes">${escapeHTML(CONTENT.checkpoints[i].clue)}</div></details>`:'').join('')}</div></section>`;
+ return `<section><div class="panel intro"><p class="eyebrow">Stage 2 · Read → Find Evidence → Discuss → Choose a Path → Collect a Clue</p><h2>Journey Through History and Memory</h2><p>Follow the five gates in order. A wrong turn returns you to the text; earned clues stay in your collection.</p>${teacher?'<p class="success">Teacher rehearsal: select any gate independently.</p>':''}</div><div class="scene map-scene"><img src="assets/background-stage%202.png" alt="Adventure trail with five gates leading to the final gate.">${explorerHTML(points)}${points.map(([x,y],i)=>{const locked=i<5?!teacher&&i>0&&!s.checkpoints[i-1].complete:!unlockedStage(2);return `<button class="map-marker ${i<5&&s.checkpoints[i].complete?'earned':''}" style="left:${x}%;top:${y}%" ${i<5?`data-checkpoint="${i}"`:'data-action="final-gate"'} ${locked?'disabled':''} aria-label="${i<5?`Gate ${i+1}: ${escapeHTML(CONTENT.checkpoints[i].title)}`:'Final Gate'}">${i<5?(s.checkpoints[i].complete?'✓':i+1):'Gate'}</button>`;}).join('')}</div><div class="panel"><h3>Route & clue collection · ${s.checkpoints.filter(c=>c.complete).length} / 5</h3><div class="route-list">${CONTENT.checkpoints.map((c,i)=>`<button data-checkpoint="${i}" ${!teacher&&i>0&&!s.checkpoints[i-1].complete?'disabled':''}>${i+1}. ${escapeHTML(c.title)} ${s.checkpoints[i].complete?'✓':''}</button>`).join('')}</div>${s.checkpoints.map((c,i)=>c.complete?`<details><summary>Clue ${i+1} · ${escapeHTML(CONTENT.checkpoints[i].title)}</summary><div class="document-notes">${escapeHTML(CONTENT.checkpoints[i].clue)}</div></details>`:'').join('')}</div></section>`;
 }
 function quoteHTML(refs){return refs.map(([p,quote])=>`<blockquote>“${escapeHTML(quote)}”<cite>P${p}</cite></blockquote>`).join('');}
 function checkpointHTML(){
  const s=state(),cp=s.checkpoints[checkpoint],data=CONTENT.checkpoints[checkpoint],q=data.challenges[cp.step];
- return `<section class="panel checkpoint"><button data-action="to-map">← Return to Map</button><p class="eyebrow">Checkpoint ${checkpoint+1} · ${escapeHTML(data.title)}</p><h2>${escapeHTML(data.guiding)}</h2>
- ${cp.complete?`<h3>Clue collected</h3><div class="document-notes">${escapeHTML(data.clue)}</div><button data-action="to-map">Continue along the map →</button><details><summary>Review checkpoint teaching notes</summary><div class="document-notes">${escapeHTML(data.guide)}</div></details>`:q?`
- <p class="eyebrow">Challenge ${cp.step+1} / ${data.challenges.length} · ${paragraphRefs(q.refs)}</p><h3>${escapeHTML(q.title)}</h3><p class="guiding">${escapeHTML(q.question)}</p>${q.type==='multi'?'<p>Select all that apply. Find textual evidence to support your choices.</p>':''}${source(q.refs)}
- <div class="answers">${q.type==='blanks'?`<p>The high country in western Montana ↓</p><div class="inline-fields"><label>To the <input ${cp.solved?'disabled':''} data-route="0" value="${escapeHTML(cp.answers[cp.step]?.[0]||'')}" aria-label="First migration direction"></label><label>and <input ${cp.solved?'disabled':''} data-route="1" value="${escapeHTML(cp.answers[cp.step]?.[1]||'')}" aria-label="Second migration direction"></label><label>The <input ${cp.solved?'disabled':''} data-route="2" value="${escapeHTML(cp.answers[cp.step]?.[2]||'')}" aria-label="Destination Plains"> Plains ↓</label></div>`:q.options.map((o,i)=>`<label class="option"><input type="${q.type==='multi'?'checkbox':'radio'}" name="checkpoint-answer" data-answer="${i}" ${(cp.answers[cp.step]||[]).includes(i)?'checked':''} ${cp.solved?'disabled':''}>${String.fromCharCode(65+i)}. ${escapeHTML(o)}</label>`).join('')}</div>
- ${!cp.solved?'<button data-action="check-answer">Choose this path</button>':`<p class="success">Correct route. ${escapeHTML(q.feedback)}</p><h3>Evidence Challenge</h3><p>${checkpoint===0?'Which expressions in Paragraph 4 support your answers?':'Find textual evidence to support your choices.'}</p>${textArea('response','Record supporting expressions, paragraph references, and your team’s interpretation.',cp.evidence[cp.step],'evidence')}<p>Discuss before using the teacher confirmation control. Interpretations are reviewed by a person, not automatically graded.</p>${cp.confirmed.includes(cp.step)?`<h4>Confirmed evidence · exact source excerpts</h4>${quoteHTML(EVIDENCE[checkpoint][cp.step])}${q.notes?`<details open><summary>Teaching design · evidence interpretations & discussion</summary><div class="document-notes">${escapeHTML(q.notes)}</div></details>`:''}<button data-action="next-challenge">${cp.step===data.challenges.length-1?'Review and collect clue':'Next challenge →'}</button>`:'<button data-action="confirm-evidence">Teacher: Confirm Evidence</button>'}`}`:`
- <h3>Review the checkpoint findings</h3>${checkpoint===0?'<p>Which expressions in Paragraph 4 support your answers?</p>':''}${checkpoint===1?`<h4>Concluding Reflection — Migration & Transformation</h4>${quoteHTML(EVIDENCE[1][2].slice(-2))}<p>What do these two statements suggest about the Kiowas’ transformation?</p><p class="small">Review the integrated findings: migration route; changes in lifestyle, traditions, values, and relationship with the environment; and the legend’s significance.</p>`:''}
- ${data.challenges.map((v,i)=>`<details><summary>${escapeHTML(v.title)} · discussion</summary><p>${escapeHTML(v.feedback)}</p>${quoteHTML(EVIDENCE[checkpoint][i])}${v.notes?`<div class="document-notes">${escapeHTML(v.notes)}</div>`:''}</details>`).join('')}
- ${textArea('final','Discuss and summarize your evidence before collecting the clue.',cp.finalDiscussion,'checkpoint-final')}<button data-action="collect-clue">Teacher: confirm findings & collect clue</button>`}</section>`;
+ const top=`<section class="panel checkpoint"><button data-action="to-map">← Return to Map</button><p class="eyebrow">Gate ${checkpoint+1} · ${escapeHTML(data.title)}</p>`;
+ if(cp.complete)return top+`<div class="clue-reward"><p class="reward-star" aria-hidden="true">✦</p><h2>Congratulations! You’ve earned the Clue Card for Gate ${checkpoint+1}!</h2><div class="clue-card" data-ink-region="clue-${checkpoint}">${escapeHTML(data.clue)}</div><button data-action="continue-journey">Continue the Journey →</button></div>${teacherNotes(`<div class="document-notes">${escapeHTML(data.guide)}</div>`)}</section>`;
+ if(!q)return top+'<button data-action="collect-clue">Collect Clue Card</button></section>';
+ const notes=`<p>${escapeHTML(data.guiding)}</p><p>${escapeHTML(q.feedback)}</p>${quoteHTML(EVIDENCE[checkpoint][cp.step])}<div class="document-notes">${escapeHTML(q.notes)}</div>${checkpoint===3&&cp.step===0?'<p>P3 opens with “the last great moment” and closes with “from birth the affliction of defeat.” The requested B answer follows the latter interpretation; discuss this tension without changing the source.</p>':''}`;
+ return top+`<p class="small">Challenge ${cp.step+1} / ${data.challenges.length} · ${paragraphRefs(q.refs)}</p><h2 class="challenge-question" data-ink-region="question">${escapeHTML(q.question)}</h2>${q.type==='multi'?'<p>Select all that apply.</p>':''}${source(q.refs)}
+ <div class="answers">${q.type==='blanks'?`<p>The high country in western Montana ↓</p><div class="inline-fields"><label>To the <input ${cp.solved?'disabled':''} data-route="0" value="${escapeHTML(cp.answers[cp.step]?.[0]||'')}" aria-label="First migration direction"></label><label>and <input ${cp.solved?'disabled':''} data-route="1" value="${escapeHTML(cp.answers[cp.step]?.[1]||'')}" aria-label="Second migration direction"></label><label>The <input ${cp.solved?'disabled':''} data-route="2" value="${escapeHTML(cp.answers[cp.step]?.[2]||'')}" aria-label="Destination Plains"> Plains ↓</label></div>`:q.options.map((o,i)=>`<label class="option" data-ink-region="option-${i}"><input type="${q.type==='multi'?'checkbox':'radio'}" name="checkpoint-answer" data-answer="${i}" ${(cp.answers[cp.step]||[]).includes(i)?'checked':''} ${cp.solved?'disabled':''}><span>${String.fromCharCode(65+i)}. ${escapeHTML(o)}</span></label>`).join('')}</div>
+ ${!cp.solved?'<button data-action="check-answer">Choose this path</button>':`<p class="success">Correct route. Find and discuss the evidence.</p><h3>Evidence Challenge</h3><p>${checkpoint===0?'Which expressions in Paragraph 4 support your answers?':'Find textual evidence to support your choices.'}</p>${textArea('response','Record supporting expressions, paragraph references, and your team’s interpretation.',cp.evidence[cp.step],'evidence')}${cp.confirmed.includes(cp.step)?`<p>Evidence recorded. Continue after discussion.</p><button data-action="next-challenge">${cp.step===data.challenges.length-1?'Earn Clue Card':'Next challenge →'}</button>`:'<button data-action="confirm-evidence">Confirm discussion & continue</button>'}`}${teacherNotes(notes)}</section>`;
 }
 function gateHTML(){
  const s=state();
@@ -452,7 +488,7 @@ function gateHTML(){
 function keyHTML(){
  const k=KEYS[activeKey],progress=state().keys[activeKey];
  if(progress.unlocked)return `<h3>Key discovered: ${escapeHTML(k.name)}</h3><p>${escapeHTML(k.branches)}</p>${activeKey<2?'<button data-action="next-key">Explore the next key →</button>':''}`;
- return `<p class="eyebrow">Unknown key ${activeKey+1} · ${paragraphRefs(k.refs)}</p><h3>${escapeHTML(k.opening)}</h3>${source(k.refs)}
+ return `<p class="eyebrow">Unknown key ${activeKey+1} · ${paragraphRefs(k.refs)}</p><h3>${escapeHTML(k.opening)}</h3>${source(k.refs)}${knowledgeEvidenceHTML()}
  ${progress.phase===0?`<h4>Step 1 — Recall and Complete</h4><div class="key-fields">${k.fields.map(([label],i)=>`<label>${escapeHTML(label)} <input data-key-field="${i}" value="${escapeHTML(progress.values[i]||'')}" aria-label="${escapeHTML(label)}"></label>`).join('')}</div>${list(k.context)}<button data-action="check-key-details">Connect these details →</button>${teacher?'<button data-action="key-fill">Teacher rehearsal: show suggested fill-ins</button>':''}`:progress.phase===1?`<h4>Step 2 — Connect the Clues</h4>${list(k.questions)}${textArea('connections','Discuss the questions and record your connections.',progress.discussion,'key-discussion')}<button data-action="key-connect">Teacher: confirm connections →</button>`:`<h4>Step 3 — Name the Category</h4><p>What shared category connects these details?</p><label for="key-name">Our inferred key name</label><input id="key-name" data-key-name value="${escapeHTML(progress.guess)}"><button data-action="unlock-key">Try this key</button>${teacher?'<button data-action="key-reveal">Teacher rehearsal: reveal this key</button>':''}`}`;
 }
 function treeHTML(){
@@ -470,25 +506,47 @@ function treeHTML(){
 }
 
 function response(message, success=false, redraw=false){feedback=message;notify(message);if(success)tone();if(redraw)render();}
-function returnToText(message){response(message);tone(false);const details=$('#adventure .source');if(details){details.open=true;details.scrollIntoView({block:'nearest',behavior:'smooth'});}}
+function returnToText(message){response(message);tone(false);const button=$('#adventure .text-return');if(button)button.focus();}
 function checkpointAccessible(i){return teacher||i===0||state().checkpoints[i-1].complete;}
-function routeToMap(){if(!unlockedStage(1)){notify('Complete Stage 1 first, or use Teacher access for independent presentation.');return;}currentStage=1;checkpoint=null;feedback='';render();focusMain();}
+function routeToMap(){if(!unlockedStage(1)){notify('Complete Stage 1 first, or use Teacher access for independent presentation.');return;}evidenceView=null;currentStage=1;checkpoint=null;feedback='';render();focusMain();}
 function acceptKey(){
  const s=state();s.keys[activeKey].unlocked=true;tone();
  if(s.keys.every(k=>k.unlocked)){s.gateOpen=true;animateGate=true;feedback='All three keys collected. The gate opens!';}
  else feedback=`Key discovered: ${KEYS[activeKey].name}. The corresponding lock opens.`;
  render();
 }
+function maybeCompleteLandscape(){
+ const s=state();if(!s.stage1&&s.matched.length===LANDSCAPE.length&&s.reconstructed&&['fire','brittle','overall'].every(k=>s.landscape[k]?.trim())){
+  s.stage1=true;document.querySelectorAll('[data-stage="1"]').forEach(b=>b.disabled=false);$('#map-return').disabled=false;
+  if(currentStage===0)$('#next').disabled=false;notify('Landscape complete! Stage 2 is unlocked.');
+ }
+}
+function changeEvidence(delta){if(!evidenceView)return;evidenceView.index=Math.max(0,Math.min(evidenceView.refs.length-1,evidenceView.index+delta));render();focusMain();}
+function collectGateClue(){const cp=state().checkpoints[checkpoint];if(cp.confirmed.length!==CONTENT.checkpoints[checkpoint].challenges.length)return;cp.complete=true;response(`Congratulations! You’ve earned the Clue Card for Gate ${checkpoint+1}!`,true,true);focusMain();}
+function continueJourney(){const from=state().mapPosition,to=Math.min(5,checkpoint+1);state().mapPosition=to;mapTravel={from,to};routeToMap();}
+function explorerHTML(points){const index=state().mapPosition||0;const [x,y]=points[index];return `<img id="road-explorers" class="road-explorers" src="assets/explorers.png" alt="Explorer group at ${index===5?'the Final Gate':`Gate ${index+1}`}" style="left:${x}%;top:${y}%">`;}
+function footstep(){
+ if(!soundEnabled||!audio)return;
+ try{const osc=audio.createOscillator(),gain=audio.createGain(),t=audio.currentTime;osc.type='triangle';osc.frequency.setValueAtTime(110,t);osc.frequency.exponentialRampToValueAtTime(45,t+.07);gain.gain.setValueAtTime(.055,t);gain.gain.exponentialRampToValueAtTime(.001,t+.09);osc.connect(gain);gain.connect(audio.destination);osc.start(t);osc.stop(t+.1);}catch{notify('Footstep audio unavailable. Navigation still works.');}
+}
+function startTravel(){
+ clearTimeout(travelTimer);if(currentStage!==1||checkpoint!==null||evidenceView||!mapTravel)return;
+ const el=$('#road-explorers');if(!el)return;const points=[[26.6,85.6],[44,72.8],[64.7,58.8],[45,47.5],[68.8,39.8],[92.5,37.5]];
+ const {from,to}=mapTravel;mapTravel=null;const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const route=[[26.6,85.6],[35,79],[44,72.8],[58,66],[69,62],[64.7,58.8],[52,55],[36,52],[38,49],[45,47.5],[56,46],[64,43],[68.8,39.8],[80,39],[92.5,37.5]];
+ const stops=[0,2,5,9,12,14];const path=from<=to?route.slice(stops[from],stops[to]+1):route.slice(stops[to],stops[from]+1).reverse();
+ if(!reduced&&from!==to){el.animate(path.map(([x,y])=>({left:x+'%',top:y+'%'})),{duration:1800,easing:'ease-in-out'});let ticks=0;const step=()=>{if(!soundEnabled||currentStage!==1||checkpoint!==null||evidenceView)return;footstep();if(++ticks<5)travelTimer=setTimeout(step,300);};step();}
+}
 let animateGate=false;
 const ACTIONS={
  begin:()=>goStage(0), 'to-map':routeToMap, 'final-gate':()=>goStage(2),
  reconstruct:()=>{
   const s=state();if(!RECONSTRUCTION.every((r,i)=>s.reconstruction[i]===r.answer)){s.reconstructed=false;returnToText('Return to P1 and check each feature. Elk and bears belong to P6, not this landscape description.');return;}
-  s.reconstructed=true;response('Your landscape record is assembled. Explain how its features work together.',true,true);
+  s.reconstructed=true;maybeCompleteLandscape();response('Your landscape record is assembled. Explain how its features work together.',true,true);
  },
  'landscape-confirm':()=>{
   const s=state();if(s.matched.length!==LANDSCAPE.length||!s.reconstructed||!['fire','brittle','overall'].every(k=>s.landscape[k]?.trim())){response('Complete matching, the reconstruction, and all three written explanations before teacher confirmation.');return;}
-  s.stage1=true;response('Teacher-confirmed: the adventure map is unlocked.',true,true);
+  s.stage1=true;response('Landscape complete: Stage 2 is unlocked. Teacher Access is not required.',true,true);
  },
  'check-answer':()=>{
   const cp=state().checkpoints[checkpoint],q=CONTENT.checkpoints[checkpoint].challenges[cp.step],answer=cp.answers[cp.step]||[];
@@ -498,17 +556,17 @@ const ACTIONS={
  },
  'confirm-evidence':()=>{
   const cp=state().checkpoints[checkpoint];if(!cp.solved||!cp.evidence[cp.step]?.trim()){response('Record supporting textual expressions and your interpretation before teacher confirmation.');return;}
-  if(!cp.confirmed.includes(cp.step))cp.confirmed.push(cp.step);response('Evidence confirmed. Compare the exact excerpts and discuss the teaching notes.',true,true);
+  if(!cp.confirmed.includes(cp.step))cp.confirmed.push(cp.step);response('Evidence recorded. Continue after your team discussion.',true,true);
  },
  'next-challenge':()=>{
   const cp=state().checkpoints[checkpoint];if(!cp.confirmed.includes(cp.step))return;
-  cp.step++;cp.solved=false;feedback='';render();focusMain();
+  cp.step++;cp.solved=false;if(cp.step===CONTENT.checkpoints[checkpoint].challenges.length){collectGateClue();return;}feedback='';render();focusMain();
  },
- 'collect-clue':()=>{
-  const cp=state().checkpoints[checkpoint],data=CONTENT.checkpoints[checkpoint];
-  if(cp.confirmed.length!==data.challenges.length||!cp.finalDiscussion.trim()){response('Discuss and summarize the checkpoint findings before teacher confirmation.');return;}
-  cp.complete=true;response(`Clue ${checkpoint+1} collected. Your previous clues are preserved.`,true,true);
- },
+ 'collect-clue':collectGateClue,
+ 'continue-journey':continueJourney,
+ 'back-evidence':closeEvidence,
+ 'text-previous':()=>changeEvidence(-1),
+ 'text-next':()=>changeEvidence(1),
  'check-key-details':()=>{
   const k=KEYS[activeKey],p=state().keys[activeKey];
   const alternatives={'mountain hunting':['mountain hunters','hunters','mountain people and hunters'],'Western Montana':['the high country in western montana','high country in western montana'],'Plains':['the plains'],'great era':['last great moment','last great moment of their history']};
@@ -527,12 +585,14 @@ const ACTIONS={
  'add-growth':()=>{const s=state();if(!s.growthDraft.trim()){response('Explain how an experience, relationship, practice, or choice contributes to cultural growth.');return;}s.growth.push({kind:s.growthKind,text:s.growthDraft.trim()});s.growthDraft='';response('A new branch or leaf joins the tree. Keep discussing how identity can grow.',true,true);},
  finish:()=>{const s=state();if(!['extension','learner','observer'].every(k=>s.reflections[k]?.trim())){response('Complete the growth discussion and both reflection roles before finishing.');return;}s.complete=true;response('Journey complete. Keep growing!',true,true);},
  'download-notes':()=>{
-  const s=state(),notes=['Rainy Mountain Adventure · '+(teacher?'Teacher rehearsal':'Student journey'),'LANDSCAPE',...Object.entries(s.landscape).map(([k,v])=>`${k}: ${v}`),...s.checkpoints.flatMap((c,i)=>[`CHECKPOINT ${i+1}: ${CONTENT.checkpoints[i].title}`,...Object.entries(c.evidence).map(([k,v])=>`Challenge ${Number(k)+1}: ${v}`),c.finalDiscussion]),...s.keys.map((k,i)=>`KEY ${i+1}: ${k.discussion}`),'ROOTS',s.rootDiscussion,'GROWTH',...s.growth.map(g=>`${g.kind}: ${g.text}`),'REFLECTIONS',...Object.entries(s.reflections).map(([k,v])=>`${k}: ${v}`)].join('\n\n');
+  const s=state(),notes=['Rainy Mountain Adventure · '+(teacher?'Teacher rehearsal':'Student journey'),'LANDSCAPE',...Object.entries(s.landscape).map(([k,v])=>`${k}: ${v}`),...s.checkpoints.flatMap((c,i)=>[`GATE ${i+1}: ${CONTENT.checkpoints[i].title}`,...Object.entries(c.evidence).map(([k,v])=>`Challenge ${Number(k)+1}: ${v}`),c.finalDiscussion]),...s.keys.map((k,i)=>`KEY ${i+1}: ${k.discussion}`),'ROOTS',s.rootDiscussion,'GROWTH',...s.growth.map(g=>`${g.kind}: ${g.text}`),'REFLECTIONS',...Object.entries(s.reflections).map(([k,v])=>`${k}: ${v}`)].join('\n\n');
   const url=URL.createObjectURL(new Blob([notes],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='rainy-mountain-field-notes.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
  }
 };
 $('#adventure').addEventListener('click',event=>{
  const button=event.target.closest('button');if(!button||button.disabled)return;
+ if(button.dataset.textRefs!==undefined){openEvidence(button.dataset.textRefs.split(',').map(Number));return;}
+ if(button.dataset.textIndex!==undefined){evidenceView.index=Number(button.dataset.textIndex);render();focusMain();return;}
  if(button.dataset.action){ACTIONS[button.dataset.action]?.();return;}
  if(button.dataset.phrase!==undefined){state().selected=Number(button.dataset.phrase);feedback=`Find the landscape region for “${LANDSCAPE[state().selected].phrase}”.`;render();return;}
  if(button.dataset.hotspot!==undefined){
@@ -540,7 +600,7 @@ $('#adventure').addEventListener('click',event=>{
   if(s.selected!==i){response('Look again at the visual feature and P1. Try another region.');tone(false);return;}
   if(!s.matched.includes(i))s.matched.push(i);s.selected=null;response(`Matched: ${LANDSCAPE[i].phrase}. ${LANDSCAPE[i].meaning}`,true,true);return;
  }
- if(button.dataset.checkpoint!==undefined){const i=Number(button.dataset.checkpoint);if(!checkpointAccessible(i))return;currentStage=1;checkpoint=i;feedback='';render();focusMain();return;}
+ if(button.dataset.checkpoint!==undefined){const i=Number(button.dataset.checkpoint);if(!checkpointAccessible(i))return;mapTravel=null;clearTimeout(travelTimer);evidenceView=null;currentStage=1;checkpoint=i;feedback='';render();focusMain();return;}
  if(button.dataset.keyTab!==undefined){activeKey=Number(button.dataset.keyTab);feedback='';render();}
 });
 $('#adventure').addEventListener('input',event=>{
@@ -548,7 +608,7 @@ $('#adventure').addEventListener('input',event=>{
  if(el.dataset.group){
   const field=el.dataset.field;
   switch(el.dataset.group){
-   case 'landscape':s.landscape[field]=el.value;break;
+   case 'landscape':s.landscape[field]=el.value;maybeCompleteLandscape();break;
    case 'evidence':s.checkpoints[checkpoint].evidence[s.checkpoints[checkpoint].step]=el.value;break;
    case 'checkpoint-final':s.checkpoints[checkpoint].finalDiscussion=el.value;break;
    case 'key-discussion':s.keys[activeKey].discussion=el.value;break;
@@ -568,12 +628,13 @@ $('#adventure').addEventListener('input',event=>{
  }
 });
 document.querySelectorAll('[data-stage]').forEach(button=>button.addEventListener('click',()=>goStage(Number(button.dataset.stage))));
-$('#home').addEventListener('click',()=>{currentStage=-1;checkpoint=null;feedback='';render();focusMain();});
+$('#home').addEventListener('click',()=>{evidenceView=null;currentStage=-1;checkpoint=null;feedback='';render();focusMain();});
 $('#map-return').addEventListener('click',routeToMap);
 $('#previous').addEventListener('click',()=>goStage(currentStage-1));
 $('#next').addEventListener('click',()=>goStage(currentStage+1));
+$('#presenter').addEventListener('change',event=>{presenter=event.target.checked;render();});
 $('#teacher').addEventListener('change',event=>{
- teacher=event.target.checked;checkpoint=null;activeKey=0;feedback='';if(currentStage>=0&&!unlockedStage(currentStage))currentStage=0;render();focusMain();notify(teacher?'Teacher rehearsal enabled. Student progress is preserved separately.':'Returned to the student journey.');
+ teacher=event.target.checked;evidenceView=null;checkpoint=null;activeKey=0;feedback='';if(currentStage>=0&&!unlockedStage(currentStage))currentStage=0;render();focusMain();notify(teacher?'Teacher rehearsal enabled. Student progress is preserved separately.':'Returned to the student journey.');
 });
 $('#sound').addEventListener('click',()=>{soundEnabled=!soundEnabled;$('#sound').setAttribute('aria-pressed',String(soundEnabled));$('#sound').textContent=`Sound: ${soundEnabled?'on':'off'}`;if(soundEnabled)tone();});
 $('#fullscreen').addEventListener('click',async()=>{
@@ -583,5 +644,5 @@ $('#fullscreen').addEventListener('click',async()=>{
 document.addEventListener('fullscreenchange',()=>{$('#fullscreen').textContent=document.fullscreenElement?'Exit fullscreen':'Fullscreen';});
 $('#restart').addEventListener('click',()=>$('#restart-dialog').showModal());
 $('#cancel-restart').addEventListener('click',()=>$('#restart-dialog').close());
-$('#confirm-restart').addEventListener('click',()=>{if(teacher)teacherState=freshState();else studentState=freshState();currentStage=0;checkpoint=null;activeKey=0;feedback='';animateGate=false;$('#restart-dialog').close();render();focusMain();notify('Current journey restarted.');});
+$('#confirm-restart').addEventListener('click',()=>{if(teacher)teacherState=freshState();else studentState=freshState();currentStage=0;checkpoint=null;activeKey=0;evidenceView=null;feedback='';animateGate=false;$('#restart-dialog').close();render();focusMain();notify('Current journey restarted.');});
 render();
