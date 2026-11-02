@@ -113,3 +113,102 @@ button + button { margin-left:.1rem; }
  .explorers { float:none; display:block; width:160px; margin:1rem auto; }.key-fields { grid-template-columns:1fr; }.tree-art { aspect-ratio:1.25; }.tree-layer { object-fit:fill; }
 }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.001ms !important; transition:none !important; scroll-behavior:auto !important; } }
+
+/* Phase 1: projection typography, text reader, road explorer, and local ink. */
+main { position:relative; }
+.phrase { font-size:clamp(1.25rem,1.7vw,1.625rem); line-height:1.4; }
+.landscape-layout { grid-template-columns:minmax(290px,350px) minmax(0,1fr); }
+.challenge-question { font:600 clamp(1.65rem,2.3vw,2rem)/1.35 system-ui,sans-serif; }
+.checkpoint { max-width:1300px; }
+.checkpoint .option { font-size:clamp(1.3rem,2vw,1.75rem); }
+.text-return { font-size:clamp(1.2rem,1.8vw,1.625rem); margin:.6rem 0; }
+.evidence-reader { max-width:1300px; margin:auto; }
+.original-passage { font:clamp(1.6rem,2vw,1.875rem)/1.85 Georgia,serif; white-space:pre-line; overflow-wrap:anywhere; }
+.evidence-controls { display:flex; flex-wrap:wrap; gap:.6rem; position:sticky; top:0; background:#102b24f5; padding:.5rem 0; z-index:2; }
+.evidence-links { display:flex; gap:.5rem; flex-wrap:wrap; margin:.8rem 0; }
+.clue-reward { text-align:center; }
+.clue-card { white-space:pre-line; text-align:left; font-size:clamp(1.4rem,2vw,1.8rem); line-height:1.8; background:#294f3b; border:2px solid var(--gold); padding:1.5rem; border-radius:1rem; animation:clue-arrival .6s ease-out; margin:1rem 0; }
+.reward-star { color:var(--gold); font-size:3rem; }
+@keyframes clue-arrival { from {opacity:0;transform:translateY(15px) scale(.96);} to {opacity:1;transform:none;} }
+.annotation-overlay { position:absolute; left:0; top:0; z-index:8; overflow:hidden; pointer-events:none; }
+#annotation-toolbar { position:fixed; right:1rem; top:1rem; width:min(390px,calc(100vw - 2rem)); max-height:70vh; overflow:auto; z-index:30; background:#102b24fa; border:2px solid var(--gold); border-radius:1rem; padding:1rem; box-shadow:0 8px 40px #0009; }
+#annotation-toolbar[hidden],#annotation-toggle[hidden] { display:none; }
+#annotation-toolbar label { display:flex; align-items:center; gap:.6rem; }
+#annotation-toolbar select { flex:1; }
+#annotation-toolbar input { width:55%; }
+#annotation-toolbar button { margin:.25rem; }
+#ink-clear-dialog { z-index:40; }
+.teacher-notes { border-color:var(--gold); }
+@media(max-width:1000px) { .landscape-layout { grid-template-columns:1fr; }.phrase-bank { position:static; }.phrase-bank .phrase { display:inline-block; width:auto; font-size:1.5rem; margin:.25rem; } }
+.challenge-question { font-size:clamp(1.875rem,2.3vw,2rem); }
+.checkpoint .option { font-size:clamp(1.625rem,2vw,1.75rem); }
+.text-return { font-size:clamp(1.5rem,1.8vw,1.625rem); }
+/* Dock the expanded tools beside the page instead of covering teaching content. */
+@media(min-width:1001px) { body.ink-tools-open { padding-right:370px; } #annotation-toolbar { width:340px; } }
+@media(max-width:1000px) { #annotation-toolbar { position:static; width:100%; margin:1rem 0 0; max-height:none; } }
+@media(max-width:600px) { .challenge-question { font-size:1.6rem; }.checkpoint .option { font-size:1.3rem; } }
+button[aria-current="step"]:hover:not(:disabled),button.selected:hover:not(:disabled),button[aria-pressed="true"]:hover:not(:disabled) { background:var(--gold); color:#142e24; }
+
+/* Phase 2: original gate art with locks fixed directly to its door panels. */
+.final-gate-scene { position:relative; width:100%; max-width:1400px; aspect-ratio:1672/941; margin:0 auto 1rem; overflow:hidden; border:2px solid #c5a776; border-radius:1rem; background:url('assets/background-stage%203.png') center/cover; }
+.complete-gate { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; z-index:2; }
+.gate-heading h2 { font-size:clamp(1.8rem,3vw,2.4rem); margin:.4rem 0; }
+.gate-heading { padding:1rem 1.5rem; }
+.gate-heading p { margin:.3rem 0; }
+.door-lock { position:absolute; z-index:4; padding:.15rem; width:clamp(48px,6.5%,92px); aspect-ratio:.85; border:0; background:transparent; box-shadow:none; transform:translate(-50%,-50%); }
+.door-lock:hover:not(:disabled) { transform:translate(-50%,-50%) scale(1.08); background:#f2ce8322; }
+.door-lock > img { width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 3px 4px #000b); }
+.door-lock > span { position:absolute; left:50%; bottom:-.5rem; transform:translateX(-50%); border-radius:1rem; padding:.15rem .5rem; background:#102b24ed; color:#fff6e2; white-space:nowrap; font-weight:700; }
+.lock-0 { left:41%; top:39%; }.lock-1 { left:59%; top:39%; }.lock-2 { left:59%; top:70%; }
+.door-lock.is-unlocked { filter:drop-shadow(0 0 7px #fff0a0); }
+.door-lock.just-unlocked { animation:lock-release .8s ease-out; }
+.door-lock > img.turning-key { position:absolute; inset:0; animation:key-turn .85s ease-in-out both; }
+@keyframes lock-release { 0%,50% {filter:drop-shadow(0 0 20px #fff0a0);} 30% {transform:translate(-50%,-50%) rotate(-8deg);} 70% {transform:translate(-50%,-50%) rotate(8deg);} }
+@keyframes key-turn { 0% {opacity:1;transform:rotate(-30deg) scale(.7);} 60% {opacity:1;transform:rotate(40deg);} 100% {opacity:0;transform:rotate(40deg) scale(.7);} }
+.earned-keys { display:flex; flex-wrap:wrap; gap:1rem; }
+.earned-keys span { display:flex; align-items:center; gap:.5rem; color:var(--gold); }
+.earned-keys img { width:35px; height:45px; object-fit:contain; }
+.knowledge-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:1rem; }
+.knowledge-map { max-width:1400px; margin:auto; }
+.knowledge-branches,.synthesis-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; margin:1rem 0; }
+.knowledge-branch,.synthesis-card { border:1px solid #c5a776; border-radius:.8rem; background:#244b3a; padding:1rem; animation:reveal .5s ease-out; }
+.knowledge-branch h3,.synthesis-card h3 { color:var(--gold); margin:.2rem 0 .8rem; font-size:clamp(1.35rem,1.7vw,1.6rem); }
+.knowledge-branch p,.card-content { font-size:clamp(1.2rem,1.5vw,1.5rem); line-height:1.65; }
+.card-content { white-space:pre-line; }
+.knowledge-branch button,.synthesis-card button { margin-top:.8rem; font-size:1.1rem; }
+.reference-label { font-size:.8rem; color:#f2ce83; }
+.synthesis-answer { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:1rem; padding:1rem; margin:1rem 0; background:#365a3b; border:2px solid var(--gold); border-radius:1rem; animation:reveal .5s ease-out; }
+.synthesis-answer h3 { margin:0; font-size:clamp(1.5rem,2.5vw,2rem); }.synthesis-answer img { width:45px; height:65px; object-fit:contain; }
+.teacher-synthesis { border-top:1px solid #a5b594; margin-top:1rem; padding-top:.5rem; }
+.gate-beyond { position:absolute; inset:15% 25% 7%; display:grid; place-items:center; z-index:1; }
+.gate-beyond img { width:80%; }
+.original-leaf { display:none; position:absolute; z-index:3; top:14.5%; width:25%; height:79%; overflow:hidden; }
+.original-leaf img { position:absolute; left:-20%; top:-3%; width:140%; height:106%; object-fit:fill; }
+.original-left { left:25%; }.original-right { left:50%; }
+.legacy-open .complete-gate { clip-path:polygon(evenodd,0 0,100% 0,100% 100%,0 100%,0 0,25% 14.5%,25% 93.5%,75% 93.5%,75% 14.5%,25% 14.5%); }
+.legacy-open .original-leaf { display:block; }.legacy-open .original-left { transform:translateX(-110%); }.legacy-open .original-right { transform:translateX(110%); }
+.legacy-opening .original-left { animation:legacy-left 1.8s ease-in-out both; }.legacy-opening .original-right { animation:legacy-right 1.8s ease-in-out both; }
+@keyframes legacy-left { from {transform:translateX(0);} to {transform:translateX(-110%);} }@keyframes legacy-right { from {transform:translateX(0);} to {transform:translateX(110%);} }
+@media(max-width:1000px) { .knowledge-branches,.synthesis-cards { grid-template-columns:1fr; }.door-lock { width:clamp(35px,8%,70px); } }
+/* Evidence round trips restore existing branches/cards without replaying their reveal. */
+.knowledge-branch,.synthesis-card { animation:none; }
+.knowledge-branch.just-revealed { animation:reveal .5s ease-out; }
+
+/* Keep the entire road and the explorers in view on classroom projection screens. */
+.map-shell { width:min(100%,calc((100svh - 12rem)*1672/941)); margin:1rem auto; }
+.map-controls { background:#102b24f5; padding:.6rem; border:1px solid #c5a776; border-radius:.7rem; }
+.map-controls > div { display:flex; flex-wrap:wrap; gap:.4rem; }
+.map-controls button { padding:.5rem .8rem; }
+#walk-status { margin:0 0 .4rem; font-size:1rem; }
+.road-explorers { position:absolute; width:clamp(52px,var(--walker-width),165px); height:auto; transform:translate(-50%,-100%); z-index:3; pointer-events:none; }
+.road-explorers img { display:block; width:100%; height:auto; transform-origin:50% 100%; filter:drop-shadow(0 3px 2px #0008); }
+.map-marker { z-index:2; }
+@media(min-width:1001px) { .phrase-bank { max-height:72svh; overflow-y:auto; scroll-padding:1rem; }.landscape-layout { align-items:start; } }
+.landscape-complete { animation:landscape-complete .5s ease-out; }
+@keyframes landscape-complete { from {transform:translateY(8px);opacity:.2;} to {transform:none;opacity:1;} }
+@media(max-width:600px) { .map-shell { width:100%; }.map-controls button { font-size:.85rem; } }
+.map-scene,.landscape-scene { aspect-ratio:1672/941; }
+.map-scene > img,.landscape-scene > img { width:100%; height:100%; object-fit:contain; }
+.phrase { font-size:clamp(1.5rem,1.7vw,1.625rem); }
+.road-explorers::after { content:''; position:absolute; left:15%; right:15%; height:5px; bottom:-1px; border-radius:50%; background:#11251d33; z-index:-1; }
+.road-explorers img { transform:scaleX(var(--walker-facing,1)); }
