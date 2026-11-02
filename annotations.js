@@ -121,8 +121,8 @@ window.Annotations = (() => {
     byId('ink-clear').addEventListener('click',()=>byId('ink-clear-dialog').showModal());
     byId('ink-clear-cancel').addEventListener('click',()=>byId('ink-clear-dialog').close());
     byId('ink-clear-confirm').addEventListener('click',()=>{snapshot();history().items=[];byId('ink-clear-dialog').close();draw();});
-    window.addEventListener('resize',schedule);document.addEventListener('fullscreenchange',schedule);
+    window.addEventListener('resize',schedule);window.addEventListener('scroll',schedule,true);document.addEventListener('fullscreenchange',schedule);
   }
   document.addEventListener('DOMContentLoaded',init,{once:true});
-  return {mount,setTeacher(value){teacher=value;if(!value)show(false);},clearJourney(prefix){for(const k of screens.keys())if(k.startsWith(prefix))screens.delete(k);},count(){return history().items.length;}};
+  return {mount,refresh:schedule,setTeacher(value){teacher=value;if(!value)show(false);},clearJourney(prefix){for(const k of screens.keys())if(k.startsWith(prefix))screens.delete(k);},count(){return history().items.length;}};
 })();

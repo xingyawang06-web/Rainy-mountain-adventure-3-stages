@@ -1,3 +1,37 @@
+# Current Phase 4 interface checks
+
+Run the focused suite for the redesigned interface:
+
+    node tests/phase4.cjs
+
+Or, when managed browser policy blocks file://:
+
+    GAME_URL=http://127.0.0.1:8765/index.html node tests/phase4.cjs
+
+A temporary loopback server is a development test fallback only. The classroom
+folder still opens directly using index.html, without installation or a server.
+
+The suite verifies all three projection sizes (1280×720, 1366×768, 1920×1080),
+unchanged homepage objective wording, classroom typography, the compact menu,
+rehearsal/Teacher Access separation, scene bounds/aspect ratios, original evidence
+returns, all three keys, moving doors, roots/trunk/four canopy examples, assignment,
+progress and ink persistence, fullscreen and mobile overflow. At 1280×720 it also
+completes the actual nine-word landscape and all fourteen questions, earns all five
+clues, observes all five road walks and generated footstep PCM, tests mute, and
+exercises every annotation tool/history plus scroll/resize/fullscreen alignment.
+It checks for JavaScript/resource errors and external runtime requests.
+
+PHASE4_QUICK=1 skips the full student flow using completed-stage fixtures, while
+retaining layout, key/tree/evidence and annotation checks. The default command runs
+the full focused suite. This is not Phase 5 classroom acceptance: Safari on the Mac,
+physical speaker/stylus/whiteboard behavior, and final acceptance remain to verify.
+
+The Phase 1–3 scripts below document their original baseline checks. Their direct
+navigation and panel selectors predate the collapsed Adventure Menu and activity
+sheets. They are retained as historical regression coverage and need updated UI
+drivers before reuse for Phase 5; Phase 4 results refer to phase4.cjs, not those old
+drivers. No tests or dependencies are needed to play the offline game.
+
 # Offline adventure development checks
 
 The classroom game needs no installation, build, server, or external library. Keep

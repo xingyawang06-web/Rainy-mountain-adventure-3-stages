@@ -9,31 +9,39 @@
   <script src="game.js" defer></script>
 </head>
 <body>
-  <header>
-    <div class="brand"><span class="eyebrow">Read · Explore · Connect</span><h1>Rainy Mountain Adventure</h1></div>
-    <div class="toolbar">
-      <button id="home" type="button">Home</button>
-      <button id="map-return" type="button">Return to Map</button>
-      <button id="sound" type="button" aria-pressed="false">Sound: off</button>
-      <button id="fullscreen" type="button">Fullscreen</button>
-      <label class="teacher-toggle"><input id="presenter" type="checkbox"> Teacher presentation</label>
+  <header class="game-controls" aria-label="Adventure controls">
+    <div class="control-dock">
+      <button id="home" type="button" title="Adventure home">Home</button>
+      <button id="menu-toggle" type="button" aria-expanded="false" aria-controls="adventure-menu">Adventure Menu</button>
+      <button id="sound" type="button" aria-pressed="false" title="Toggle offline sound effects">Sound: off</button>
+      <button id="fullscreen" type="button" title="Enter or exit fullscreen">Fullscreen</button>
       <button id="annotation-toggle" type="button" hidden aria-expanded="false">Annotations</button>
-      <label class="teacher-toggle"><input id="teacher" type="checkbox"> Independent rehearsal</label>
+      <span id="mode-badge" class="mode-badge" aria-live="polite"></span>
     </div>
-    <nav aria-label="Adventure stages">
-      <button type="button" data-stage="0">1 · Unlock the Landscape</button>
-      <button type="button" data-stage="1">2 · History and Memory</button>
-      <button type="button" data-stage="2">3 · Cultural Roots</button>
-    </nav>
-    <p id="mode-note" class="small"></p>
+    <section id="adventure-menu" class="adventure-menu" hidden aria-label="Navigation and teacher controls">
+      <div class="menu-heading"><h2>Adventure Menu</h2><button id="menu-close" type="button">Close menu ×</button></div>
+      <nav aria-label="Adventure stages">
+        <button type="button" data-stage="0">1 · Unlock the Landscape</button>
+        <button type="button" data-stage="1">2 · History and Memory</button>
+        <button type="button" data-stage="2">3 · Cultural Roots</button>
+      </nav>
+      <button id="map-return" type="button">Return to Map</button>
+      <fieldset class="mode-controls"><legend>Teacher controls</legend>
+        <label class="teacher-toggle"><input id="presenter" type="checkbox"> Teacher Access / presentation</label>
+        <label class="teacher-toggle"><input id="teacher" type="checkbox"> Independent Rehearsal</label>
+        <p class="small">Rehearsal uses separate progress and permits independent stage and gate access. Enable Teacher Access to reveal teaching notes, synthesis answers, and annotation tools.</p>
+      </fieldset>
+      <p id="mode-note" class="small"></p>
+      <div id="teaching-guide"></div>
+      <footer>
+        <p id="progress" aria-live="polite">Adventure home</p>
+        <button id="previous" type="button">← Previous stage</button>
+        <button id="next" type="button">Next stage →</button>
+        <button id="restart" type="button">Restart</button>
+      </footer>
+    </section>
   </header>
   <main id="adventure" tabindex="-1"></main>
-  <footer>
-    <button id="previous" type="button">← Previous stage</button>
-    <p id="progress" aria-live="polite">Adventure home</p>
-    <button id="next" type="button">Next stage →</button>
-    <button id="restart" type="button">Restart</button>
-  </footer>
   <p id="announcement" class="announcement" role="status" aria-live="polite"></p>
   <dialog id="restart-dialog" aria-labelledby="restart-title">
     <h2 id="restart-title">Restart this journey?</h2>

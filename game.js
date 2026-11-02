@@ -350,13 +350,13 @@ function closeEvidence(){
  if(!evidenceView)return;const saved=evidenceView.origin;evidenceView=null;
  currentStage=saved.stage;checkpoint=saved.checkpoint;activeKey=saved.key;keyActivity=saved.keyActivity;feedback='';render();
  document.querySelectorAll('#adventure details').forEach((el,i)=>el.open=!!saved.details[i]);
- requestAnimationFrame(()=>window.scrollTo({top:saved.scroll,behavior:'instant'}));
+ requestAnimationFrame(()=>{window.scrollTo({top:saved.scroll,behavior:'instant'});window.Annotations?.refresh();});
 }
 function evidenceHTML(){
  const {refs,index}=evidenceView,n=refs[index];
  return `<section class="panel evidence-reader"><div class="evidence-controls"><button data-action="back-evidence">${currentStage===2?(keyActivity?'Back to Knowledge Map':'Back to Cultural Identity Tree'):'Back to Activity'}</button><button data-action="text-previous" ${index===0?'disabled':''}>← Previous paragraph</button><button data-action="text-next" ${index===refs.length-1?'disabled':''}>Next paragraph →</button></div><h2>Return to the Text</h2><nav aria-label="Evidence paragraphs">${refs.map((p,i)=>`<button data-text-index="${i}" aria-pressed="${i===index}">P${p}</button>`).join('')}</nav><article><h3>Paragraph ${n}</h3><p class="original-passage" data-ink-region="paragraph-${n}">${escapeHTML(CONTENT.paragraphs[n])}</p></article></section>`;
 }
-function teacherNotes(html){return presenter||teacher?`<details class="teacher-notes"><summary>Teacher notes · not shown in student mode</summary>${html}</details>`:'';}
+function teacherNotes(html){return presenter?`<details class="teacher-notes"><summary>Teacher notes · not shown in student mode</summary>${html}</details>`:'';}
 const LANDSCAPE = [
   {phrase:'blizzards', area:'Snow-filled winter sky', x:11,y:20,w:17,h:22, meaning:'Severe snowstorms with strong winds.', quote:'Winter brings blizzards'},
   {phrase:'tornadic winds',area:'Spiraling spring wind',x:24,y:29,w:13,h:24,meaning:'Violent winds associated with tornadoes.',quote:'hot tornadic winds arise in the spring'},
@@ -399,7 +399,8 @@ let currentStage=-1, checkpoint=null, activeKey=0, soundEnabled=false, audio=nul
 const toneVoices=new Set();
 let feedback='';
 const state=()=>teacher?teacherState:studentState;
-function notify(message) { $('#announcement').textContent=message; }
+let announcementTimer=null;
+function notify(message) { clearTimeout(announcementTimer);const banner=$('#announcement');banner.textContent=message;banner.classList.remove('quiet');if(message)announcementTimer=setTimeout(()=>banner.classList.add('quiet'),3500); }
 function tone(success=true) {
   if(!soundEnabled)return;
   try {
@@ -415,18 +416,16 @@ function tone(success=true) {
 }
 function unlockedStage(n){return teacher||n===0||(n===1?state().stage1:state().checkpoints.every(c=>c.complete));}
 function goStage(n) {
+  closeMenuForJourney();
   if(!Number.isInteger(n)||n<0||n>2)return;
   if(!unlockedStage(n)){notify(n===1?'Complete the landscape activities first. Teachers can use Teacher access.':'Collect all five checkpoint clues first. Teachers can use Teacher access.');return;}
   evidenceView=null;keyActivity=false;currentStage=n;checkpoint=null;feedback='';render();focusMain();
 }
 function focusMain() {
  $('#adventure').focus({preventScroll:true});
- if(currentStage===1&&checkpoint===null&&!evidenceView){focusMap();return;}
- if(currentStage===2&&!evidenceView&&!keyActivity&&state().presentation!=='gate'){const scene=$('.cultural-landscape,.phase3-opening');if(scene){scene.scrollIntoView({block:'start',behavior:'instant'});return;}}
- if(currentStage===0&&!evidenceView){$('.landscape-layout')?.scrollIntoView({block:'center',behavior:'instant'});return;}
  window.scrollTo({top:0,behavior:'instant'});
 }
-function focusMap(){const shell=$('.map-shell');if(!shell)return;const r=shell.getBoundingClientRect(),usable=innerHeight-Math.max(56,$('#announcement')?.offsetHeight||0);window.scrollTo({top:scrollY+r.top-Math.max(8,(usable-r.height)/2),behavior:'instant'});}
+function focusMap(){if(currentStage===1&&checkpoint===null&&!evidenceView)window.scrollTo({top:0,behavior:'instant'});}
 
 function render(){
   pauseTravel();
@@ -437,14 +436,19 @@ function render(){
     if(n===currentStage)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');
   });
   $('#mode-note').textContent=teacher?'Teacher rehearsal · independent access to every stage and gate. Rehearsal progress is separate from the student journey.':'Student journey · progress stays while switching screens. Teacher presentation controls are optional; student progression does not require Teacher Access. Reloading clears this session.';
-  $('#annotation-toggle').hidden=!(presenter||teacher);
-  window.Annotations?.setTeacher(presenter||teacher);
+  $('#annotation-toggle').hidden=!(presenter);
+  window.Annotations?.setTeacher(presenter);
   $('#previous').disabled=currentStage<=0;
   $('#next').disabled=currentStage<0||currentStage===2||!unlockedStage(currentStage+1);
   $('#map-return').disabled=!unlockedStage(1);
   $('#progress').textContent=currentStage<0?'Adventure home':`Stage ${currentStage+1} of 3${checkpoint!==null?` · Gate ${checkpoint+1}`:''}`;
+  document.body.classList.toggle('in-adventure',currentStage>=0);
+  $('#mode-badge').textContent=[teacher?'Rehearsal':'',presenter?'Teacher Access':''].filter(Boolean).join(' · ');
+  $('#mode-note').hidden=currentStage<0;
+  $('#teaching-guide').innerHTML=presenter?`<details><summary>10-minute demonstration guide</summary>${list(['Briefly recall clues from the five Gates.','Guide students through three progressively completed mind maps.','Students induce the names of the three categories.','Unlock the final gate and arrive at Rainy Mountain.','Use P14–P15 to discuss the journey’s meaning.','Build three roots of the Cultural Identity Tree.','Pose the open question of cultural growth.','Assign the 2–3-minute personal reflection on evolving cultural identity.'])}</details>`:'';
   $('#adventure').className=currentStage<0?'home-screen':`stage-${currentStage}`;
   $('#adventure').innerHTML=evidenceView?evidenceHTML():currentStage<0?homeHTML():currentStage===0?landscapeHTML():currentStage===1?(checkpoint===null?mapHTML():checkpointHTML()):gateHTML();
+  decorateInterface();
   if($('.phrase-bank'))$('.phrase-bank').scrollTop=bankScroll;
   animateGate=false;
   unlockAnimation=null;
@@ -456,7 +460,45 @@ function render(){
   treeReveal='';
   syncDoorOpening();
 }
-function homeHTML(){return `<section class="welcome panel"><p class="eyebrow">An offline classroom adventure</p><h2>Follow the landscape.<br>Discover the connections.</h2><img class="explorers" src="assets/explorers.png" alt="Q-style explorers ready for their journey"><p>Explore N. Scott Momaday’s <cite>The Way to Rainy Mountain</cite> through close reading, evidence, and team discussion.</p><ol><li>Unlock the Landscape — language and visual reconstruction.</li><li>Journey Through History and Memory — five gates.</li><li>Finding Our Cultural Roots — three keys and an identity tree.</li></ol><button data-action="begin">Begin / resume exploration →</button><details><summary>Learning objectives & classroom use</summary>${list(['Recognize, understand, and apply key vocabulary and expressions.','Interpret and reconstruct the text using textual evidence; develop awareness of transfer to future teaching.','Develop a text-based understanding of the sources of cultural identity.','Extend understanding of how cultural identity can continue to develop.'])}<p>ICAP framework · Read, discuss, find evidence, and make decisions as an explorer team. Teacher access allows independent presentation; it is a classroom control, not a password-protected role.</p><p>Everything runs locally. No answers leave this page. Use Restart to clear the current journey, or copy your written reflections before closing.</p></details>${presenter||teacher?`<details><summary>Teacher presentation · 10-minute demonstration</summary>${list(['Briefly recall clues from the five Gates.','Guide students through three progressively completed mind maps.','Students induce the names of the three categories.','Unlock the final gate and arrive at Rainy Mountain.','Use P14–P15 to discuss the journey’s meaning.','Build three roots of the Cultural Identity Tree.','Pose the open question of cultural growth.','Assign the 2–3-minute personal reflection on evolving cultural identity.'])}<p>Focus: Objective 3; supported by evidence of Objective 2 and an extension toward Objective 4. Teacher access uses a separate rehearsal journey; no student achievements are fabricated.</p></details>`:''}</section>`;}
+const LEARNING_OBJECTIVES=['Recognize, understand, and apply key vocabulary and expressions.','Interpret and reconstruct the text using textual evidence; develop awareness of transfer to future teaching.','Develop a text-based understanding of the sources of cultural identity.','Extend understanding of how cultural identity can continue to develop.'];
+const interfaceSheets=new Map();
+function sheetKey(id){return `${screenIdentity()}:${currentStage===2?state().presentationStep:''}:${id}`;}
+function makeSheet(node,id,label,initial=false){
+ if(!node)return null;
+ const key=sheetKey(id),details=document.createElement('details');details.className=`game-sheet sheet-${id}`;details.dataset.sheet=id;
+ const summary=document.createElement('summary');summary.textContent=label;details.append(summary);
+ const body=document.createElement('div');body.className='sheet-body';
+ const close=document.createElement('button');close.type='button';close.className='close-sheet';close.textContent=`Close ${label} ×`;close.addEventListener('click',()=>{details.open=false;interfaceSheets.set(key,false);window.scrollTo({top:0,behavior:'instant'});summary.focus({preventScroll:true});window.Annotations?.refresh();});body.append(close);
+ node.replaceWith(details);body.append(node);details.append(body);details.open=interfaceSheets.has(key)?interfaceSheets.get(key):initial;
+ details.addEventListener('toggle',()=>{interfaceSheets.set(key,details.open);window.Annotations?.refresh();});return details;
+}
+function decorateInterface(){
+ const main=$('#adventure');
+ if(currentStage<0)return;
+ main.classList.toggle('reading-screen',!!evidenceView||!!$('.checkpoint,.knowledge-map,.assignment-screen'));
+ if(evidenceView)return;
+ const intro=main.querySelector('.intro,.gate-heading');if(intro)makeSheet(intro,'instructions',intro.querySelector('h2')?.textContent||'Instructions');
+ if(currentStage===0){
+  const bank=$('.phrase-bank');makeSheet(bank,'vocabulary','Vocabulary · P1',state().selected===null);
+  const layout=$('.landscape-layout');const notes=layout?.nextElementSibling;if(notes)makeSheet(notes,'field-notes','Field Notes & Reconstruction',state().matched.length===9);
+  const selected=state().selected;if(selected!==null){const drawer=main.querySelector('[data-sheet="vocabulary"]');drawer.open=false;interfaceSheets.set(sheetKey('vocabulary'),false);}
+  else if(state().matched.length<9){const drawer=main.querySelector('[data-sheet="vocabulary"]');drawer.open=true;interfaceSheets.set(sheetKey('vocabulary'),true);}
+ }
+ if(currentStage===1&&checkpoint===null){const collection=$('.map-shell')?.nextElementSibling;if(collection)makeSheet(collection,'collection','Route & Clue Cards');}
+ if(currentStage===2&&!keyActivity){
+  const status=$('.gate-status');if(status)makeSheet(status,'keys','Collected Keys');
+  const discussion=$('.presentation-discussion');if(discussion){
+   const controls=discussion.querySelector('.presentation-controls');discussion.before(controls);
+   if(state().presentationStep==='landscape')discussion.hidden=true;
+   else makeSheet(discussion,'discussion','Discussion & Return to the Text');
+  }
+ }
+}
+function setMenu(open){$('#adventure-menu').hidden=!open;$('#menu-toggle').setAttribute('aria-expanded',String(open));if(open)$('#menu-close').focus({preventScroll:true});}
+function closeMenuForJourney(){setMenu(false);}
+function resizeInterface(){document.documentElement.style.setProperty('--screen-height',`${innerHeight}px`);window.Annotations?.refresh();}
+function homeHTML(){return `<section class="welcome"><div class="home-introduction"><div><p class="eyebrow">Read · Explore · Connect</p><h1>Rainy Mountain Adventure</h1><h2>Follow the landscape. Discover the connections.</h2><p>Explore N. Scott Momaday’s <cite>The Way to Rainy Mountain</cite> through close reading, evidence, and team discussion.</p><ol class="stage-introduction"><li>Unlock the Landscape — language and visual reconstruction.</li><li>Journey Through History and Memory — five gates.</li><li>Finding Our Cultural Roots — three keys and an identity tree.</li></ol><button class="begin-adventure" data-action="begin">Begin / resume exploration →</button></div><img class="explorers" src="assets/explorers.png" alt="Q-style explorers ready for their journey"></div><section class="learning-objectives" aria-labelledby="objectives-title"><h2 id="objectives-title">Learning Objectives</h2>${list(LEARNING_OBJECTIVES)}</section></section>`;}
+
 function landscapeHTML(){
  const s=state();
  return `<section><div class="panel intro"><p class="eyebrow">Stage 1 · P1</p><h2>Unlock the Landscape</h2><p class="guiding">What does Rainy Mountain look like?</p><p>Select a textual expression, then click the landscape area that represents it. You can also use Tab and Enter on numbered regions.</p><p class="small">This illustration combines seasons and exaggerates scale. Identify what the text describes; P1 does not say winter blizzards and summer heat occur together. Tree species are identified by the text, not by botanical details in the artwork.</p>${source([1])}</div>
@@ -506,7 +548,7 @@ function gateHTML(){
  </div></section>`;
 }
 function keyHTML(){
- const s=state(),k=KEYS[activeKey],progress=s.keys[activeKey],control=presenter||teacher;
+ const s=state(),k=KEYS[activeKey],progress=s.keys[activeKey],control=presenter;
  const questions=['What makes Rainy Mountain more than a place?','What do these clues tell us about the Kiowa people?','What do these clues tell us about Momaday and his grandmother?'];
  const links=[EVIDENCE_LINKS.land,EVIDENCE_LINKS.history,EVIDENCE_LINKS.memory][activeKey];
  const refs=[...new Set(links.flatMap(link=>link.refs))].sort((a,b)=>a-b);
@@ -553,11 +595,11 @@ function treeArtwork(s){
 function assignmentHTML(){
  const s=state();
  return `<section class="panel assignment-screen" data-ink-region="after-class-assignment"><p class="eyebrow">Take your roots with you</p><h2>After-Class Assignment</h2><h3>My Evolving Cultural Identity</h3><p class="assignment-question">How has your cultural identity been shaped and changed through your life experiences?</p><ol><li>What cultural influences have shaped who you are today?</li><li>How have new experiences, people, places, or cultures enriched or changed your cultural identity?</li><li>How might your cultural identity continue to develop in the future?</li></ol><p class="assignment-task">Prepare a 2–3-minute personal reflection to share in the next class. Use specific examples from your own life.</p>
- ${(presenter||teacher)?`<details><summary>Optional classroom reflection · learner and teaching observer</summary><div class="reflection-grid"><div><h4>As a Learner</h4>${list(LEARNER_REFLECTION)}${textArea('learner','Reflect on your learning.',s.reflections.learner,'reflections')}</div><div><h4>As a Teaching Observer</h4>${list(OBSERVER_REFLECTION)}${textArea('observer','Reflect on the teaching and interaction.',s.reflections.observer,'reflections')}</div></div></details>`:''}
+ ${(presenter)?`<details><summary>Optional classroom reflection · learner and teaching observer</summary><div class="reflection-grid"><div><h4>As a Learner</h4>${list(LEARNER_REFLECTION)}${textArea('learner','Reflect on your learning.',s.reflections.learner,'reflections')}</div><div><h4>As a Teaching Observer</h4>${list(OBSERVER_REFLECTION)}${textArea('observer','Reflect on the teaching and interaction.',s.reflections.observer,'reflections')}</div></div></details>`:''}
  <button data-action="return-tree">Return to the Cultural Identity Tree</button><button data-action="download-notes">Save my written field notes (.txt)</button><p class="small">Progress and annotations stay in this session. Reloading or Restart clears learning progress; save your written notes before closing.</p></section>`;
 }
 function treeHTML(){
- const s=state(),control=presenter||teacher,step=s.presentationStep;
+ const s=state(),control=presenter,step=s.presentationStep;
  if(step==='assignment')return assignmentHTML();
  const prompt=step==='roots'?'Why does Momaday write about his homeland, the history of the Kiowa people, and his memories of Aho?':step==='identity'?'As Momaday leaves Rainy Mountain, does he leave his cultural roots behind? Why or why not?':'If our cultural roots remain with us, can our cultural identity continue to grow as we experience new places, people, and cultures? How?';
  const actions=step==='landscape'?'<button data-action="start-roots">Teacher: begin Cultural Roots</button>':step==='roots'?s.roots<3?'<button data-action="reveal-root">Teacher: reveal next root</button>':'<button data-action="reveal-trunk">Teacher: connect roots & grow trunk</button>':step==='identity'?'<button data-action="start-growth">Teacher: discuss continuity & growth</button>':s.canopy<4?'<button data-action="reveal-canopy">Teacher: grow next canopy example</button>':'<button data-action="show-assignment">Teacher: show After-Class Assignment</button>';
@@ -573,9 +615,9 @@ function treeHTML(){
 function response(message, success=false, redraw=false){feedback=message;notify(message);if(success)tone();if(redraw)render();}
 function returnToText(message){response(message);tone(false);const button=$('#adventure .text-return');if(button)button.focus();}
 function checkpointAccessible(i){return teacher||i===0||state().checkpoints[i-1].complete;}
-function routeToMap(){if(!unlockedStage(1)){notify('Complete Stage 1 first, or use Teacher access for independent presentation.');return;}evidenceView=null;currentStage=1;checkpoint=null;feedback='';render();focusMain();}
+function routeToMap(){closeMenuForJourney();if(!unlockedStage(1)){notify('Complete Stage 1 first, or use Teacher access for independent presentation.');return;}evidenceView=null;currentStage=1;checkpoint=null;feedback='';render();focusMain();}
 function acceptKey(){
- if(!(presenter||teacher))return;
+ if(!(presenter))return;
  const s=state(),progress=s.keys[activeKey];if(!progress.answerShown||progress.unlocked)return;
  progress.unlocked=true;unlockAnimation=activeKey;keyActivity=false;s.gateOpen=false;
  feedback=`Key awarded: ${KEYS[activeKey].name}. Lock ${activeKey+1} is unlocked.`;
@@ -621,7 +663,7 @@ function explorerHTML(){
  return `<div id="road-explorers" class="road-explorers" role="img" aria-label="Q-style explorer group on the road" style="left:${point[0]}%;top:${point[1]}%;--walker-width:${walkerWidth(point[1])}%;--walker-facing:${s.mapWalk?.facing||s.mapFacing||1}"><img id="walker-art" src="assets/explorers.png" alt=""></div>`;
 }
 function walkerWidth(y){return 6.5+Math.max(0,Math.min(1,(y-37.5)/(85.6-37.5)))*5;}
-function mapControlsHTML(){return `<div class="map-controls"><p id="walk-status" role="status">${walkStatus()}</p><div><button data-action="map-home">Home</button><button data-action="map-sound" data-sound-label>Sound: ${soundEnabled?'on':'off'}</button><button data-action="map-fullscreen" data-fullscreen-label>${document.fullscreenElement?'Exit fullscreen':'Fullscreen'}</button><button data-action="toggle-walk" id="walk-pause" ${state().mapWalk?'':'hidden'}>${state().mapWalk?.paused?'Resume walking':'Pause walking'}</button>${presenter||teacher?'<button data-action="skip-walk" id="walk-skip" '+(state().mapWalk?'':'hidden')+'>Teacher: skip travel</button>':''}</div></div>`;}
+function mapControlsHTML(){return `<div class="map-controls"><p id="walk-status" role="status">${walkStatus()}</p><div><button data-action="map-home">Home</button><button data-action="map-sound" data-sound-label>Sound: ${soundEnabled?'on':'off'}</button><button data-action="map-fullscreen" data-fullscreen-label>${document.fullscreenElement?'Exit fullscreen':'Fullscreen'}</button><button data-action="toggle-walk" id="walk-pause" ${state().mapWalk?'':'hidden'}>${state().mapWalk?.paused?'Resume walking':'Pause walking'}</button>${presenter?'<button data-action="skip-walk" id="walk-skip" '+(state().mapWalk?'':'hidden')+'>Teacher: skip travel</button>':''}</div></div>`;}
 function walkStatus(){const s=state();return s.mapWalk?(s.mapWalk.paused?'Walking paused. Resume when ready.':`Walking toward ${s.mapWalk.to===5?'the Final Gate':`Gate ${s.mapWalk.to+1}`}…`):`Explorers are at ${s.mapPosition===5?'the Final Gate':`Gate ${s.mapPosition+1}`}. Choose a gate to explore.`;}
 function updateWalkControls(){
  const walking=!!state().mapWalk;
@@ -707,22 +749,22 @@ const ACTIONS={
  'map-sound':toggleSound,
  'map-fullscreen':()=>$('#fullscreen').click(),
  'toggle-walk':()=>{const walk=state().mapWalk;if(!walk)return;walk.paused=!walk.paused;if(walk.paused)pauseTravel();else startTravel();updateWalkControls();},
- 'skip-walk':()=>{if(!(teacher||presenter)||!state().mapWalk)return;const s=state();s.mapPosition=s.mapWalk.to;s.mapWalk=null;pauseTravel();positionExplorers();updateWalkControls();},
+ 'skip-walk':()=>{if(!(presenter)||!state().mapWalk)return;const s=state();s.mapPosition=s.mapWalk.to;s.mapWalk=null;pauseTravel();positionExplorers();updateWalkControls();},
  'back-evidence':closeEvidence,
  'text-previous':()=>changeEvidence(-1),
  'text-next':()=>changeEvidence(1),
  'back-gate':()=>{keyActivity=false;evidenceView=null;feedback='';render();focusMain();},
- 'reveal-land-branch':()=>{if(!(presenter||teacher)||activeKey!==0)return;revealedBranch=state().keys[0].revealed;state().keys[0].revealed=Math.min(3,state().keys[0].revealed+1);feedback='';render();},
- 'reveal-key-meaning':()=>{if(!(presenter||teacher))return;const p=state().keys[activeKey];if(activeKey===0&&p.revealed<3)return;p.answerShown=true;response('Shared meaning revealed. Discuss before awarding the key.',true,true);},
+ 'reveal-land-branch':()=>{if(!(presenter)||activeKey!==0)return;revealedBranch=state().keys[0].revealed;state().keys[0].revealed=Math.min(3,state().keys[0].revealed+1);feedback='';render();},
+ 'reveal-key-meaning':()=>{if(!(presenter))return;const p=state().keys[activeKey];if(activeKey===0&&p.revealed<3)return;p.answerShown=true;response('Shared meaning revealed. Discuss before awarding the key.',true,true);},
  'award-key':acceptKey,
  'visit-gate':()=>{state().presentation='gate';keyActivity=false;render();focusMain();},
  'resume-presentation':()=>{if(!state().gateOpen)return;state().presentation='landscape';render();focusMain();},
- 'start-roots':()=>{if(!(presenter||teacher)||!state().gateOpen)return;state().presentationStep='roots';render();focusMain();},
- 'reveal-root':()=>{const s=state();if(!(presenter||teacher)||s.presentationStep!=='roots'||!s.gateOpen)return;treeReveal=`root-${s.roots}`;s.roots=Math.min(3,s.roots+1);response(`Root ${s.roots} revealed: ${KEYS[s.roots-1].name}.`,true,true);focusMain();},
- 'reveal-trunk':()=>{const s=state();if(!(presenter||teacher)||s.roots!==3)return;treeReveal='trunk';s.trunk=true;s.presentationStep='identity';response('The cultural roots connect with Cultural Identity.',true,true);focusMain();},
- 'start-growth':()=>{const s=state();if(!(presenter||teacher)||!s.trunk)return;s.presentationStep='growth';render();focusMain();},
- 'reveal-canopy':()=>{const s=state();if(!(presenter||teacher)||s.presentationStep!=='growth')return;treeReveal=`canopy-${s.canopy}`;s.canopy=Math.min(4,s.canopy+1);response(`Canopy example: ${CANOPY_WORDS[s.canopy-1]}.`,true,true);focusMain();},
- 'show-assignment':()=>{const s=state();if(!(presenter||teacher)||s.canopy!==4)return;s.presentationStep='assignment';s.complete=true;render();focusMain();},
+ 'start-roots':()=>{if(!(presenter)||!state().gateOpen)return;state().presentationStep='roots';render();focusMain();},
+ 'reveal-root':()=>{const s=state();if(!(presenter)||s.presentationStep!=='roots'||!s.gateOpen)return;treeReveal=`root-${s.roots}`;s.roots=Math.min(3,s.roots+1);response(`Root ${s.roots} revealed: ${KEYS[s.roots-1].name}.`,true,true);focusMain();},
+ 'reveal-trunk':()=>{const s=state();if(!(presenter)||s.roots!==3)return;treeReveal='trunk';s.trunk=true;s.presentationStep='identity';response('The cultural roots connect with Cultural Identity.',true,true);focusMain();},
+ 'start-growth':()=>{const s=state();if(!(presenter)||!s.trunk)return;s.presentationStep='growth';render();focusMain();},
+ 'reveal-canopy':()=>{const s=state();if(!(presenter)||s.presentationStep!=='growth')return;treeReveal=`canopy-${s.canopy}`;s.canopy=Math.min(4,s.canopy+1);response(`Canopy example: ${CANOPY_WORDS[s.canopy-1]}.`,true,true);focusMain();},
+ 'show-assignment':()=>{const s=state();if(!(presenter)||s.canopy!==4)return;s.presentationStep='assignment';s.complete=true;render();focusMain();},
  'return-tree':()=>{state().presentationStep='growth';render();focusMain();},
  'download-notes':()=>{
   const s=state(),notes=['Rainy Mountain Adventure · '+(teacher?'Teacher rehearsal':'Student journey'),'LANDSCAPE',...Object.entries(s.landscape).map(([k,v])=>`${k}: ${v}`),...s.checkpoints.flatMap((c,i)=>[`GATE ${i+1}: ${CONTENT.checkpoints[i].title}`,...Object.entries(c.evidence).map(([k,v])=>`Challenge ${Number(k)+1}: ${v}`),c.finalDiscussion]),...s.keys.map((k,i)=>`KEY ${i+1}: ${k.discussion}`),'ROOTS',s.rootDiscussion,'GROWTH',...s.growth.map(g=>`${g.kind}: ${g.text}`),'REFLECTIONS',...Object.entries(s.reflections).map(([k,v])=>`${k}: ${v}`)].join('\n\n');
@@ -766,7 +808,7 @@ $('#adventure').addEventListener('input',event=>{
  }
 });
 document.querySelectorAll('[data-stage]').forEach(button=>button.addEventListener('click',()=>goStage(Number(button.dataset.stage))));
-$('#home').addEventListener('click',()=>{evidenceView=null;keyActivity=false;currentStage=-1;checkpoint=null;feedback='';render();focusMain();});
+$('#home').addEventListener('click',()=>{closeMenuForJourney();evidenceView=null;keyActivity=false;currentStage=-1;checkpoint=null;feedback='';render();focusMain();});
 $('#map-return').addEventListener('click',routeToMap);
 $('#previous').addEventListener('click',()=>goStage(currentStage-1));
 $('#next').addEventListener('click',()=>goStage(currentStage+1));
@@ -779,11 +821,15 @@ $('#fullscreen').addEventListener('click',async()=>{
  try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else notify('Fullscreen is unavailable in this browser. Use the browser’s presentation shortcut.');}
  catch{notify('The browser declined fullscreen. The adventure remains available in this window.');}
 });
-document.addEventListener('fullscreenchange',()=>{$('#fullscreen').textContent=document.fullscreenElement?'Exit fullscreen':'Fullscreen';document.querySelectorAll('[data-fullscreen-label]').forEach(el=>el.textContent=$('#fullscreen').textContent);if(currentStage===0&&!evidenceView)requestAnimationFrame(()=>$('.landscape-layout')?.scrollIntoView({block:'center',behavior:'instant'}));if(currentStage===1&&checkpoint===null&&!evidenceView)requestAnimationFrame(()=>{focusMap();startTravel();});});
-window.addEventListener('resize',()=>{if(currentStage===1&&checkpoint===null&&!evidenceView)requestAnimationFrame(()=>{focusMap();startTravel();});});
+document.addEventListener('fullscreenchange',()=>{resizeInterface();$('#fullscreen').textContent=document.fullscreenElement?'Exit fullscreen':'Fullscreen';document.querySelectorAll('[data-fullscreen-label]').forEach(el=>el.textContent=$('#fullscreen').textContent);if(currentStage===0&&!evidenceView)requestAnimationFrame(focusMain);if(currentStage===1&&checkpoint===null&&!evidenceView)requestAnimationFrame(()=>{focusMap();startTravel();});});
+window.addEventListener('resize',()=>{resizeInterface();if(currentStage===1&&checkpoint===null&&!evidenceView)requestAnimationFrame(()=>{focusMap();startTravel();});});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseTravel();else startTravel();});
 document.addEventListener('rainy-ink-mode',event=>{if(event.detail.drawing){pauseTravel();if(state().mapWalk&&$('#walk-status'))$('#walk-status').textContent='Walking paused for annotation. Choose Interact to continue.';}else{startTravel();if($('#walk-status'))updateWalkControls();}});
-$('#restart').addEventListener('click',()=>$('#restart-dialog').showModal());
+$('#restart').addEventListener('click',()=>{setMenu(false);$('#restart-dialog').showModal();});
 $('#cancel-restart').addEventListener('click',()=>$('#restart-dialog').close());
 $('#confirm-restart').addEventListener('click',()=>{if(teacher)teacherState=freshState();else studentState=freshState();currentStage=0;checkpoint=null;activeKey=0;evidenceView=null;keyActivity=false;unlockAnimation=null;feedback='';animateGate=false;$('#restart-dialog').close();render();focusMain();notify('Current journey restarted.');});
+$('#menu-toggle').addEventListener('click',()=>setMenu($('#adventure-menu').hidden));
+$('#menu-close').addEventListener('click',()=>{setMenu(false);$('#menu-toggle').focus();});
+document.addEventListener('keydown',event=>{if(event.key!=='Escape'||document.querySelector('dialog[open]'))return;if(!$('#adventure-menu').hidden){setMenu(false);$('#menu-toggle').focus();return;}const open=$('#adventure details.game-sheet[open]');if(open){open.open=false;interfaceSheets.set(sheetKey(open.dataset.sheet),false);open.querySelector('summary').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});}});
+resizeInterface();
 render();
