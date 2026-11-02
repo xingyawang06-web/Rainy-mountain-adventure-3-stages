@@ -37,7 +37,8 @@ const {pathToFileURL}=require('node:url');
   assert.match(await page.locator('main h2').innerText(),new RegExp(`Congratulations! You’ve earned the Clue Card for Gate ${i+1}!`));
   assert.equal(await page.locator('#checkpoint-final-final').count(),0);await act('continue-journey');
   assert.equal(await page.evaluate(()=>state().checkpoints.filter(c=>c.complete).length),i+1);
-  const animation=await page.locator('#road-explorers').evaluate(el=>el.getAnimations().length);assert(animation>0);
+  await page.waitForFunction(()=>document.querySelector('#road-explorers')?.classList.contains('is-walking'));
+  await page.waitForFunction(()=>!state().mapWalk);
  }
  assert.equal(await page.evaluate(()=>CONTENT.checkpoints[3].challenges[0].answers[0]),1);
  assert.deepEqual(await page.evaluate(()=>CONTENT.checkpoints[3].challenges[0].refs),[3]);
@@ -46,7 +47,9 @@ const {pathToFileURL}=require('node:url');
  await page.locator('#annotation-toggle').click();assert(await page.locator('#annotation-toolbar').isVisible());assert.equal(await page.evaluate(()=>JSON.stringify(studentState)),studentBefore);
  await page.locator('#ink-hide').click();
  for(let key=0;key<3;key++){
-  if(key>0){await page.locator('#teacher').check();await stage(2);await page.locator(`[data-key-tab="${key}"]`).click();}
+  if(key>0){await page.locator('#teacher').check();await stage(2);}
+  await page.locator(`[data-open-key="${key}"]`).click();
+  if(key===0)for(let branch=0;branch<3;branch++)await act('reveal-land-branch');
   const links=await page.evaluate(k=>[EVIDENCE_LINKS.land,EVIDENCE_LINKS.history,EVIDENCE_LINKS.memory][k],key);
   for(const link of links){
    const before=await page.evaluate(()=>JSON.stringify(state()));const phase=await page.evaluate(()=>activeKey);
@@ -56,7 +59,9 @@ const {pathToFileURL}=require('node:url');
    }
    await act('back-evidence');assert.equal(await page.evaluate(()=>JSON.stringify(state())),before);assert.equal(await page.evaluate(()=>activeKey),phase);
   }
+  await act('back-gate');
  }
+ await page.locator('[data-open-key="2"]').click();
  // Annotation tools on an original paragraph, real pointer input, history and persistence.
  await page.locator('[data-text-refs]').first().click();
  await page.locator('#annotation-toggle').click();await page.locator('#ink-tool').selectOption('pen');

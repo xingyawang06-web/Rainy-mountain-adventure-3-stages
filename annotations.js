@@ -11,7 +11,7 @@ window.Annotations = (() => {
   function commit(item){snapshot();history().items.push(item);draw();}
   function settings(){return {color:byId('ink-color').value,size:Number(byId('ink-size').value)};}
   function updateButtons(){const h=history();byId('ink-undo').disabled=!h.undo.length;byId('ink-redo').disabled=!h.redo.length;}
-  function selectMode(value){tool=value;byId('ink-tool').value=value;if(svg){svg.style.pointerEvents=teacher&&opened&&value!=='interact'?'all':'none';svg.style.touchAction=value==='interact'?'auto':'none';}byId('annotation-toggle').setAttribute('aria-expanded',String(opened));}
+  function selectMode(value){tool=value;byId('ink-tool').value=value;if(svg){svg.style.pointerEvents=teacher&&opened&&value!=='interact'?'all':'none';svg.style.touchAction=value==='interact'?'auto':'none';}byId('annotation-toggle').setAttribute('aria-expanded',String(opened));document.dispatchEvent(new CustomEvent('rainy-ink-mode',{detail:{drawing:teacher&&opened&&value!=='interact'}}));}
   function show(value){opened=value&&teacher;byId('annotation-toolbar').hidden=!opened;document.body.classList.toggle('ink-tools-open',opened);selectMode('interact');}
   function hash(text){let h=2166136261;for(const c of text)h=Math.imul(h^c.charCodeAt(0),16777619);return (h>>>0).toString(36);}
   function prepareAnchors(){

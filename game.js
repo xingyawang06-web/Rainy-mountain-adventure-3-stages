@@ -325,7 +325,8 @@ const EVIDENCE_LINKS = {
   history: [{label:'Clue Card 1 — Origins',refs:[4]},{label:'Clue Card 2 — Migration & Transformation',refs:[4,6,7,8]},{label:'Clue Card 3 — Rise & Decline',refs:[3,4,9]}],
   memory: [{label:'Clue Card 4 — Aho’s Life & Memories',refs:[3,5,9]},{label:'Clue Card 5 — Momaday’s Memories',refs:[8,10,11,12,13]}]
 };
-let evidenceView=null, presenter=false, mapTravel=null, travelTimer=null;
+let evidenceView=null, presenter=false;
+let keyActivity=false, unlockAnimation=null, revealedBranch=-1;
 function source(refs) {
  return `<button type="button" class="text-return" data-text-refs="${refs.join(',')}">Return to the Text · ${paragraphRefs(refs)}</button>`;
 }
@@ -336,17 +337,17 @@ function knowledgeEvidenceHTML(){
 function screenIdentity(){
  const mode=teacher?'rehearsal':'student';
  if(evidenceView)return `${mode}:text:${evidenceView.refs[evidenceView.index]}`;
- return `${mode}:stage:${currentStage}:gate:${checkpoint??'map'}:question:${checkpoint===null?'':state().checkpoints[checkpoint].step}:key:${currentStage===2?activeKey:''}`;
+ return `${mode}:stage:${currentStage}:gate:${checkpoint??'map'}:question:${checkpoint===null?'':state().checkpoints[checkpoint].step}:key:${currentStage===2?(keyActivity?activeKey:'gate'):''}`;
 }
 function openEvidence(refs){
  const valid=[...new Set(refs)].filter(n=>Object.hasOwn(CONTENT.paragraphs,n));if(!valid.length)return;
- if(!evidenceView)evidenceView={refs:valid,index:0,origin:{stage:currentStage,checkpoint,key:activeKey,scroll:window.scrollY,details:[...document.querySelectorAll('#adventure details')].map(el=>el.open)}};
+ if(!evidenceView)evidenceView={refs:valid,index:0,origin:{stage:currentStage,checkpoint,key:activeKey,keyActivity,scroll:window.scrollY,details:[...document.querySelectorAll('#adventure details')].map(el=>el.open)}};
  else {evidenceView.refs=valid;evidenceView.index=0;}
  feedback='';render();focusMain();
 }
 function closeEvidence(){
  if(!evidenceView)return;const saved=evidenceView.origin;evidenceView=null;
- currentStage=saved.stage;checkpoint=saved.checkpoint;activeKey=saved.key;feedback='';render();
+ currentStage=saved.stage;checkpoint=saved.checkpoint;activeKey=saved.key;keyActivity=saved.keyActivity;feedback='';render();
  document.querySelectorAll('#adventure details').forEach((el,i)=>el.open=!!saved.details[i]);
  requestAnimationFrame(()=>window.scrollTo({top:saved.scroll,behavior:'instant'}));
 }
@@ -380,19 +381,9 @@ const EVIDENCE = [
   [ [[10,'turning meat in a great iron skillet'],[10,'bent above her beadwork'],[10,'I do not speak Kiowa, and I never understood her prayers']], [[12,'feasting and talk'],[13,'There were frequent prayer meetings, and great nocturnal feasts.'],[13,'I played with my cousins outside']], [[8,'My grandmother said:'],[8,'the Kiowas have kinsmen in the night sky']] ]
 ];
 const KEYS = [
-  {refs:[1,2,5,15], opening:'What have we learned about Rainy Mountain?',
-   fields:[['A solitary','knoll'],['The ________ of Oklahoma','Plains'],['A place Aho','lived'],['Momaday’s return to visit her','grave']],
-   context:['Distinctive seasonal weather and surroundings','Resting place of family members and ancestors','A place associated with the family’s past'],
-   questions:['Is Rainy Mountain simply a beautiful place?','Why is this particular place important to Momaday?','What do we call a place connecting someone with ancestors and family history?'],
-   name:'Ancestral Land', branches:'Landscape; Aho’s grave; family and ancestral connections'},
-  {refs:[3,4,6,7,8,9],opening:'What happened to the Kiowas over time?',
-   fields:[['Original homeland','Western Montana'],['Early way of life','mountain hunting'],['Movement toward the','Plains'],['Acquisition of','horses'],['Skilled ________ and warriors','horsemen'],['Military','defeat'],['Disruption of the ________ tradition','Sun Dance']],
-   context:['Cultural encounters and religious traditions','Power on the southern Plains'],
-   questions:['Can we connect these events in chronological order?','Does this timeline tell us only where they went?','What can we call this shared past of a people?'],name:'Tribal History',branches:'Origins; migration and transformation; rise and decline; traditions and beliefs'},
-  {refs:[3,5,8,9,10,11,12,13],opening:'Whose lives and memories connect these details?',
-   fields:[['Born near the end of the Kiowas’','great era'],['Inherited memories of ancestral','lands'],['Remembered the ________ tradition','Sun Dance'],['Aho’s prayers in the ________ language','Kiowa'],['Family ________ at Aho’s home','gatherings']],
-   context:['Childhood experiences and intergenerational stories'],
-   questions:['Are these memories only about Aho?','How do Aho’s experiences become part of Momaday’s memories?','What general name describes memories shared within a family across generations?'],name:'Family Memories',branches:'Aho’s experiences; prayers and storytelling; gatherings; Momaday’s childhood'}
+ {refs:[1,2,5,15],name:'Ancestral Land',branches:'Landscape; Aho’s grave; family and ancestral connections'},
+ {refs:[3,4,6,7,8,9],name:'Tribal History',branches:'Origins; migration and transformation; rise and decline; traditions and beliefs'},
+ {refs:[3,5,8,9,10,11,12,13],name:'Family Memories',branches:'Aho’s experiences; prayers and storytelling; gatherings; Momaday’s childhood'}
 ];
 const ROOT_QUESTIONS = ['Why did Momaday make this journey?','If he wanted only to visit Aho’s grave, why recount Kiowa origins, migration, history and traditions?','What do ancestral land, tribal history and family memories have in common?','How do these elements help Momaday understand who he is?'];
 const LEARNER_REFLECTION = ['Vocabulary recognition and application','Textual interpretation','Evidence collection and reconstruction','Understanding of cultural identity and its development'];
@@ -400,10 +391,11 @@ const OBSERVER_REFLECTION = ['How did the game support or limit learning?','How 
 function freshState() {
   return {matched:[], selected:null, landscape:{}, reconstruction:{}, reconstructed:false, stage1:false,
     checkpoints:CONTENT.checkpoints.map(c => ({step:0, solved:false, evidence:{}, confirmed:[], complete:false, answers:{}, finalDiscussion:''})),
-    keys:KEYS.map(() => ({phase:0,values:[],discussion:'',guess:'',unlocked:false})),mapPosition:0,gateOpen:false,roots:0,trunk:false,growth:[],growthDraft:'',growthKind:'Experiences',rootDiscussion:'',reflections:{},complete:false};
+    keys:KEYS.map(() => ({revealed:0,answerShown:false,discussion:'',unlocked:false})),mapPosition:0,mapFacing:1,mapWalk:null,gateOpen:false,roots:0,trunk:false,growth:[],growthDraft:'',growthKind:'Experiences',rootDiscussion:'',reflections:{},complete:false};
 }
 let studentState=freshState(), teacherState=freshState(), teacher=false;
 let currentStage=-1, checkpoint=null, activeKey=0, soundEnabled=false, audio=null;
+const toneVoices=new Set();
 let feedback='';
 const state=()=>teacher?teacherState:studentState;
 function notify(message) { $('#announcement').textContent=message; }
@@ -416,7 +408,7 @@ function tone(success=true) {
     [success?392:196,success?523:164,success?659:146].forEach((frequency,i)=>{
       const osc=audio.createOscillator(),gain=audio.createGain();osc.type='sine';osc.frequency.value=frequency;
       gain.gain.setValueAtTime(0,t+i*.1);gain.gain.linearRampToValueAtTime(.07,t+i*.1+.015);gain.gain.exponentialRampToValueAtTime(.001,t+i*.1+.22);
-      osc.connect(gain);gain.connect(audio.destination);osc.start(t+i*.1);osc.stop(t+i*.1+.24);
+      osc.connect(gain);gain.connect(audio.destination);const voice={osc,gain};toneVoices.add(voice);osc.onended=()=>{toneVoices.delete(voice);osc.disconnect();gain.disconnect();};osc.start(t+i*.1);osc.stop(t+i*.1+.24);
     });
   }catch {soundEnabled=false;$('#sound').textContent='Sound unavailable';notify('Sound is unavailable. All activities still work.');}
 }
@@ -424,10 +416,19 @@ function unlockedStage(n){return teacher||n===0||(n===1?state().stage1:state().c
 function goStage(n) {
   if(!Number.isInteger(n)||n<0||n>2)return;
   if(!unlockedStage(n)){notify(n===1?'Complete the landscape activities first. Teachers can use Teacher access.':'Collect all five checkpoint clues first. Teachers can use Teacher access.');return;}
-  evidenceView=null;currentStage=n;checkpoint=null;feedback='';render();focusMain();
+  evidenceView=null;keyActivity=false;currentStage=n;checkpoint=null;feedback='';render();focusMain();
 }
-function focusMain() {$('#adventure').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});}
+function focusMain() {
+ $('#adventure').focus({preventScroll:true});
+ if(currentStage===1&&checkpoint===null&&!evidenceView){focusMap();return;}
+ if(currentStage===0&&!evidenceView){$('.landscape-layout')?.scrollIntoView({block:'center',behavior:'instant'});return;}
+ window.scrollTo({top:0,behavior:'instant'});
+}
+function focusMap(){const shell=$('.map-shell');if(!shell)return;const r=shell.getBoundingClientRect(),usable=innerHeight-Math.max(56,$('#announcement')?.offsetHeight||0);window.scrollTo({top:scrollY+r.top-Math.max(8,(usable-r.height)/2),behavior:'instant'});}
+
 function render(){
+  pauseTravel();
+  const bankScroll=$('.phrase-bank')?.scrollTop||0;
   const s=state();
   document.querySelectorAll('[data-stage]').forEach(button=>{
     const n=Number(button.dataset.stage);button.disabled=!unlockedStage(n);
@@ -442,8 +443,12 @@ function render(){
   $('#progress').textContent=currentStage<0?'Adventure home':`Stage ${currentStage+1} of 3${checkpoint!==null?` · Gate ${checkpoint+1}`:''}`;
   $('#adventure').className=currentStage<0?'home-screen':`stage-${currentStage}`;
   $('#adventure').innerHTML=evidenceView?evidenceHTML():currentStage<0?homeHTML():currentStage===0?landscapeHTML():currentStage===1?(checkpoint===null?mapHTML():checkpointHTML()):gateHTML();
+  if($('.phrase-bank'))$('.phrase-bank').scrollTop=bankScroll;
   animateGate=false;
+  unlockAnimation=null;
+  revealedBranch=-1;
   window.Annotations?.mount(screenIdentity());
+  observeMap();
   startTravel();
   notify(feedback);
 }
@@ -459,12 +464,12 @@ function landscapeHTML(){
  ${textArea('overall','Explain the landscape’s overall characteristics, including isolation, scale, and its effect on the imagination.',s.landscape.overall,'landscape')}
  ${teacherNotes('<p>The foliage appears to move or twist in intense heat as if in fire; this is a comparison, not a literal forest fire. Brittle grass is dry and breaks easily. Isolation and scale awaken the imagination.</p>')}
  <button data-action="landscape-confirm">Complete landscape & unlock map</button>`:'<p>Match all nine expressions to unlock explanation and reconstruction.</p>'}
- ${s.stage1?'<p class="success">Landscape reconstructed. The adventure map is unlocked.</p><button data-action="to-map">Explore the map →</button>':''}</div></section>`;
+ <div id="landscape-completion" class="${s.stage1?'landscape-complete':''}">${s.stage1?landscapeCompletionHTML():''}</div></div></section>`;
 }
 function textArea(id,label,value,group){return `<label for="${group}-${id}">${escapeHTML(label)}</label><textarea id="${group}-${id}" rows="3" data-group="${group}" data-field="${id}">${escapeHTML(value)}</textarea>`;}
 function mapHTML(){
- const s=state(),points=[[26.6,85.6],[44,72.8],[64.7,58.8],[45,47.5],[68.8,39.8],[92.5,37.5]];
- return `<section><div class="panel intro"><p class="eyebrow">Stage 2 · Read → Find Evidence → Discuss → Choose a Path → Collect a Clue</p><h2>Journey Through History and Memory</h2><p>Follow the five gates in order. A wrong turn returns you to the text; earned clues stay in your collection.</p>${teacher?'<p class="success">Teacher rehearsal: select any gate independently.</p>':''}</div><div class="scene map-scene"><img src="assets/background-stage%202.png" alt="Adventure trail with five gates leading to the final gate.">${explorerHTML(points)}${points.map(([x,y],i)=>{const locked=i<5?!teacher&&i>0&&!s.checkpoints[i-1].complete:!unlockedStage(2);return `<button class="map-marker ${i<5&&s.checkpoints[i].complete?'earned':''}" style="left:${x}%;top:${y}%" ${i<5?`data-checkpoint="${i}"`:'data-action="final-gate"'} ${locked?'disabled':''} aria-label="${i<5?`Gate ${i+1}: ${escapeHTML(CONTENT.checkpoints[i].title)}`:'Final Gate'}">${i<5?(s.checkpoints[i].complete?'✓':i+1):'Gate'}</button>`;}).join('')}</div><div class="panel"><h3>Route & clue collection · ${s.checkpoints.filter(c=>c.complete).length} / 5</h3><div class="route-list">${CONTENT.checkpoints.map((c,i)=>`<button data-checkpoint="${i}" ${!teacher&&i>0&&!s.checkpoints[i-1].complete?'disabled':''}>${i+1}. ${escapeHTML(c.title)} ${s.checkpoints[i].complete?'✓':''}</button>`).join('')}</div>${s.checkpoints.map((c,i)=>c.complete?`<details><summary>Clue ${i+1} · ${escapeHTML(CONTENT.checkpoints[i].title)}</summary><div class="document-notes">${escapeHTML(CONTENT.checkpoints[i].clue)}</div></details>`:'').join('')}</div></section>`;
+ const s=state(),points=ROAD_GATES;
+ return `<section><div class="panel intro"><p class="eyebrow">Stage 2 · Read → Find Evidence → Discuss → Choose a Path → Collect a Clue</p><h2>Journey Through History and Memory</h2><p>Follow the five gates in order. A wrong turn returns you to the text; earned clues stay in your collection.</p>${teacher?'<p class="success">Teacher rehearsal: select any gate independently.</p>':''}</div><div class="map-shell"><div class="scene map-scene"><img src="assets/background-stage%202.png" alt="Adventure trail with five gates leading to the final gate.">${explorerHTML(points)}${points.map(([x,y],i)=>{const locked=!!s.mapWalk||(i<5?!teacher&&i>0&&!s.checkpoints[i-1].complete:!unlockedStage(2));return `<button class="map-marker ${i<5&&s.checkpoints[i].complete?'earned':''}" style="left:${x}%;top:${y}%" ${i<5?`data-checkpoint="${i}"`:'data-action="final-gate"'} ${locked?'disabled':''} aria-label="${i<5?`Gate ${i+1}: ${escapeHTML(CONTENT.checkpoints[i].title)}`:'Final Gate'}">${i<5?(s.checkpoints[i].complete?'✓':i+1):'Gate'}</button>`;}).join('')}</div>${mapControlsHTML()}</div><div class="panel"><h3>Route & clue collection · ${s.checkpoints.filter(c=>c.complete).length} / 5</h3><div class="route-list">${CONTENT.checkpoints.map((c,i)=>`<button data-checkpoint="${i}" ${s.mapWalk||(!teacher&&i>0&&!s.checkpoints[i-1].complete)?'disabled':''}>${i+1}. ${escapeHTML(c.title)} ${s.checkpoints[i].complete?'✓':''}</button>`).join('')}</div>${s.checkpoints.map((c,i)=>c.complete?`<details><summary>Clue ${i+1} · ${escapeHTML(CONTENT.checkpoints[i].title)}</summary><div class="document-notes">${escapeHTML(CONTENT.checkpoints[i].clue)}</div></details>`:'').join('')}</div></section>`;
 }
 function quoteHTML(refs){return refs.map(([p,quote])=>`<blockquote>“${escapeHTML(quote)}”<cite>P${p}</cite></blockquote>`).join('');}
 function checkpointHTML(){
@@ -478,18 +483,39 @@ function checkpointHTML(){
  ${!cp.solved?'<button data-action="check-answer">Choose this path</button>':`<p class="success">Correct route. Find and discuss the evidence.</p><h3>Evidence Challenge</h3><p>${checkpoint===0?'Which expressions in Paragraph 4 support your answers?':'Find textual evidence to support your choices.'}</p>${textArea('response','Record supporting expressions, paragraph references, and your team’s interpretation.',cp.evidence[cp.step],'evidence')}${cp.confirmed.includes(cp.step)?`<p>Evidence recorded. Continue after discussion.</p><button data-action="next-challenge">${cp.step===data.challenges.length-1?'Earn Clue Card':'Next challenge →'}</button>`:'<button data-action="confirm-evidence">Confirm discussion & continue</button>'}`}${teacherNotes(notes)}</section>`;
 }
 function gateHTML(){
- const s=state();
- return `<section><div class="panel intro"><p class="eyebrow">Stage 3 · Finding Our Cultural Roots</p><h2>${s.gateOpen?'Discover the Roots':'The Final Gate — Discover the Three Keys'}</h2><p>${s.gateOpen?'Use P14–P15 with the whole text to connect the journey with cultural identity.':'From Details → Connections → Categories. Reconstruct the evidence, discuss its connections, and infer each key’s name.'}</p></div>
- <div class="gate-scene ${s.gateOpen?'open':''} ${animateGate?'opening':''}" aria-label="${s.gateOpen?'The gate is open':'The gate is locked'}"><div class="gate-destination"><img src="assets/explorers.png" alt="Explorers arriving at Rainy Mountain"><p>${s.gateOpen?'Explorers reach Rainy Mountain.':'Three discoveries open the way.'}</p></div><img class="door left" src="assets/left%20door.png" alt="Left gate door"><img class="door right" src="assets/right%20door.png" alt="Right gate door"></div>
- <div class="panel"><div class="lock-row">${s.keys.map((k,i)=>`<button data-key-tab="${i}" aria-pressed="${activeKey===i}" ${!teacher&&i>0&&!s.keys[i-1].unlocked?'disabled':''}><img src="assets/${k.unlocked?'key.png':'lock%20closed.png'}" alt="${k.unlocked?'Unlocked key':'Closed lock'}"><span>${k.unlocked?escapeHTML(KEYS[i].name):`Unknown key ${i+1}`}</span></button>`).join('')}</div>
- ${!s.gateOpen?keyHTML():`<h3>Completed mind map</h3><div class="mindmap">${KEYS.map(k=>`<article><h4>${escapeHTML(k.name)}</h4><p>${escapeHTML(k.branches)}</p></article>`).join('')}</div><p class="success">All three keys collected. The final gate opens.</p><button data-action="replay-gate">Replay door opening</button>`}</div>
- ${s.gateOpen?treeHTML():''}</section>`;
+ const s=state();if(keyActivity)return keyHTML();
+ const ready=s.keys.every(k=>k.unlocked);
+ return `<section class="final-gate-screen"><div class="panel gate-heading"><p class="eyebrow">Stage 3 · The Final Gate</p><h2>Discover the Three Keys</h2><p>Explore the evidence together. Your teacher controls when each shared meaning is revealed.</p></div>
+ <div class="final-gate-scene ${s.gateOpen?'legacy-open':''} ${animateGate?'legacy-opening':''}" aria-label="${s.gateOpen?'Open double-door gate':'Fully closed double-door gate'}">
+ <div class="gate-beyond"><img src="assets/explorers.png" alt="Explorers arriving at Rainy Mountain"></div>
+ <img class="complete-gate" src="assets/whole%20gate.png" alt="The original complete double-door gate in its landscape">
+ <div class="original-leaf original-left"><img src="assets/left%20door.png" alt="Original left door"></div>
+ <div class="original-leaf original-right"><img src="assets/right%20door.png" alt="Original right door"></div>
+ ${s.gateOpen?'':s.keys.map((k,i)=>`<button type="button" class="door-lock lock-${i} ${k.unlocked?'is-unlocked':''} ${unlockAnimation===i?'just-unlocked':''}" data-open-key="${i}" aria-label="${k.unlocked?`Review ${KEYS[i].name}`:`Explore lock ${i+1}`}" data-ink-region="door-lock-${i}"><img src="assets/${k.unlocked?'lock.png':'lock%20closed.png'}" alt="${k.unlocked?'Unlocked':'Locked'}"><span>${i+1}${k.unlocked?' ✓':''}</span>${unlockAnimation===i?'<img class="turning-key" src="assets/key.png" alt="Key unlocking the lock">':''}</button>`).join('')}
+ </div>
+ <div class="panel gate-status"><p role="status">${s.keys.filter(k=>k.unlocked).length} of 3 keys collected. ${ready?'All three locks are unlocked. The gate is ready.':'Click a lock to open its knowledge map.'}</p>
+ <div class="earned-keys">${s.keys.map((k,i)=>k.unlocked?`<span><img src="assets/key.png" alt="Earned key">${escapeHTML(KEYS[i].name)}</span>`:'').join('')}</div>
+ ${teacherNotes('<p>Use Teacher presentation to guide this student journey. Independent rehearsal has separate progress and can use reference copies of clue cards without earning them.</p>')}
+ ${ready&&!s.gateOpen?'<p class="small">Phase 2 complete. The new door transition and cultural identity sequence belong to Phase 3.</p>'+((presenter||teacher)?'<details><summary>Previously existing roots activity</summary><p>This optional activity is unchanged. It is separate from the planned Phase 3 redesign.</p><button data-action="legacy-roots">Open gate & visit existing activity</button></details>':''):''}
+ </div>${s.gateOpen?treeHTML():''}</section>`;
 }
 function keyHTML(){
- const k=KEYS[activeKey],progress=state().keys[activeKey];
- if(progress.unlocked)return `<h3>Key discovered: ${escapeHTML(k.name)}</h3><p>${escapeHTML(k.branches)}</p>${activeKey<2?'<button data-action="next-key">Explore the next key →</button>':''}`;
- return `<p class="eyebrow">Unknown key ${activeKey+1} · ${paragraphRefs(k.refs)}</p><h3>${escapeHTML(k.opening)}</h3>${source(k.refs)}${knowledgeEvidenceHTML()}
- ${progress.phase===0?`<h4>Step 1 — Recall and Complete</h4><div class="key-fields">${k.fields.map(([label],i)=>`<label>${escapeHTML(label)} <input data-key-field="${i}" value="${escapeHTML(progress.values[i]||'')}" aria-label="${escapeHTML(label)}"></label>`).join('')}</div>${list(k.context)}<button data-action="check-key-details">Connect these details →</button>${teacher?'<button data-action="key-fill">Teacher rehearsal: show suggested fill-ins</button>':''}`:progress.phase===1?`<h4>Step 2 — Connect the Clues</h4>${list(k.questions)}${textArea('connections','Discuss the questions and record your connections.',progress.discussion,'key-discussion')}<button data-action="key-connect">Teacher: confirm connections →</button>`:`<h4>Step 3 — Name the Category</h4><p>What shared category connects these details?</p><label for="key-name">Our inferred key name</label><input id="key-name" data-key-name value="${escapeHTML(progress.guess)}"><button data-action="unlock-key">Try this key</button>${teacher?'<button data-action="key-reveal">Teacher rehearsal: reveal this key</button>':''}`}`;
+ const s=state(),k=KEYS[activeKey],progress=s.keys[activeKey],control=presenter||teacher;
+ const questions=['What makes Rainy Mountain more than a place?','What do these clues tell us about the Kiowa people?','What do these clues tell us about Momaday and his grandmother?'];
+ const links=[EVIDENCE_LINKS.land,EVIDENCE_LINKS.history,EVIDENCE_LINKS.memory][activeKey];
+ const refs=[...new Set(links.flatMap(link=>link.refs))].sort((a,b)=>a-b);
+ const landContent=[
+  'A solitary knoll in the Oklahoma plain; seasonal weather, grass, waterways, and living creatures.',
+  'Momaday returns to Aho’s grave. This place connects the landscape with his grandmother and family.',
+  'The Kiowas’ landmark, inherited memories, and ancestral names connect the place with a shared past.'
+ ];
+ return `<section class="panel knowledge-map" data-knowledge-key="${activeKey}"><div class="knowledge-toolbar"><button data-action="back-gate">← Back to the Gate</button>${source(refs)}</div><p class="eyebrow">Lock ${activeKey+1} · From evidence to shared meaning</p><h2 class="challenge-question" data-ink-region="key-question-${activeKey}">${questions[activeKey]}</h2>
+ ${activeKey===0?`<p>Discuss each connection before revealing the next branch.</p><div class="knowledge-branches">${links.map((link,i)=>i<progress.revealed?`<article class="knowledge-branch ${revealedBranch===i?'just-revealed':''}" data-ink-region="land-branch-${i}"><h3>${escapeHTML(link.label)}</h3><p>${landContent[i]}</p><button data-text-refs="${link.refs.join(',')}">Return to the Text · ${paragraphRefs(link.refs)}</button></article>`:'').join('')}</div>${control&&progress.revealed<3?'<button data-action="reveal-land-branch">Teacher: reveal next branch</button>':''}`:
+ `<div class="synthesis-cards">${links.map((link,i)=>{const index=(activeKey===1?0:3)+i;return `<article class="synthesis-card" data-ink-region="synthesis-card-${index}"><h3>${escapeHTML(link.label)}</h3>${!s.checkpoints[index].complete?'<p class="reference-label">Teacher reference copy · not earned in this rehearsal</p>':''}<div class="card-content">${escapeHTML(CONTENT.checkpoints[index].clue.replace(/^Clue Card[^\n]*\n/,''))}</div><button data-text-refs="${link.refs.join(',')}">Return to the Text · ${paragraphRefs(link.refs)}</button></article>`;}).join('')}</div>`}
+ ${progress.answerShown?`<div class="synthesis-answer" data-ink-region="synthesis-answer-${activeKey}"><p>Our shared category</p><h3>${escapeHTML(k.name.toUpperCase())}</h3><img src="assets/key.png" alt="Discovered key"></div>`:'<p class="small">Discuss the shared meaning. The category name remains hidden until your teacher reveals it.</p>'}
+ ${control?`<div class="teacher-synthesis"><p class="small">Teacher-controlled discussion · no automatic grading</p>${!progress.answerShown?`<button data-action="reveal-key-meaning" ${activeKey===0&&progress.revealed<3?'disabled':''}>Teacher: reveal shared meaning</button>`:!progress.unlocked?'<button data-action="award-key">Teacher: award key & unlock door</button>':'<p>This key has already been collected.</p>'}</div>`:'<p class="small">Your teacher can enable Teacher presentation to reveal branches, reveal the shared meaning, and award this key.</p>'}
+ <details><summary>Optional team discussion notes</summary>${textArea('connections','Record the connections your team discussed. Notes are not graded or required to unlock the key.',progress.discussion,'key-discussion')}</details>
+ <button data-action="back-gate">Back to the Gate</button></section>`;
 }
 function treeHTML(){
  const s=state();
@@ -510,33 +536,106 @@ function returnToText(message){response(message);tone(false);const button=$('#ad
 function checkpointAccessible(i){return teacher||i===0||state().checkpoints[i-1].complete;}
 function routeToMap(){if(!unlockedStage(1)){notify('Complete Stage 1 first, or use Teacher access for independent presentation.');return;}evidenceView=null;currentStage=1;checkpoint=null;feedback='';render();focusMain();}
 function acceptKey(){
- const s=state();s.keys[activeKey].unlocked=true;tone();
- if(s.keys.every(k=>k.unlocked)){s.gateOpen=true;animateGate=true;feedback='All three keys collected. The gate opens!';}
- else feedback=`Key discovered: ${KEYS[activeKey].name}. The corresponding lock opens.`;
- render();
+ if(!(presenter||teacher))return;
+ const s=state(),progress=s.keys[activeKey];if(!progress.answerShown||progress.unlocked)return;
+ progress.unlocked=true;unlockAnimation=activeKey;keyActivity=false;s.gateOpen=false;
+ feedback=`Key awarded: ${KEYS[activeKey].name}. Lock ${activeKey+1} is unlocked.`;
+ tone();render();focusMain();
 }
 function maybeCompleteLandscape(){
  const s=state();if(!s.stage1&&s.matched.length===LANDSCAPE.length&&s.reconstructed&&['fire','brittle','overall'].every(k=>s.landscape[k]?.trim())){
-  s.stage1=true;document.querySelectorAll('[data-stage="1"]').forEach(b=>b.disabled=false);$('#map-return').disabled=false;
+  s.stage1=true;const completion=$('#landscape-completion');if(completion){completion.innerHTML=landscapeCompletionHTML();completion.classList.add('landscape-complete');}document.querySelectorAll('[data-stage="1"]').forEach(b=>b.disabled=false);$('#map-return').disabled=false;
   if(currentStage===0)$('#next').disabled=false;notify('Landscape complete! Stage 2 is unlocked.');
  }
 }
 function changeEvidence(delta){if(!evidenceView)return;evidenceView.index=Math.max(0,Math.min(evidenceView.refs.length-1,evidenceView.index+delta));render();focusMain();}
 function collectGateClue(){const cp=state().checkpoints[checkpoint];if(cp.confirmed.length!==CONTENT.checkpoints[checkpoint].challenges.length)return;cp.complete=true;response(`Congratulations! You’ve earned the Clue Card for Gate ${checkpoint+1}!`,true,true);focusMain();}
-function continueJourney(){const from=state().mapPosition,to=Math.min(5,checkpoint+1);state().mapPosition=to;mapTravel={from,to};routeToMap();}
-function explorerHTML(points){const index=state().mapPosition||0;const [x,y]=points[index];return `<img id="road-explorers" class="road-explorers" src="assets/explorers.png" alt="Explorer group at ${index===5?'the Final Gate':`Gate ${index+1}`}" style="left:${x}%;top:${y}%">`;}
+// Coordinates follow the road in the unmodified 1672×941 Stage 2 artwork.
+const ROAD_GATES=[[26.6,85.6],[44,72.8],[64.7,58.8],[45,47.5],[68.8,39.8],[92.5,37.5]];
+const ROAD_LEGS=[
+ [[26.6,85.6],[31,86],[36,85.7],[40,84.6],[43,82.7],[44.4,80.5],[44.8,78.8],[44.3,77.3],[42.8,75.7],[42,74.7],[42.7,73.6],[44,72.8]],
+ [[44,72.8],[49.3,70.7],[55.3,69.2],[61.3,67.6],[67.3,66.2],[70.6,64.6],[71.3,63],[70.3,61.6],[67.3,60],[64.7,58.8]],
+ [[64.7,58.8],[59.8,58.3],[53.8,57.9],[47.9,57.4],[42.5,56.8],[38.9,55.3],[37.4,53.9],[37.1,53],[38,51.8],[40.1,50.3],[42.5,48.9],[45,47.5]],
+ [[45,47.5],[49.3,47.6],[55.3,47.1],[59.8,46.4],[63.5,45.2],[65.8,43.6],[66.7,41.7],[67.6,40.5],[68.8,39.8]],
+ [[68.8,39.8],[73.1,39.6],[79.1,39.85],[83.6,40.05],[87.1,39.7],[89.8,38.3],[92.5,37.5]]
+];
+let walkFrame=0,walkOwner=null,walkLastTime=null,mapObserver=null,mapResizeObserver=null,footstepOutput=null,footstepBuffer=null;
+const footstepVoices=new Set();
+function roadPath(from,to){
+ const path=[];for(let i=Math.min(from,to);i<Math.max(from,to);i++)path.push(...ROAD_LEGS[i].slice(i===Math.min(from,to)?0:1));
+ return from<=to?path:path.reverse();
+}
+function roadLength(path){return path.slice(1).reduce((sum,p,i)=>sum+Math.hypot(p[0]-path[i][0],(p[1]-path[i][1])*941/1672),0);}
+function roadPoint(walk){
+ const path=walk.path,distance=roadLength(path)*Math.min(1,walk.elapsed/walk.duration);let used=0;
+ for(let i=1;i<path.length;i++){const a=path[i-1],b=path[i],length=Math.hypot(b[0]-a[0],(b[1]-a[1])*941/1672);if(used+length>=distance){const t=length?(distance-used)/length:0;return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];}used+=length;}
+ return path.at(-1);
+}
+function continueJourney(){
+ const s=state(),from=s.mapPosition,to=Math.min(5,checkpoint+1);
+ if(from!==to){const path=roadPath(from,to);s.mapWalk={from,to,path,elapsed:0,duration:Math.max(3000,roadLength(path)*145),paused:false,nextStep:0};}
+ routeToMap();
+}
+function explorerHTML(){
+ const s=state(),point=s.mapWalk?roadPoint(s.mapWalk):ROAD_GATES[s.mapPosition||0];
+ return `<div id="road-explorers" class="road-explorers" role="img" aria-label="Q-style explorer group on the road" style="left:${point[0]}%;top:${point[1]}%;--walker-width:${walkerWidth(point[1])}%;--walker-facing:${s.mapWalk?.facing||s.mapFacing||1}"><img id="walker-art" src="assets/explorers.png" alt=""></div>`;
+}
+function walkerWidth(y){return 6.5+Math.max(0,Math.min(1,(y-37.5)/(85.6-37.5)))*5;}
+function mapControlsHTML(){return `<div class="map-controls"><p id="walk-status" role="status">${walkStatus()}</p><div><button data-action="map-home">Home</button><button data-action="map-sound" data-sound-label>Sound: ${soundEnabled?'on':'off'}</button><button data-action="map-fullscreen" data-fullscreen-label>${document.fullscreenElement?'Exit fullscreen':'Fullscreen'}</button><button data-action="toggle-walk" id="walk-pause" ${state().mapWalk?'':'hidden'}>${state().mapWalk?.paused?'Resume walking':'Pause walking'}</button>${presenter||teacher?'<button data-action="skip-walk" id="walk-skip" '+(state().mapWalk?'':'hidden')+'>Teacher: skip travel</button>':''}</div></div>`;}
+function walkStatus(){const s=state();return s.mapWalk?(s.mapWalk.paused?'Walking paused. Resume when ready.':`Walking toward ${s.mapWalk.to===5?'the Final Gate':`Gate ${s.mapWalk.to+1}`}…`):`Explorers are at ${s.mapPosition===5?'the Final Gate':`Gate ${s.mapPosition+1}`}. Choose a gate to explore.`;}
+function updateWalkControls(){
+ const walking=!!state().mapWalk;
+ $('#walk-status')&&( $('#walk-status').textContent=walkStatus());
+ if($('#walk-pause')){$('#walk-pause').hidden=!walking;$('#walk-pause').textContent=state().mapWalk?.paused?'Resume walking':'Pause walking';}
+ if($('#walk-skip'))$('#walk-skip').hidden=!walking;
+ document.querySelectorAll('[data-checkpoint],.map-marker[data-action="final-gate"]').forEach(button=>{const i=Number(button.dataset.checkpoint);button.disabled=walking||(Number.isInteger(i)?!checkpointAccessible(i):!unlockedStage(2));});
+}
+function stopFootsteps(){for(const voice of [...footstepVoices]){try{voice.gain.gain.cancelScheduledValues(audio.currentTime);voice.gain.gain.setValueAtTime(0,audio.currentTime);voice.source.stop();voice.source.disconnect();voice.gain.disconnect();}catch{}footstepVoices.delete(voice);}}
 function footstep(){
- if(!soundEnabled||!audio)return;
- try{const osc=audio.createOscillator(),gain=audio.createGain(),t=audio.currentTime;osc.type='triangle';osc.frequency.setValueAtTime(110,t);osc.frequency.exponentialRampToValueAtTime(45,t+.07);gain.gain.setValueAtTime(.055,t);gain.gain.exponentialRampToValueAtTime(.001,t+.09);osc.connect(gain);gain.connect(audio.destination);osc.start(t);osc.stop(t+.1);}catch{notify('Footstep audio unavailable. Navigation still works.');}
+ if(!soundEnabled||!audio||audio.state!=='running'||!walkOwner?.mapWalk||!$('#road-explorers')?.classList.contains('is-walking'))return;
+ try{
+  if(!footstepOutput){footstepOutput=audio.createGain();footstepOutput.connect(audio.destination);}
+  if(!footstepBuffer){footstepBuffer=audio.createBuffer(1,Math.floor(audio.sampleRate*.09),audio.sampleRate);const data=footstepBuffer.getChannelData(0);let smooth=0;for(let i=0;i<data.length;i++){smooth=smooth*.7+(Math.random()*2-1)*.3;data[i]=smooth;}}
+  const source=audio.createBufferSource(),gain=audio.createGain(),t=audio.currentTime;source.buffer=footstepBuffer;source.playbackRate.value=walkOwner.mapWalk.nextStep%720===0?1:.86;
+  gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(.6,t+.004);gain.gain.exponentialRampToValueAtTime(.0001,t+.085);source.connect(gain);gain.connect(footstepOutput);
+  const voice={source,gain};footstepVoices.add(voice);source.onended=()=>{footstepVoices.delete(voice);source.disconnect();gain.disconnect();};source.start();
+ }catch{notify('Footstep audio is unavailable. Please check the browser audio permission.');}
+}
+function pauseTravel(){
+ cancelAnimationFrame(walkFrame);walkFrame=0;walkLastTime=null;stopFootsteps();$('#road-explorers')?.classList.remove('is-walking');$('#walker-art')?.style.removeProperty('transform');
+}
+function mapInView(){const r=$('.map-scene')?.getBoundingClientRect();return r&&r.top>=-2&&r.bottom<=innerHeight+2;}
+function canWalk(){return currentStage===1&&checkpoint===null&&!evidenceView&&!document.hidden&&state().mapWalk&&!state().mapWalk.paused&&mapInView()&&$('#walker-art')?.complete&&$('#walker-art')?.naturalWidth>0&&$('.map-scene > img')?.complete&&$('.map-scene > img')?.naturalWidth>0&&$('.annotation-overlay')?.style.pointerEvents!=='all';}
+function positionExplorers(){
+ const el=$('#road-explorers');if(!el)return;const s=state(),point=s.mapWalk?roadPoint(s.mapWalk):ROAD_GATES[s.mapPosition];el.style.left=point[0]+'%';el.style.top=point[1]+'%';el.style.setProperty('--walker-width',walkerWidth(point[1])+'%');
 }
 function startTravel(){
- clearTimeout(travelTimer);if(currentStage!==1||checkpoint!==null||evidenceView||!mapTravel)return;
- const el=$('#road-explorers');if(!el)return;const points=[[26.6,85.6],[44,72.8],[64.7,58.8],[45,47.5],[68.8,39.8],[92.5,37.5]];
- const {from,to}=mapTravel;mapTravel=null;const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
- const route=[[26.6,85.6],[35,79],[44,72.8],[58,66],[69,62],[64.7,58.8],[52,55],[36,52],[38,49],[45,47.5],[56,46],[64,43],[68.8,39.8],[80,39],[92.5,37.5]];
- const stops=[0,2,5,9,12,14];const path=from<=to?route.slice(stops[from],stops[to]+1):route.slice(stops[to],stops[from]+1).reverse();
- if(!reduced&&from!==to){el.animate(path.map(([x,y])=>({left:x+'%',top:y+'%'})),{duration:1800,easing:'ease-in-out'});let ticks=0;const step=()=>{if(!soundEnabled||currentStage!==1||checkpoint!==null||evidenceView)return;footstep();if(++ticks<5)travelTimer=setTimeout(step,300);};step();}
+ if(walkFrame||!canWalk())return;walkOwner=state();walkOwner.mapWalk.nextStep=walkOwner.mapWalk.elapsed;walkLastTime=null;
+ const tick=time=>{
+  walkFrame=0;if(walkOwner!==state()||!canWalk()){pauseTravel();return;}
+  const walk=walkOwner.mapWalk;if(walkLastTime!==null)walk.elapsed=Math.min(walk.duration,walk.elapsed+Math.min(time-walkLastTime,100));walkLastTime=time;
+  const el=$('#road-explorers');el.classList.add('is-walking');positionExplorers();const here=roadPoint(walk),ahead=roadPoint({...walk,elapsed:Math.min(walk.duration,walk.elapsed+40)});if(Math.abs(ahead[0]-here[0])>.0001)walk.facing=ahead[0]>=here[0]?1:-1;el.style.setProperty('--walker-facing',walk.facing||1);
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches){const phase=walk.elapsed/360;$('#walker-art').style.transform=`translateY(${-Math.sin(Math.PI*(phase%1))*4}px) rotate(${Math.cos(Math.PI*phase)*1.25}deg) scaleX(var(--walker-facing,1))`;}else $('#walker-art').style.removeProperty('transform');
+  if(walk.elapsed>=walk.duration){walkOwner.mapPosition=walk.to;walkOwner.mapFacing=walk.facing||1;walkOwner.mapWalk=null;pauseTravel();positionExplorers();updateWalkControls();notify(`The explorers have arrived at ${walk.to===5?'the Final Gate':`Gate ${walk.to+1}`}.`);return;}
+  if(walk.elapsed>=walk.nextStep){footstep();walk.nextStep=Math.floor(walk.elapsed/360+1)*360;}
+  walkFrame=requestAnimationFrame(tick);
+ };
+ walkFrame=requestAnimationFrame(tick);
 }
+function observeMap(){
+ mapObserver?.disconnect();mapResizeObserver?.disconnect();if(!$('.map-scene')||evidenceView)return;
+ mapObserver=new IntersectionObserver(()=>{if(mapInView())startTravel();else pauseTravel();},{threshold:[0,.9,.99,1]});mapObserver.observe($('.map-scene'));
+ mapResizeObserver=new ResizeObserver(()=>{if(currentStage===1&&checkpoint===null&&!evidenceView){focusMap();startTravel();}});mapResizeObserver.observe($('.map-shell'));
+ for(const image of [$('.map-scene > img'),$('#walker-art')])image?.addEventListener('load',()=>{if(currentStage===1&&checkpoint===null&&!evidenceView){focusMap();startTravel();}},{once:true});
+ requestAnimationFrame(startTravel);
+}
+function toggleSound(){
+ soundEnabled=!soundEnabled;$('#sound').setAttribute('aria-pressed',String(soundEnabled));$('#sound').textContent=`Sound: ${soundEnabled?'on':'off'}`;
+ document.querySelectorAll('[data-sound-label]').forEach(el=>el.textContent=$('#sound').textContent);
+ if(!soundEnabled){stopFootsteps();for(const voice of [...toneVoices]){try{voice.gain.gain.cancelScheduledValues(audio.currentTime);voice.gain.gain.setValueAtTime(0,audio.currentTime);voice.osc.stop();voice.osc.disconnect();voice.gain.disconnect();}catch{}toneVoices.delete(voice);}return;}
+ if(state().mapWalk){try{audio ||= new (window.AudioContext||window.webkitAudioContext)();audio.resume().then(()=>{if(state().mapWalk)state().mapWalk.nextStep=state().mapWalk.elapsed;startTravel();});}catch{notify('This browser could not start audio. Check its sound permission.');}}else tone();
+}
+function landscapeCompletionHTML(){return '<p class="success">Landscape reconstructed. The adventure map is unlocked.</p><button data-action="to-map">Explore the map →</button>';}
 let animateGate=false;
 const ACTIONS={
  begin:()=>goStage(0), 'to-map':routeToMap, 'final-gate':()=>goStage(2),
@@ -545,7 +644,7 @@ const ACTIONS={
   s.reconstructed=true;maybeCompleteLandscape();response('Your landscape record is assembled. Explain how its features work together.',true,true);
  },
  'landscape-confirm':()=>{
-  const s=state();if(s.matched.length!==LANDSCAPE.length||!s.reconstructed||!['fire','brittle','overall'].every(k=>s.landscape[k]?.trim())){response('Complete matching, the reconstruction, and all three written explanations before teacher confirmation.');return;}
+  const s=state();if(s.matched.length!==LANDSCAPE.length||!s.reconstructed||!['fire','brittle','overall'].every(k=>s.landscape[k]?.trim())){response('Complete matching, the reconstruction, and all three written explanations before finishing Stage 1.');return;}
   s.stage1=true;response('Landscape complete: Stage 2 is unlocked. Teacher Access is not required.',true,true);
  },
  'check-answer':()=>{
@@ -555,7 +654,7 @@ const ACTIONS={
   cp.solved=true;response('Correct route. Find the evidence and discuss before continuing.',true,true);
  },
  'confirm-evidence':()=>{
-  const cp=state().checkpoints[checkpoint];if(!cp.solved||!cp.evidence[cp.step]?.trim()){response('Record supporting textual expressions and your interpretation before teacher confirmation.');return;}
+  const cp=state().checkpoints[checkpoint];if(!cp.solved||!cp.evidence[cp.step]?.trim()){response('Record supporting textual expressions and your interpretation before confirming the discussion.');return;}
   if(!cp.confirmed.includes(cp.step))cp.confirmed.push(cp.step);response('Evidence recorded. Continue after your team discussion.',true,true);
  },
  'next-challenge':()=>{
@@ -564,21 +663,19 @@ const ACTIONS={
  },
  'collect-clue':collectGateClue,
  'continue-journey':continueJourney,
+ 'map-home':()=>$('#home').click(),
+ 'map-sound':toggleSound,
+ 'map-fullscreen':()=>$('#fullscreen').click(),
+ 'toggle-walk':()=>{const walk=state().mapWalk;if(!walk)return;walk.paused=!walk.paused;if(walk.paused)pauseTravel();else startTravel();updateWalkControls();},
+ 'skip-walk':()=>{if(!(teacher||presenter)||!state().mapWalk)return;const s=state();s.mapPosition=s.mapWalk.to;s.mapWalk=null;pauseTravel();positionExplorers();updateWalkControls();},
  'back-evidence':closeEvidence,
  'text-previous':()=>changeEvidence(-1),
  'text-next':()=>changeEvidence(1),
- 'check-key-details':()=>{
-  const k=KEYS[activeKey],p=state().keys[activeKey];
-  const alternatives={'mountain hunting':['mountain hunters','hunters','mountain people and hunters'],'Western Montana':['the high country in western montana','high country in western montana'],'Plains':['the plains'],'great era':['last great moment','last great moment of their history']};
-  const correct=k.fields.every(([,expected],i)=>[expected,...(alternatives[expected]||[])].map(normalize).includes(normalize(p.values[i]||'')));
-  if(!correct){returnToText('Some details need another look. Revisit the referenced paragraphs and discuss the missing words.');return;}
-  p.phase=1;response('Details reconstructed. Now connect the clues.',true,true);
- },
- 'key-fill':()=>{if(!teacher)return;state().keys[activeKey].values=KEYS[activeKey].fields.map(f=>f[1]);response('Suggested fill-ins shown for this teacher rehearsal.',false,true);},
- 'key-connect':()=>{const p=state().keys[activeKey];if(!p.discussion.trim()){response('Record the team’s connections before confirming.');return;}p.phase=2;response('Connections confirmed. Infer the shared category.',false,true);},
- 'unlock-key':()=>{const p=state().keys[activeKey];if(normalize(p.guess)!==normalize(KEYS[activeKey].name)){returnToText('This name does not yet connect the evidence. Discuss the common category and try again.');return;}acceptKey();},
- 'key-reveal':()=>{if(teacher)acceptKey();},
- 'next-key':()=>{activeKey=Math.min(2,activeKey+1);feedback='';render();},
+ 'back-gate':()=>{keyActivity=false;evidenceView=null;feedback='';render();focusMain();},
+ 'reveal-land-branch':()=>{if(!(presenter||teacher)||activeKey!==0)return;revealedBranch=state().keys[0].revealed;state().keys[0].revealed=Math.min(3,state().keys[0].revealed+1);feedback='';render();},
+ 'reveal-key-meaning':()=>{if(!(presenter||teacher))return;const p=state().keys[activeKey];if(activeKey===0&&p.revealed<3)return;p.answerShown=true;response('Shared meaning revealed. Discuss before awarding the key.',true,true);},
+ 'award-key':acceptKey,
+ 'legacy-roots':()=>{if(!(presenter||teacher)||!state().keys.every(k=>k.unlocked))return;state().gateOpen=true;animateGate=true;render();focusMain();},
  'replay-gate':()=>{animateGate=true;render();tone();},
  'reveal-root':()=>{const s=state();if(!s.rootDiscussion.trim()){response('Record a text-supported interpretation before teacher confirmation.');return;}s.roots=Math.min(3,s.roots+1);response(`Root ${s.roots} revealed: ${KEYS[s.roots-1].name}.`,true,true);},
  'reveal-trunk':()=>{const s=state();if(s.roots!==3)return;s.trunk=true;response('The three roots connect with Momaday’s Cultural Identity.',true,true);},
@@ -600,8 +697,8 @@ $('#adventure').addEventListener('click',event=>{
   if(s.selected!==i){response('Look again at the visual feature and P1. Try another region.');tone(false);return;}
   if(!s.matched.includes(i))s.matched.push(i);s.selected=null;response(`Matched: ${LANDSCAPE[i].phrase}. ${LANDSCAPE[i].meaning}`,true,true);return;
  }
- if(button.dataset.checkpoint!==undefined){const i=Number(button.dataset.checkpoint);if(!checkpointAccessible(i))return;mapTravel=null;clearTimeout(travelTimer);evidenceView=null;currentStage=1;checkpoint=i;feedback='';render();focusMain();return;}
- if(button.dataset.keyTab!==undefined){activeKey=Number(button.dataset.keyTab);feedback='';render();}
+ if(button.dataset.checkpoint!==undefined){const i=Number(button.dataset.checkpoint);if(!checkpointAccessible(i)||state().mapWalk)return;evidenceView=null;currentStage=1;checkpoint=i;feedback='';render();focusMain();return;}
+ if(button.dataset.openKey!==undefined){const i=Number(button.dataset.openKey);if(i<0||i>2)return;activeKey=i;keyActivity=true;feedback='';render();focusMain();}
 });
 $('#adventure').addEventListener('input',event=>{
  const el=event.target,s=state();
@@ -619,8 +716,6 @@ $('#adventure').addEventListener('input',event=>{
  }
  if(el.dataset.reconstruction!==undefined){s.reconstruction[el.dataset.reconstruction]=Number(el.value);s.reconstructed=false;}
  if(el.dataset.route!==undefined){const c=s.checkpoints[checkpoint];c.answers[c.step]||=[];c.answers[c.step][Number(el.dataset.route)]=el.value;}
- if(el.dataset.keyField!==undefined)s.keys[activeKey].values[Number(el.dataset.keyField)]=el.value;
- if(el.hasAttribute('data-key-name'))s.keys[activeKey].guess=el.value;
  if(el.id==='growth-kind')s.growthKind=el.value;
  if(el.dataset.answer!==undefined){
   const c=s.checkpoints[checkpoint],q=CONTENT.checkpoints[checkpoint].challenges[c.step],i=Number(el.dataset.answer);
@@ -628,21 +723,24 @@ $('#adventure').addEventListener('input',event=>{
  }
 });
 document.querySelectorAll('[data-stage]').forEach(button=>button.addEventListener('click',()=>goStage(Number(button.dataset.stage))));
-$('#home').addEventListener('click',()=>{evidenceView=null;currentStage=-1;checkpoint=null;feedback='';render();focusMain();});
+$('#home').addEventListener('click',()=>{evidenceView=null;keyActivity=false;currentStage=-1;checkpoint=null;feedback='';render();focusMain();});
 $('#map-return').addEventListener('click',routeToMap);
 $('#previous').addEventListener('click',()=>goStage(currentStage-1));
 $('#next').addEventListener('click',()=>goStage(currentStage+1));
 $('#presenter').addEventListener('change',event=>{presenter=event.target.checked;render();});
 $('#teacher').addEventListener('change',event=>{
- teacher=event.target.checked;evidenceView=null;checkpoint=null;activeKey=0;feedback='';if(currentStage>=0&&!unlockedStage(currentStage))currentStage=0;render();focusMain();notify(teacher?'Teacher rehearsal enabled. Student progress is preserved separately.':'Returned to the student journey.');
+ teacher=event.target.checked;evidenceView=null;keyActivity=false;checkpoint=null;activeKey=0;feedback='';if(currentStage>=0&&!unlockedStage(currentStage))currentStage=0;render();focusMain();notify(teacher?'Teacher rehearsal enabled. Student progress is preserved separately.':'Returned to the student journey.');
 });
-$('#sound').addEventListener('click',()=>{soundEnabled=!soundEnabled;$('#sound').setAttribute('aria-pressed',String(soundEnabled));$('#sound').textContent=`Sound: ${soundEnabled?'on':'off'}`;if(soundEnabled)tone();});
+$('#sound').addEventListener('click',toggleSound);
 $('#fullscreen').addEventListener('click',async()=>{
  try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else notify('Fullscreen is unavailable in this browser. Use the browser’s presentation shortcut.');}
  catch{notify('The browser declined fullscreen. The adventure remains available in this window.');}
 });
-document.addEventListener('fullscreenchange',()=>{$('#fullscreen').textContent=document.fullscreenElement?'Exit fullscreen':'Fullscreen';});
+document.addEventListener('fullscreenchange',()=>{$('#fullscreen').textContent=document.fullscreenElement?'Exit fullscreen':'Fullscreen';document.querySelectorAll('[data-fullscreen-label]').forEach(el=>el.textContent=$('#fullscreen').textContent);if(currentStage===0&&!evidenceView)requestAnimationFrame(()=>$('.landscape-layout')?.scrollIntoView({block:'center',behavior:'instant'}));if(currentStage===1&&checkpoint===null&&!evidenceView)requestAnimationFrame(()=>{focusMap();startTravel();});});
+window.addEventListener('resize',()=>{if(currentStage===1&&checkpoint===null&&!evidenceView)requestAnimationFrame(()=>{focusMap();startTravel();});});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseTravel();else startTravel();});
+document.addEventListener('rainy-ink-mode',event=>{if(event.detail.drawing){pauseTravel();if(state().mapWalk&&$('#walk-status'))$('#walk-status').textContent='Walking paused for annotation. Choose Interact to continue.';}else{startTravel();if($('#walk-status'))updateWalkControls();}});
 $('#restart').addEventListener('click',()=>$('#restart-dialog').showModal());
 $('#cancel-restart').addEventListener('click',()=>$('#restart-dialog').close());
-$('#confirm-restart').addEventListener('click',()=>{if(teacher)teacherState=freshState();else studentState=freshState();currentStage=0;checkpoint=null;activeKey=0;evidenceView=null;feedback='';animateGate=false;$('#restart-dialog').close();render();focusMain();notify('Current journey restarted.');});
+$('#confirm-restart').addEventListener('click',()=>{if(teacher)teacherState=freshState();else studentState=freshState();currentStage=0;checkpoint=null;activeKey=0;evidenceView=null;keyActivity=false;unlockAnimation=null;feedback='';animateGate=false;$('#restart-dialog').close();render();focusMain();notify('Current journey restarted.');});
 render();

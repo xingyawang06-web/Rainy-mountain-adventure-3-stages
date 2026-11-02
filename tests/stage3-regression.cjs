@@ -1,14 +1,15 @@
 const {chromium}=require('playwright');const assert=require('node:assert/strict');
 (async()=>{const b=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox']});const p=await b.newPage({viewport:{width:1280,height:720},hasTouch:true});const errors=[];p.on('pageerror',e=>errors.push(e.message));
 const act=n=>p.locator(`[data-action="${n}"]`).first().click();await p.goto(process.env.GAME_URL||require('node:url').pathToFileURL(require('node:path').resolve(__dirname,'../index.html')).href);await p.locator('#teacher').check();await p.locator('[data-stage="2"]').click();await p.locator('#presenter').check();
-// Retain the existing Stage 3 activity until Phase 2 is approved.
+// Reach the preserved pre-Phase-3 roots activity through the new synthesis flow.
 for(let i=0;i<3;i++){
- const values=await p.evaluate(i=>KEYS[i].fields.map(f=>f[1]),i);for(let j=0;j<values.length;j++)await p.locator(`[data-key-field="${j}"]`).fill(values[j]);await act('check-key-details');
- await p.locator('#key-discussion-connections').fill('Our team connected the evidence and discussed its shared meaning.');await act('key-connect');
+ await p.locator(`[data-open-key="${i}"]`).click();
+ if(i===0)for(let j=0;j<3;j++)await act('reveal-land-branch');
  const before=await p.evaluate(()=>JSON.stringify(state()));await p.locator('.text-return').first().click();await act('back-evidence');assert.equal(await p.evaluate(()=>JSON.stringify(state())),before);
- await p.locator('#key-name').fill(await p.evaluate(i=>KEYS[i].name,i));await act('unlock-key');if(i<2)await act('next-key');
+ await act('reveal-key-meaning');await act('award-key');
 }
-assert(await p.locator('.gate-scene.open').isVisible());await p.locator('#roots-roots').fill('P14 and P15 connect ancestral names, family memory, and the landscape.');for(let i=0;i<3;i++)await act('reveal-root');await act('reveal-trunk');
+await p.locator('.gate-status details').last().locator('summary').click();await act('legacy-roots');
+assert(await p.locator('.final-gate-scene.legacy-open').isVisible());await p.locator('#roots-roots').fill('P14 and P15 connect ancestral names, family memory, and the landscape.');for(let i=0;i<3;i++)await act('reveal-root');await act('reveal-trunk');
 await p.locator('#reflections-extension').fill('Physical departure does not erase his cultural connections.');await p.locator('#growth-growth').fill('New relationships enrich understanding of shared traditions.');await act('add-growth');
 await p.locator('#reflections-learner').fill('We used evidence to connect the text.');await p.locator('#reflections-observer').fill('Discussion supported participation.');await act('finish');assert.match(await p.locator('main').innerText(),/Journey complete/);
 // Image-aligned ink on the tree persists through original-text access.
