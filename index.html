@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Rainy Mountain Adventure V2</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="annotations.js" defer></script>
   <script src="game.js" defer></script>
 </head>
 <body>
@@ -15,7 +16,9 @@
       <button id="map-return" type="button">Return to Map</button>
       <button id="sound" type="button" aria-pressed="false">Sound: off</button>
       <button id="fullscreen" type="button">Fullscreen</button>
-      <label class="teacher-toggle"><input id="teacher" type="checkbox"> Teacher access</label>
+      <label class="teacher-toggle"><input id="presenter" type="checkbox"> Teacher presentation</label>
+      <button id="annotation-toggle" type="button" hidden aria-expanded="false">Annotations</button>
+      <label class="teacher-toggle"><input id="teacher" type="checkbox"> Independent rehearsal</label>
     </div>
     <nav aria-label="Adventure stages">
       <button type="button" data-stage="0">1 · Unlock the Landscape</button>
@@ -38,6 +41,15 @@
     <button id="cancel-restart" type="button">Keep exploring</button>
     <button id="confirm-restart" type="button">Restart journey</button>
   </dialog>
+  <aside id="annotation-toolbar" hidden aria-label="Teacher annotation tools">
+    <button type="button" id="ink-hide">Hide toolbar</button>
+    <label>Tool <select id="ink-tool"><option value="interact">Interact / scroll</option><option value="pen">Pen</option><option value="highlighter">Highlighter</option><option value="underline">Underline</option><option value="ellipse">Circle / ellipse</option><option value="rectangle">Rectangle</option><option value="arrow">Arrow</option><option value="eraser">Eraser</option></select></label>
+    <label>Color <select id="ink-color"><option value="#e32636">Red</option><option value="#2374ee">Blue</option><option value="#198c48">Green</option><option value="#ffd42a">Yellow</option></select></label>
+    <label>Size <input id="ink-size" type="range" min="2" max="24" value="5"><output id="ink-size-value">5</output></label>
+    <button type="button" id="ink-undo">Undo</button><button type="button" id="ink-redo">Redo</button><button type="button" id="ink-clear">Clear this screen</button>
+    <p class="small">Choose Interact to use game buttons or scroll by touch. Drawings stay in this session.</p>
+  </aside>
+  <dialog id="ink-clear-dialog"><h2>Clear annotations on this screen?</h2><p>Other screens keep their annotations. You can undo this clear.</p><button id="ink-clear-cancel">Cancel</button><button id="ink-clear-confirm">Clear annotations</button></dialog>
   <noscript><p class="panel">Enable JavaScript to explore this offline adventure.</p></noscript>
 </body>
 </html>
