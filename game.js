@@ -341,7 +341,7 @@ function screenIdentity(){
  return `${mode}:stage:${currentStage}:gate:${checkpoint??'map'}:question:${checkpoint===null?'':state().checkpoints[checkpoint].step}:key:${currentStage===2?(keyActivity?activeKey:'gate'):''}`;
 }
 function openEvidence(refs){
- const valid=[...new Set(refs)].filter(n=>Object.hasOwn(CONTENT.paragraphs,n));if(!valid.length)return;
+ const valid=[...new Set(refs)].filter(n=>Object.prototype.hasOwnProperty.call(CONTENT.paragraphs,n));if(!valid.length)return;
  if(!evidenceView)evidenceView={refs:valid,index:0,origin:{stage:currentStage,checkpoint,key:activeKey,keyActivity,scroll:window.scrollY,details:[...document.querySelectorAll('#adventure details')].map(el=>el.open)}};
  else {evidenceView.refs=valid;evidenceView.index=0;}
  feedback='';render();focusMain();
@@ -651,7 +651,7 @@ function roadLength(path){return path.slice(1).reduce((sum,p,i)=>sum+Math.hypot(
 function roadPoint(walk){
  const path=walk.path,distance=roadLength(path)*Math.min(1,walk.elapsed/walk.duration);let used=0;
  for(let i=1;i<path.length;i++){const a=path[i-1],b=path[i],length=Math.hypot(b[0]-a[0],(b[1]-a[1])*941/1672);if(used+length>=distance){const t=length?(distance-used)/length:0;return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];}used+=length;}
- return path.at(-1);
+ return path[path.length-1];
 }
 function continueJourney(){
  const s=state(),from=s.mapPosition,to=Math.min(5,checkpoint+1);
@@ -715,7 +715,7 @@ function toggleSound(){
  soundEnabled=!soundEnabled;$('#sound').setAttribute('aria-pressed',String(soundEnabled));$('#sound').textContent=`Sound: ${soundEnabled?'on':'off'}`;
  document.querySelectorAll('[data-sound-label]').forEach(el=>el.textContent=$('#sound').textContent);
  if(!soundEnabled){stopFootsteps();for(const voice of [...toneVoices]){try{voice.gain.gain.cancelScheduledValues(audio.currentTime);voice.gain.gain.setValueAtTime(0,audio.currentTime);voice.osc.stop();voice.osc.disconnect();voice.gain.disconnect();}catch{}toneVoices.delete(voice);}return;}
- if(state().mapWalk){try{audio ||= new (window.AudioContext||window.webkitAudioContext)();audio.resume().then(()=>{if(state().mapWalk)state().mapWalk.nextStep=state().mapWalk.elapsed;startTravel();});}catch{notify('This browser could not start audio. Check its sound permission.');}}else tone();
+ if(state().mapWalk){try{audio ||= new (window.AudioContext||window.webkitAudioContext)();audio.resume().then(()=>{if(state().mapWalk)state().mapWalk.nextStep=state().mapWalk.elapsed;startTravel();}).catch(()=>notify('Audio was not permitted. Walking and learning activities remain available.'));}catch{notify('This browser could not start audio. Check its sound permission.');}}else tone();
 }
 function landscapeCompletionHTML(){return '<p class="success">Landscape reconstructed. The adventure map is unlocked.</p><button data-action="to-map">Explore the map →</button>';}
 let animateGate=false;

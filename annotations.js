@@ -53,11 +53,11 @@ window.Annotations = (() => {
   function element(name,attrs){const e=document.createElementNS(NS,name);for(const [k,v]of Object.entries(attrs))e.setAttribute(k,String(v));return e;}
   function shape(item,index){
     const points=item.points.map(position).filter(Boolean);if(!points.length)return null;
-    const first=points[0],last=points.at(-1),common={stroke:item.color,'stroke-width':item.size,fill:'none','stroke-linecap':'round','stroke-linejoin':'round','data-ink-index':index};
+    const first=points[0],last=points[points.length-1],common={stroke:item.color,'stroke-width':item.size,fill:'none','stroke-linecap':'round','stroke-linejoin':'round','data-ink-index':index};
     if(item.tool==='ellipse')return element('ellipse',{...common,cx:(first.x+last.x)/2,cy:(first.y+last.y)/2,rx:Math.max(2,Math.abs(last.x-first.x)/2),ry:Math.max(2,Math.abs(last.y-first.y)/2)});
     if(item.tool==='rectangle')return element('rect',{...common,x:Math.min(first.x,last.x),y:Math.min(first.y,last.y),width:Math.max(2,Math.abs(last.x-first.x)),height:Math.max(2,Math.abs(last.y-first.y))});
     if(item.tool==='underline'){
-      const words=anchors.filter(a=>!a.image&&!a.block),start=words.findIndex(a=>a.id===item.points[0].anchor),end=words.findIndex(a=>a.id===item.points.at(-1).anchor);
+      const words=anchors.filter(a=>!a.image&&!a.block),start=words.findIndex(a=>a.id===item.points[0].anchor),end=words.findIndex(a=>a.id===item.points[item.points.length-1].anchor);
       if(start>=0&&end>=0&&Math.abs(words[start].rect.top-words[end].rect.top)>5){
         const base=main.getBoundingClientRect(),offset=first.y-(words[start].rect.bottom-base.top),rows=[];
         for(const a of words.slice(Math.min(start,end),Math.max(start,end)+1)){

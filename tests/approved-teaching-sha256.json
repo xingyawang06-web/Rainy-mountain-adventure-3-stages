@@ -1,0 +1,18 @@
+{
+  "const EVIDENCE_LINKS = {": {
+    "end": "function source(",
+    "sha256": "1f4bc0f915dd83ae5dfa1512763acb7b557db0ad24acddf67c4392204faba349"
+  },
+  "const LANDSCAPE = [": {
+    "end": "function freshState()",
+    "sha256": "7bc3b5861d30734367d9d72d7471f256158eb682494e6b57b5922f22b0114a47"
+  },
+  "const LEARNING_OBJECTIVES=": {
+    "end": "const interfaceSheets=",
+    "sha256": "cea3c9a0954d00b17a060541567b5f9add910c300946e8cf59807ba55896eae9"
+  },
+  "function keyHTML(){": {
+    "end": "function response(",
+    "sha256": "416cedb8e5bc04555d12943e24a9b11b92c71bd65ff016d4560d57f2376d8f55"
+  }
+}

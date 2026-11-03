@@ -1,3 +1,46 @@
+# Current Phase 5 final QA
+
+The classroom runtime needs no test runner, installation or server. Developer-only
+checks require the already-available Python 3, Node.js, Playwright and Chromium.
+No libraries were installed or bundled into the game for Phase 5.
+
+    python3 tests/audit-offline.py
+    node tests/phase5.cjs
+    node tests/phase5-compat.cjs
+
+The browser suites default to direct file://. If managed policy blocks that scheme,
+GAME_URL may point to a temporary loopback test server. This is not a file:// test:
+
+    GAME_URL=http://127.0.0.1:8765/index.html node tests/phase5.cjs
+    GAME_URL=http://127.0.0.1:8765/index.html node tests/phase5-compat.cjs
+
+Package/extraction and disconnected-package simulation (example):
+
+    python3 tests/audit-offline.py --package /tmp/rainy-final.zip --extract '/tmp/课堂 资料/雨山 冒险 USB'
+    PHASE5_OFFLINE_ROOT='/tmp/课堂 资料/雨山 冒险 USB/Rainy-mountain-adventure-3-stages-work' node tests/phase5.cjs
+    PHASE5_OFFLINE_ROOT='/tmp/课堂 资料/雨山 冒险 USB/Rainy-mountain-adventure-3-stages-work' node tests/phase5-compat.cjs
+
+The offline harness disables Chromium networking and fulfills a simulated HTTP
+origin only from extracted local bytes. It does not launch an HTTP server, and it
+is explicitly **not** actual file://, Windows, USB or 360 Browser verification.
+The default Phase 5 full-flow suite earns all matches/questions/clues at each of
+1280×720, 1366×768 and 1920×1080; it does not skip those stages with fixtures.
+The separate compatibility suite uses documented fixtures/missing-API/permission
+simulations. Both are described in ../QA_REPORT.md. Reports and screenshots are
+printed/saved outside the classroom runtime (screenshots under /tmp).
+
+RUNTIME_SHA256.txt and the protected/teaching JSON fingerprints detect unintended
+content or asset changes. --write-manifest regenerates only the runtime manifest;
+use it only following an intentional, reviewed runtime change, then repeat QA.
+The approved teaching/asset fingerprints must not be regenerated to hide changes.
+
+For actual Windows/360 acceptance use ../CLASSROOM_CHECKLIST_ZH.md. The historical
+Phase 1–3 drivers below predate the current menu/sheets and were not claimed as
+separate current passes. Phase 5 covers their intended teaching/mode/walking/ink
+checks using current UI drivers; Phase 4 was also run as the approved baseline.
+
+# Phase 4 baseline and historical development checks
+
 # Current Phase 4 interface checks
 
 Run the focused suite for the redesigned interface:
