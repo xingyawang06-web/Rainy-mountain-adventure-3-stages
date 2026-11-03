@@ -82,3 +82,26 @@ Safest procedure: extract the complete **work** ZIP, copy to a local Windows fol
 The final work-branch commit records the minimal compatibility fixes, current full-flow and failure-case tests, integrity manifests, this report and the Chinese checklist. Refer to GitHub work HEAD for its commit ID (also provided in the delivery response). No merge into main or further development phase is included.
 
 **Automated/static QA complete. Classroom Windows + 360 + offline file:// acceptance remains pending the teacher's checklist and final acceptance.**
+
+## Stage 3 gate layout compatibility repair
+
+The closed gate container had only absolutely positioned children and relied on
+`aspect-ratio:1672/941` for height. Removing that declaration from the unpatched
+work-branch CSS reproduced a zero-pixel-high scene in Chromium, clipping the gate
+and locks. The original 1672×941 gate PNG now participates in normal flow, providing
+height without aspect-ratio; doors and locks retain their overlay stacking.
+Lock images provide natural height, with percentage/min/max sizing fallbacks and
+explicit top/left positioning for the turning-key overlay. Teacher permissions,
+progress, teaching text, annotations, images and animation definitions are unchanged.
+
+The focused gate regression passes all four viewport sizes, all three modes, and
+native/legacy CSS simulations. Existing Phase 5 compatibility/failure simulations
+pass, as do protected image/document/teaching hashes and JavaScript syntax checks.
+The runtime SHA-256 manifest was refreshed only for the intentional CSS change.
+Physical Windows/360 Browser, its exact Chromium core, local file:// deployment,
+and classroom input hardware still require the classroom checklist.
+The complete Phase 5 gameplay suite also passed at 1280×720, 1366×768 and
+1920×1080 using disconnected local-package simulation: nine vocabulary matches,
+14 wrong/correct question paths, five clue rewards/walks, keys, door animation,
+cultural tree, progress/mode isolation and all annotation tools/history. No
+JavaScript/resource errors or external requests were reported.

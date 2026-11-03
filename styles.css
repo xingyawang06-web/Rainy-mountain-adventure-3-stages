@@ -150,19 +150,21 @@ main { position:relative; }
 button[aria-current="step"]:hover:not(:disabled),button.selected:hover:not(:disabled),button[aria-pressed="true"]:hover:not(:disabled) { background:var(--gold); color:#142e24; }
 
 /* Phase 2: original gate art with locks fixed directly to its door panels. */
-.final-gate-scene { position:relative; width:100%; max-width:1400px; aspect-ratio:1672/941; margin:0 auto 1rem; overflow:hidden; border:2px solid #c5a776; border-radius:1rem; background:url('assets/background-stage%203.png') center/cover; }
-.complete-gate { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; z-index:2; }
+.final-gate-scene { position:relative; width:100%; max-width:1400px; margin:0 auto 1rem; overflow:hidden; border:2px solid #c5a776; border-radius:1rem; background:url('assets/background-stage%203.png') center/cover; }
+/* The original 1672 × 941 image supplies scene height even without aspect-ratio.
+   Keep it in normal flow; the doors and locks remain positioned over this image. */
+.complete-gate { position:relative; display:block; width:100%; height:auto; z-index:2; }
 .gate-heading h2 { font-size:clamp(1.8rem,3vw,2.4rem); margin:.4rem 0; }
 .gate-heading { padding:1rem 1.5rem; }
 .gate-heading p { margin:.3rem 0; }
-.door-lock { position:absolute; z-index:4; padding:.15rem; width:clamp(48px,6.5%,92px); aspect-ratio:.85; border:0; background:transparent; box-shadow:none; transform:translate(-50%,-50%); }
+.door-lock { position:absolute; z-index:4; padding:.15rem; width:6.5%; min-width:48px; max-width:92px; width:clamp(48px,6.5%,92px); border:0; background:transparent; box-shadow:none; transform:translate(-50%,-50%); }
 .door-lock:hover:not(:disabled) { transform:translate(-50%,-50%) scale(1.08); background:#f2ce8322; }
-.door-lock > img { width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 3px 4px #000b); }
+.door-lock > img { display:block; width:100%; height:auto; object-fit:contain; filter:drop-shadow(0 3px 4px #000b); }
 .door-lock > span { position:absolute; left:50%; bottom:-.5rem; transform:translateX(-50%); border-radius:1rem; padding:.15rem .5rem; background:#102b24ed; color:#fff6e2; white-space:nowrap; font-weight:700; }
 .lock-0 { left:41%; top:39%; }.lock-1 { left:59%; top:39%; }.lock-2 { left:59%; top:70%; }
 .door-lock.is-unlocked { filter:drop-shadow(0 0 7px #fff0a0); }
 .door-lock.just-unlocked { animation:lock-release .8s ease-out; }
-.door-lock > img.turning-key { position:absolute; inset:0; animation:key-turn .85s ease-in-out both; }
+.door-lock > img.turning-key { position:absolute; top:0; left:0; height:100%; inset:0; animation:key-turn .85s ease-in-out both; }
 @keyframes lock-release { 0%,50% {filter:drop-shadow(0 0 20px #fff0a0);} 30% {transform:translate(-50%,-50%) rotate(-8deg);} 70% {transform:translate(-50%,-50%) rotate(8deg);} }
 @keyframes key-turn { 0% {opacity:1;transform:rotate(-30deg) scale(.7);} 60% {opacity:1;transform:rotate(40deg);} 100% {opacity:0;transform:rotate(40deg) scale(.7);} }
 .earned-keys { display:flex; flex-wrap:wrap; gap:1rem; }
@@ -189,7 +191,7 @@ button[aria-current="step"]:hover:not(:disabled),button.selected:hover:not(:disa
 .legacy-open .original-leaf { display:block; }.legacy-open .original-left { transform:translateX(-110%); }.legacy-open .original-right { transform:translateX(110%); }
 .legacy-opening .original-left { animation:legacy-left 1.8s ease-in-out both; }.legacy-opening .original-right { animation:legacy-right 1.8s ease-in-out both; }
 @keyframes legacy-left { from {transform:translateX(0);} to {transform:translateX(-110%);} }@keyframes legacy-right { from {transform:translateX(0);} to {transform:translateX(110%);} }
-@media(max-width:1000px) { .knowledge-branches,.synthesis-cards { grid-template-columns:1fr; }.door-lock { width:clamp(35px,8%,70px); } }
+@media(max-width:1000px) { .knowledge-branches,.synthesis-cards { grid-template-columns:1fr; }.door-lock { width:8%; min-width:35px; max-width:70px; width:clamp(35px,8%,70px); } }
 /* Evidence round trips restore existing branches/cards without replaying their reveal. */
 .knowledge-branch,.synthesis-card { animation:none; }
 .knowledge-branch.just-revealed { animation:reveal .5s ease-out; }

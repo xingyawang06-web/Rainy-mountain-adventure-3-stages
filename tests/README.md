@@ -185,3 +185,14 @@ disconnected, audible speaker output and mute, fullscreen, and actual classroom
 input hardware. Automated AnalyserNode measurements verify rendered footstep PCM,
 not physical sound heard by a person. Progress and ink persist within the current
 browser session; reopening/reloading starts a new learning journey.
+
+# Gate layout compatibility regression
+
+    node tests/gate-layout-compat.cjs
+
+Checks the original gate image ratio and all three lock click targets in Student
+Mode (completed-checkpoint fixture), Teacher Access, and Independent Rehearsal at
+1280×720, 1366×768, 1920×1080 and 375×812. Repeats with aspect-ratio, inset,
+and min()/clamp() dimensions removed before CSS parsing to exercise fallbacks.
+Uses the disconnected local-byte harness; this is a CSS support simulation in
+current Linux Chromium, not a physical Windows/360 Browser test.
