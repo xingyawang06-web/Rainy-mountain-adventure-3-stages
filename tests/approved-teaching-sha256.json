@@ -11,8 +11,32 @@
     "end": "const interfaceSheets=",
     "sha256": "cea3c9a0954d00b17a060541567b5f9add910c300946e8cf59807ba55896eae9"
   },
-  "function keyHTML(){": {
-    "end": "function response(",
-    "sha256": "416cedb8e5bc04555d12943e24a9b11b92c71bd65ff016d4560d57f2376d8f55"
+  " const questions=": {
+    "end": " const links=",
+    "sha256": "b0ea4216b19971dd9864cde5af43622083cadc5e0e51aa4ddaf23b72e6adb6e6"
+  },
+  " const landContent=[": {
+    "end": " return `<section",
+    "sha256": "c1b34473ba504b97ae2884ee0e115667ddf980d2e480ed6dcbffc8f0d3414bde"
+  },
+  "const CANOPY_WORDS=": {
+    "end": "let openingTimer=",
+    "sha256": "c69ea9594ca5fb11e4976e5601d7940b459799e9d1ff561cad3933873c94e035"
+  },
+  "function treeArtwork(s){": {
+    "end": "function assignmentHTML()",
+    "sha256": "0993a636890fbf278ca5ac0b22ff9fe82469e8d1e9edba1c3b376de3482c7cc4"
+  },
+  "function assignmentHTML(){": {
+    "end": "function treeHTML()",
+    "sha256": "0b6e7fb974d3a35fcde023ef1ef089c283f142a3b90db7ca2261e7a63715c634"
+  },
+  " const prompt=": {
+    "end": " const actions=",
+    "sha256": "5512a315b72564f9245bce1d707470c4fb3f5a625cc9c074ba63d7f71abd1471"
+  },
+  " ${step==='identity'?": {
+    "end": "function celebrationHTML(",
+    "sha256": "9cc5bdc930ec6c06f8c18fb94e99e500148850850c638d1895d7a6b94ffd8626"
   }
 }

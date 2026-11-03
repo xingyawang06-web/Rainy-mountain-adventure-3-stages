@@ -22,7 +22,12 @@ images for integrity checking; the game does not read it.
 
 Use **Adventure Menu → Teacher Access / presentation** for teaching reveals and
 annotations. **Independent Rehearsal** permits independent navigation with separate
-progress; it does not itself enable teacher notes or answer/reveal controls.
+progress and a complete self-directed reveal sequence, without Teacher Access.
+Reveal each clue individually, reveal the shared meaning, then award each key.
+After all three keys, choose **Open the double doors**. The arrival celebration
+uses a local four-second fanfare when sound is enabled; **Continue Our Journey**
+starts the manual Cultural Identity Tree sequence. Teacher Access retains
+classroom presentation controls, teacher notes and annotation tools.
 Progress and ink are session-only. Reload/close loses that session; save written
 field notes if needed. Restart confirms before clearing the current journey’s
 answers/clues/keys/reflections; clearing annotations is a separate per-screen action.

@@ -196,3 +196,29 @@ Mode (completed-checkpoint fixture), Teacher Access, and Independent Rehearsal a
 and min()/clamp() dimensions removed before CSS parsing to exercise fallbacks.
 Uses the disconnected local-byte harness; this is a CSS support simulation in
 current Linux Chromium, not a physical Windows/360 Browser test.
+
+# Stage 3 access, progressive synthesis and arrival correction
+
+    node tests/stage3-complete-journey.cjs
+    node tests/arrival-celebration.cjs
+
+The complete journey suite earns all vocabulary matches, all five gates and clue
+cards through UI actions separately in Independent Rehearsal and Teacher Access.
+The rehearsal run never enables Teacher Access. Both runs reveal 3/3/2 clues one
+at a time, reject early meaning/key awards, revisit evidence, award three keys,
+explicitly open the doors, dismiss the celebration and manually build the entire
+tree before reaching the assignment. The existing Phase 5 suite also retains its
+full student Stage 1/2 and teacher Stage 3, annotation, audio and fullscreen checks.
+
+The arrival suite uses completed-key fixtures only to isolate fanfare scheduling
+and rendered PCM, immediate mute, denied/missing audio, interrupted transitions,
+once-only popup/audio, keyboard focus and legacy CSS support. It attempts actual
+Linux file:// separately and reports policy restrictions without treating the
+local-byte simulation as Windows/360 verification.
+
+The former Stage 3 fingerprint covered rendering and access logic together with
+teaching content. That broad scope was split into unchanged teaching-only scopes
+(questions, land connections, tree art/labels, assignment, discussion prompts and
+insights). Every new hash was derived from the pre-correction work-branch source
+and checked byte-for-byte against the correction; teaching data, evidence maps,
+objectives and original asset hashes retain their previous fingerprints.

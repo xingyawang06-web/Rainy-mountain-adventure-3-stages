@@ -105,3 +105,63 @@ The complete Phase 5 gameplay suite also passed at 1280×720, 1366×768 and
 14 wrong/correct question paths, five clue rewards/walks, keys, door animation,
 cultural tree, progress/mode isolation and all annotation tools/history. No
 JavaScript/resource errors or external requests were reported.
+
+## Current correction: complete rehearsal, progressive keys and arrival celebration
+
+This section supersedes the earlier restriction that rehearsal alone could not
+use Stage 3 reveal/award/tree controls. Both Independent Rehearsal and Teacher
+Access now expose the same deliberate reveal sequence; teacher notes and ink
+controls retain their existing presentation-mode behavior. Student journeys can
+also complete Stage 3 without enabling Teacher Access.
+
+All activities begin with the approved guiding question and original evidence
+links. Keys 1/2/3 reveal 3/3/2 branches or clue cards, one click at a time. Shared
+meaning stays unavailable until every required clue is revealed; awarding a key
+requires a separate click after synthesis. Key artwork appears only after the
+award. All three awards enable an explicit Open the double doors control, outside
+the collapsed collection sheet. The original door animation then finishes onto
+the landscape and a keyboard-accessible celebration with the exact requested
+messages and Continue Our Journey. No tree reveal is allowed while it is pending.
+The local original eight-note fanfare lasts four seconds, follows mute immediately,
+and handles missing/denied audio without blocking the journey. Celebration state
+belongs to each journey; redraws, Home/return and interrupted openings do not
+repeat an already dismissed celebration. Roots, trunk and four canopy concepts
+remain individually click-controlled after dismissal.
+
+Verified on Linux Chromium 154:
+
+- Separate complete three-stage UI journeys in Independent Rehearsal and Teacher
+  Access: nine vocabulary matches, reconstruction, 14 questions, all five earned
+  clue cards/walks, progressive keys/evidence, doors, celebration, complete tree
+  and assignment. The rehearsal test records zero Teacher Access changes.
+- Twelve arrival cases (both modes × sound, mute, denied audio, absent audio,
+  interrupted opening and missing legacy CSS declarations). Verified eight-note
+  scheduling, four-second duration, rendered nonzero audio PCM, immediate mute,
+  no replay on redraw, focus cycling, no tree before dismissal and no popup on
+  subsequent returns.
+- Gate layout suite: native and legacy CSS at four viewport sizes, all three
+  modes; the fcd055c gate image/lock sizing fix is unchanged. A percentage-based
+  landscape spacer also prevents arrival/tree container collapse without
+  aspect-ratio.
+- Existing compatibility/failure suite: mode/progress isolation, walking/audio,
+  missing Object.hasOwn/Array.at, all ink tools/history, denied/missing audio,
+  denied/unavailable fullscreen, reduced motion and interrupted animation.
+- Original asset/document/teaching/evidence/objective integrity and offline audit,
+  JavaScript syntax, and whitespace checks. No external runtime dependencies added.
+
+The broad old Stage 3 template fingerprint included permissions/rendering logic.
+It was replaced by hashes of unchanged teaching-only scopes, each derived from
+pre-correction HEAD and checked byte-for-byte against this implementation. Original
+CONTENT, vocabulary/mappings/objectives, evidence and asset hashes remain intact.
+
+Actual file:// navigation was attempted but returned ERR_BLOCKED_BY_ADMINISTRATOR
+under the cloud browser policy. Offline local-byte interception is explicitly a
+simulation. Physical Windows/360 Speed Mode, USB/local file policy, projector,
+physical speakers and input hardware remain manual acceptance checks; no such
+physical verification is claimed.
+
+The full existing Phase 5 regression also passed at 1280×720, 1366×768 and
+1920×1080, including actual UI-earned vocabulary/questions/clues, door transforms,
+progress and annotation persistence, all six ink tools/history, sound/mute PCM,
+fullscreen, resize/scroll alignment, tree/assignment and mobile overflow. No
+JavaScript/resource errors or external requests were reported in those runs.

@@ -392,7 +392,7 @@ const OBSERVER_REFLECTION = ['How did the game support or limit learning?','How 
 function freshState() {
   return {matched:[], selected:null, landscape:{}, reconstruction:{}, reconstructed:false, stage1:false,
     checkpoints:CONTENT.checkpoints.map(c => ({step:0, solved:false, evidence:{}, confirmed:[], complete:false, answers:{}, finalDiscussion:''})),
-    keys:KEYS.map(() => ({revealed:0,answerShown:false,discussion:'',unlocked:false})),mapPosition:0,mapFacing:1,mapWalk:null,gateOpen:false,presentation:'gate',presentationStep:'landscape',openingStarted:0,canopy:0,roots:0,trunk:false,growth:[],growthDraft:'',growthKind:'Experiences',rootDiscussion:'',reflections:{},complete:false};
+    keys:KEYS.map(() => ({revealed:0,answerShown:false,discussion:'',unlocked:false})),mapPosition:0,mapFacing:1,mapWalk:null,gateOpen:false,presentation:'gate',presentationStep:'landscape',openingStarted:0,celebrationPending:false,celebrationPlayed:false,canopy:0,roots:0,trunk:false,growth:[],growthDraft:'',growthKind:'Experiences',rootDiscussion:'',reflections:{},complete:false};
 }
 let studentState=freshState(), teacherState=freshState(), teacher=false;
 let currentStage=-1, checkpoint=null, activeKey=0, soundEnabled=false, audio=null;
@@ -422,6 +422,8 @@ function goStage(n) {
   evidenceView=null;keyActivity=false;currentStage=n;checkpoint=null;feedback='';render();focusMain();
 }
 function focusMain() {
+ const arrival=document.querySelector('[data-action="continue-journey-arrival"]');
+ if(arrival){arrival.focus({preventScroll:true});return;}
  $('#adventure').focus({preventScroll:true});
  window.scrollTo({top:0,behavior:'instant'});
 }
@@ -459,6 +461,7 @@ function render(){
   notify(feedback);
   treeReveal='';
   syncDoorOpening();
+  syncVictoryCelebration();
 }
 const LEARNING_OBJECTIVES=['Recognize, understand, and apply key vocabulary and expressions.','Interpret and reconstruct the text using textual evidence; develop awareness of transfer to future teaching.','Develop a text-based understanding of the sources of cultural identity.','Extend understanding of how cultural identity can continue to develop.'];
 const interfaceSheets=new Map();
@@ -533,7 +536,7 @@ function gateHTML(){
  if(s.presentation==='opening')return openingHTML();
  if(s.presentation==='landscape')return treeHTML();
  const ready=s.keys.every(k=>k.unlocked);
- return `<section class="final-gate-screen"><div class="panel gate-heading"><p class="eyebrow">Stage 3 · The Final Gate</p><h2>Discover the Three Keys</h2><p>Explore the evidence together. Your teacher controls when each shared meaning is revealed.</p></div>
+ return `<section class="final-gate-screen"><div class="panel gate-heading"><p class="eyebrow">Stage 3 · The Final Gate</p><h2>Discover the Three Keys</h2><p>Explore the evidence together. Discuss each clue before revealing its shared meaning.</p></div>
  <div class="final-gate-scene " aria-label="Fully closed double-door gate">
  <div class="gate-beyond"><img src="assets/explorers.png" alt="Explorers arriving at Rainy Mountain"></div>
  <img class="complete-gate" src="assets/whole%20gate.png" alt="The original complete double-door gate in its landscape">
@@ -545,10 +548,11 @@ function gateHTML(){
  <div class="earned-keys">${s.keys.map((k,i)=>k.unlocked?`<span><img src="assets/key.png" alt="Earned key">${escapeHTML(KEYS[i].name)}</span>`:'').join('')}</div>
  ${teacherNotes('<p>Use Teacher presentation to guide this student journey. Independent rehearsal has separate progress and can use reference copies of clue cards without earning them.</p>')}
  ${ready&&s.gateOpen?'<button data-action="resume-presentation">Return to the landscape / tree</button>':''}
- </div></section>`;
+ </div>${ready&&!s.gateOpen?'<div class="presentation-controls"><button data-action="open-gate">Open the double doors</button></div>':''}</section>`;
 }
+function keyClueCount(key){return [EVIDENCE_LINKS.land,EVIDENCE_LINKS.history,EVIDENCE_LINKS.memory][key].length;}
 function keyHTML(){
- const s=state(),k=KEYS[activeKey],progress=s.keys[activeKey],control=presenter;
+ const s=state(),k=KEYS[activeKey],progress=s.keys[activeKey];
  const questions=['What makes Rainy Mountain more than a place?','What do these clues tell us about the Kiowa people?','What do these clues tell us about Momaday and his grandmother?'];
  const links=[EVIDENCE_LINKS.land,EVIDENCE_LINKS.history,EVIDENCE_LINKS.memory][activeKey];
  const refs=[...new Set(links.flatMap(link=>link.refs))].sort((a,b)=>a-b);
@@ -558,10 +562,10 @@ function keyHTML(){
   'The Kiowas’ landmark, inherited memories, and ancestral names connect the place with a shared past.'
  ];
  return `<section class="panel knowledge-map" data-knowledge-key="${activeKey}"><div class="knowledge-toolbar"><button data-action="back-gate">← Back to the Gate</button>${source(refs)}</div><p class="eyebrow">Lock ${activeKey+1} · From evidence to shared meaning</p><h2 class="challenge-question" data-ink-region="key-question-${activeKey}">${questions[activeKey]}</h2>
- ${activeKey===0?`<p>Discuss each connection before revealing the next branch.</p><div class="knowledge-branches">${links.map((link,i)=>i<progress.revealed?`<article class="knowledge-branch ${revealedBranch===i?'just-revealed':''}" data-ink-region="land-branch-${i}"><h3>${escapeHTML(link.label)}</h3><p>${landContent[i]}</p><button data-text-refs="${link.refs.join(',')}">Return to the Text · ${paragraphRefs(link.refs)}</button></article>`:'').join('')}</div>${control&&progress.revealed<3?'<button data-action="reveal-land-branch">Teacher: reveal next branch</button>':''}`:
- `<div class="synthesis-cards">${links.map((link,i)=>{const index=(activeKey===1?0:3)+i;return `<article class="synthesis-card" data-ink-region="synthesis-card-${index}"><h3>${escapeHTML(link.label)}</h3>${!s.checkpoints[index].complete?'<p class="reference-label">Teacher reference copy · not earned in this rehearsal</p>':''}<div class="card-content">${escapeHTML(CONTENT.checkpoints[index].clue.replace(/^Clue Card[^\n]*\n/,''))}</div><button data-text-refs="${link.refs.join(',')}">Return to the Text · ${paragraphRefs(link.refs)}</button></article>`;}).join('')}</div>`}
- ${progress.answerShown?`<div class="synthesis-answer" data-ink-region="synthesis-answer-${activeKey}"><p>Our shared category</p><h3>${escapeHTML(k.name.toUpperCase())}</h3><img src="assets/key.png" alt="Discovered key"></div>`:'<p class="small">Discuss the shared meaning. The category name remains hidden until your teacher reveals it.</p>'}
- ${control?`<div class="teacher-synthesis"><p class="small">Teacher-controlled discussion · no automatic grading</p>${!progress.answerShown?`<button data-action="reveal-key-meaning" ${activeKey===0&&progress.revealed<3?'disabled':''}>Teacher: reveal shared meaning</button>`:!progress.unlocked?'<button data-action="award-key">Teacher: award key & unlock door</button>':'<p>This key has already been collected.</p>'}</div>`:'<p class="small">Your teacher can enable Teacher presentation to reveal branches, reveal the shared meaning, and award this key.</p>'}
+ ${activeKey===0?`<p>Discuss each connection before revealing the next branch.</p><div class="knowledge-branches">${links.map((link,i)=>i<progress.revealed?`<article class="knowledge-branch ${revealedBranch===i?'just-revealed':''}" data-ink-region="land-branch-${i}"><h3>${escapeHTML(link.label)}</h3><p>${landContent[i]}</p><button data-text-refs="${link.refs.join(',')}">Return to the Text · ${paragraphRefs(link.refs)}</button></article>`:'').join('')}</div>${progress.revealed<3?`<button data-action="reveal-land-branch">${presenter?'Teacher: ':''}Reveal next branch</button>`:''}`:
+ `<div class="synthesis-cards">${links.slice(0,progress.revealed).map((link,i)=>{const index=(activeKey===1?0:3)+i;return `<article class="synthesis-card" data-ink-region="synthesis-card-${index}"><h3>${escapeHTML(link.label)}</h3>${!s.checkpoints[index].complete?'<p class="reference-label">Reference clue card · not earned in this rehearsal</p>':''}<div class="card-content">${escapeHTML(CONTENT.checkpoints[index].clue.replace(/^Clue Card[^\n]*\n/,''))}</div><button data-text-refs="${link.refs.join(',')}">Return to the Text · ${paragraphRefs(link.refs)}</button></article>`;}).join('')}</div>${progress.revealed<links.length?'<button data-action="reveal-key-clue">Reveal next clue</button>':''}`}
+ ${progress.answerShown?`<div class="synthesis-answer" data-ink-region="synthesis-answer-${activeKey}"><p>Our shared category</p><h3>${escapeHTML(k.name.toUpperCase())}</h3>${progress.unlocked?'<img src="assets/key.png" alt="Discovered key">':''}</div>`:'<p class="small">Discuss the shared meaning. Reveal the shared meaning after discussing every clue.</p>'}
+ <div class="teacher-synthesis"><p class="small">${presenter?'Teacher-controlled':'Self-directed'} discussion · no automatic grading</p>${!progress.answerShown?`<button data-action="reveal-key-meaning" ${progress.revealed<links.length?'disabled':''}>${presenter?'Teacher: ':''}Reveal shared meaning</button>`:!progress.unlocked?`<button data-action="award-key">${presenter?'Teacher: ':''}Award key & unlock door</button>`:'<p>This key has already been collected.</p>'}</div>
  <details><summary>Optional team discussion notes</summary>${textArea('connections','Record the connections your team discussed. Notes are not graded or required to unlock the key.',progress.discussion,'key-discussion')}</details>
  <button data-action="back-gate">Back to the Gate</button></section>`;
 }
@@ -579,8 +583,8 @@ function syncDoorOpening(){
  document.querySelectorAll('.phase3-opening .original-leaf').forEach(el=>el.style.animationDelay=`-${Math.min(duration,elapsed)}ms`);
  openingTimer=setTimeout(()=>{
   if(s!==state()||s.presentation!=='opening')return;
-  s.gateOpen=true;s.presentation='landscape';
-  if(currentStage===2&&!evidenceView&&!keyActivity){feedback='Arrive at Rainy Mountain. Your teacher controls the next reveal.';render();focusMain();}
+  s.gateOpen=true;s.presentation='landscape';s.celebrationPending=true;
+  if(currentStage===2&&!evidenceView&&!keyActivity){feedback='';render();focusMain();}
  },Math.max(0,duration-elapsed));
 }
 function treeArtwork(s){
@@ -599,29 +603,58 @@ function assignmentHTML(){
  <button data-action="return-tree">Return to the Cultural Identity Tree</button><button data-action="download-notes">Save my written field notes (.txt)</button><p class="small">Progress and annotations stay in this session. Reloading or Restart clears learning progress; save your written notes before closing.</p></section>`;
 }
 function treeHTML(){
- const s=state(),control=presenter,step=s.presentationStep;
+ const s=state(),step=s.presentationStep;
+ if(s.celebrationPending)return celebrationHTML();
  if(step==='assignment')return assignmentHTML();
  const prompt=step==='roots'?'Why does Momaday write about his homeland, the history of the Kiowa people, and his memories of Aho?':step==='identity'?'As Momaday leaves Rainy Mountain, does he leave his cultural roots behind? Why or why not?':'If our cultural roots remain with us, can our cultural identity continue to grow as we experience new places, people, and cultures? How?';
  const actions=step==='landscape'?'<button data-action="start-roots">Teacher: begin Cultural Roots</button>':step==='roots'?s.roots<3?'<button data-action="reveal-root">Teacher: reveal next root</button>':'<button data-action="reveal-trunk">Teacher: connect roots & grow trunk</button>':step==='identity'?'<button data-action="start-growth">Teacher: discuss continuity & growth</button>':s.canopy<4?'<button data-action="reveal-canopy">Teacher: grow next canopy example</button>':'<button data-action="show-assignment">Teacher: show After-Class Assignment</button>';
  return `<section class="cultural-presentation" data-presentation-step="${step}">
  <div class="cultural-landscape ${step==='landscape'?'landscape-only':''}" data-ink-region="rainy-mountain-landscape" aria-label="Rainy Mountain landscape">${step==='landscape'?'':treeArtwork(s)}</div>
- <div class="panel presentation-discussion"><div class="presentation-controls">${control?actions:'<p>Your teacher controls each reveal using Teacher presentation.</p>'}<button data-action="visit-gate">Review the Three Keys</button></div>${step==='landscape'?'':`<p class="eyebrow">${step==='roots'?'Cultural Roots':step==='identity'?'Cultural Identity':'Cultural Continuity & Growth'}</p><h2 class="presentation-prompt" data-ink-region="discussion-${step}">${prompt}</h2>${step==='roots'?source([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]):source([15])}
+ <div class="panel presentation-discussion"><div class="presentation-controls">${presenter?actions:actions.replace(/Teacher: /g,'')}<button data-action="visit-gate">Review the Three Keys</button></div>${step==='landscape'?'':`<p class="eyebrow">${step==='roots'?'Cultural Roots':step==='identity'?'Cultural Identity':'Cultural Continuity & Growth'}</p><h2 class="presentation-prompt" data-ink-region="discussion-${step}">${prompt}</h2>${step==='roots'?source([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]):source([15])}
  ${step==='identity'?'<p class="identity-insight">These cultural roots help Momaday understand who he is culturally. Leaving Rainy Mountain physically does not mean abandoning his cultural roots: they remain connected to his cultural identity.</p>':''}
  ${step==='growth'?`<p>Momaday’s writing and the Kiowa oral tradition show how culture can be expressed and transmitted.</p>${source([8])}<p class="presentation-followup">What other ways can help us preserve, express, and develop our cultural identity?</p><p class="small">The four canopy keywords are examples for discussion, not exhaustive answers.</p>`:''}`}
 
  ${step==='landscape'?'':`<details><summary>Optional discussion notes</summary>${textArea('roots','Record ideas and evidence from your discussion.',s.rootDiscussion,'roots')}</details>`}</div></section>`;
 }
 
+function celebrationHTML(){
+ return `<section class="arrival-screen"><div class="cultural-landscape landscape-only" aria-label="Rainy Mountain landscape"></div><div class="arrival-backdrop"><div class="arrival-celebration" role="dialog" aria-modal="true" aria-labelledby="arrival-title" aria-describedby="arrival-message"><p class="eyebrow">Our journey continues</p><h2 id="arrival-title">Congratulations, Explorers!</h2><p id="arrival-message">You’ve made it to Rainy Mountain!</p><button data-action="continue-journey-arrival">Continue Our Journey</button><button class="arrival-sound" data-action="map-sound" data-sound-label>Sound: ${soundEnabled?'on':'off'}</button></div></div></section>`;
+}
+document.addEventListener('keydown',event=>{
+ const popup=document.querySelector('.arrival-celebration');if(!popup||event.key!=='Tab')return;
+ const buttons=popup.querySelectorAll('button'),first=buttons[0],last=buttons[buttons.length-1];
+ if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+ else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+});
+function syncVictoryCelebration(){
+ const s=state();if(!document.querySelector('.arrival-celebration'))return;
+ document.querySelector('[data-action="continue-journey-arrival"]').focus({preventScroll:true});
+ if(s.celebrationPlayed)return;s.celebrationPlayed=true;
+ if(!soundEnabled)return;
+ try{
+  audio ||= new (window.AudioContext||window.webkitAudioContext)();
+  audio.resume().then(()=>{
+   if(!soundEnabled||s!==state()||!s.celebrationPending||!document.querySelector('.arrival-celebration'))return;
+   // Original four-second rising fanfare, synthesized entirely in this browser.
+   const start=audio.currentTime;
+   [392,523.25,659.25,783.99,659.25,783.99,1046.5,1046.5].forEach((frequency,i)=>{
+    const osc=audio.createOscillator(),gain=audio.createGain(),at=start+i*.45;
+    osc.type='triangle';osc.frequency.value=frequency;
+    gain.gain.setValueAtTime(0,at);gain.gain.linearRampToValueAtTime(.07,at+.025);gain.gain.exponentialRampToValueAtTime(.001,at+(i===7?.8:.4));
+    osc.connect(gain);gain.connect(audio.destination);const voice={osc,gain};toneVoices.add(voice);
+    osc.onended=()=>{toneVoices.delete(voice);osc.disconnect();gain.disconnect();};osc.start(at);osc.stop(at+(i===7?.85:.44));
+   });
+  }).catch(()=>notify('Audio was not permitted. Continue Our Journey is still available.'));
+ }catch{notify('Victory sound is unavailable. Continue Our Journey is still available.');}
+}
 function response(message, success=false, redraw=false){feedback=message;notify(message);if(success)tone();if(redraw)render();}
 function returnToText(message){response(message);tone(false);const button=$('#adventure .text-return');if(button)button.focus();}
 function checkpointAccessible(i){return teacher||i===0||state().checkpoints[i-1].complete;}
 function routeToMap(){closeMenuForJourney();if(!unlockedStage(1)){notify('Complete Stage 1 first, or use Teacher access for independent presentation.');return;}evidenceView=null;currentStage=1;checkpoint=null;feedback='';render();focusMain();}
 function acceptKey(){
- if(!(presenter))return;
- const s=state(),progress=s.keys[activeKey];if(!progress.answerShown||progress.unlocked)return;
+ const s=state(),progress=s.keys[activeKey];if(!keyActivity||!progress.answerShown||progress.unlocked||progress.revealed<keyClueCount(activeKey))return;
  progress.unlocked=true;unlockAnimation=activeKey;keyActivity=false;s.gateOpen=false;
  feedback=`Key awarded: ${KEYS[activeKey].name}. Lock ${activeKey+1} is unlocked.`;
- if(s.keys.every(k=>k.unlocked)){s.presentation='opening';s.openingStarted=performance.now();}
  tone();render();focusMain();
 }
 function maybeCompleteLandscape(){
@@ -754,17 +787,20 @@ const ACTIONS={
  'text-previous':()=>changeEvidence(-1),
  'text-next':()=>changeEvidence(1),
  'back-gate':()=>{keyActivity=false;evidenceView=null;feedback='';render();focusMain();},
- 'reveal-land-branch':()=>{if(!(presenter)||activeKey!==0)return;revealedBranch=state().keys[0].revealed;state().keys[0].revealed=Math.min(3,state().keys[0].revealed+1);feedback='';render();},
- 'reveal-key-meaning':()=>{if(!(presenter))return;const p=state().keys[activeKey];if(activeKey===0&&p.revealed<3)return;p.answerShown=true;response('Shared meaning revealed. Discuss before awarding the key.',true,true);},
+ 'reveal-key-clue':()=>{if(!keyActivity||activeKey===0)return;const p=state().keys[activeKey];p.revealed=Math.min(keyClueCount(activeKey),p.revealed+1);feedback='';render();},
+ 'reveal-land-branch':()=>{if(!keyActivity||activeKey!==0)return;revealedBranch=state().keys[0].revealed;state().keys[0].revealed=Math.min(3,state().keys[0].revealed+1);feedback='';render();},
+ 'reveal-key-meaning':()=>{if(!keyActivity)return;const p=state().keys[activeKey];if(p.revealed<keyClueCount(activeKey))return;p.answerShown=true;response('Shared meaning revealed. Discuss before awarding the key.',true,true);},
  'award-key':acceptKey,
+ 'open-gate':()=>{const s=state();if(s.gateOpen||s.presentation==='opening'||!s.keys.every(k=>k.unlocked))return;s.presentation='opening';s.openingStarted=performance.now();s.celebrationPlayed=false;render();focusMain();},
+ 'continue-journey-arrival':()=>{const s=state();if(!s.celebrationPending)return;s.celebrationPending=false;render();focusMain();},
  'visit-gate':()=>{state().presentation='gate';keyActivity=false;render();focusMain();},
  'resume-presentation':()=>{if(!state().gateOpen)return;state().presentation='landscape';render();focusMain();},
- 'start-roots':()=>{if(!(presenter)||!state().gateOpen)return;state().presentationStep='roots';render();focusMain();},
- 'reveal-root':()=>{const s=state();if(!(presenter)||s.presentationStep!=='roots'||!s.gateOpen)return;treeReveal=`root-${s.roots}`;s.roots=Math.min(3,s.roots+1);response(`Root ${s.roots} revealed: ${KEYS[s.roots-1].name}.`,true,true);focusMain();},
- 'reveal-trunk':()=>{const s=state();if(!(presenter)||s.roots!==3)return;treeReveal='trunk';s.trunk=true;s.presentationStep='identity';response('The cultural roots connect with Cultural Identity.',true,true);focusMain();},
- 'start-growth':()=>{const s=state();if(!(presenter)||!s.trunk)return;s.presentationStep='growth';render();focusMain();},
- 'reveal-canopy':()=>{const s=state();if(!(presenter)||s.presentationStep!=='growth')return;treeReveal=`canopy-${s.canopy}`;s.canopy=Math.min(4,s.canopy+1);response(`Canopy example: ${CANOPY_WORDS[s.canopy-1]}.`,true,true);focusMain();},
- 'show-assignment':()=>{const s=state();if(!(presenter)||s.canopy!==4)return;s.presentationStep='assignment';s.complete=true;render();focusMain();},
+ 'start-roots':()=>{if(state().celebrationPending||!state().gateOpen||state().presentationStep!=='landscape')return;state().presentationStep='roots';render();focusMain();},
+ 'reveal-root':()=>{const s=state();if(s.celebrationPending||s.presentationStep!=='roots'||!s.gateOpen||s.roots>=3)return;treeReveal=`root-${s.roots}`;s.roots=Math.min(3,s.roots+1);response(`Root ${s.roots} revealed: ${KEYS[s.roots-1].name}.`,true,true);focusMain();},
+ 'reveal-trunk':()=>{const s=state();if(s.celebrationPending||s.roots!==3||s.trunk)return;treeReveal='trunk';s.trunk=true;s.presentationStep='identity';response('The cultural roots connect with Cultural Identity.',true,true);focusMain();},
+ 'start-growth':()=>{const s=state();if(s.celebrationPending||!s.trunk)return;s.presentationStep='growth';render();focusMain();},
+ 'reveal-canopy':()=>{const s=state();if(s.celebrationPending||s.presentationStep!=='growth'||s.canopy>=4)return;treeReveal=`canopy-${s.canopy}`;s.canopy=Math.min(4,s.canopy+1);response(`Canopy example: ${CANOPY_WORDS[s.canopy-1]}.`,true,true);focusMain();},
+ 'show-assignment':()=>{const s=state();if(s.celebrationPending||s.canopy!==4)return;s.presentationStep='assignment';s.complete=true;render();focusMain();},
  'return-tree':()=>{state().presentationStep='growth';render();focusMain();},
  'download-notes':()=>{
   const s=state(),notes=['Rainy Mountain Adventure · '+(teacher?'Teacher rehearsal':'Student journey'),'LANDSCAPE',...Object.entries(s.landscape).map(([k,v])=>`${k}: ${v}`),...s.checkpoints.flatMap((c,i)=>[`GATE ${i+1}: ${CONTENT.checkpoints[i].title}`,...Object.entries(c.evidence).map(([k,v])=>`Challenge ${Number(k)+1}: ${v}`),c.finalDiscussion]),...s.keys.map((k,i)=>`KEY ${i+1}: ${k.discussion}`),'ROOTS',s.rootDiscussion,'GROWTH',...s.growth.map(g=>`${g.kind}: ${g.text}`),'REFLECTIONS',...Object.entries(s.reflections).map(([k,v])=>`${k}: ${v}`)].join('\n\n');
