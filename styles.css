@@ -224,9 +224,11 @@ button[aria-current="step"]:hover:not(:disabled),button.selected:hover:not(:disa
 @keyframes phase3-left { from {transform:rotateY(0);} to {transform:rotateY(-105deg);} }
 @keyframes phase3-right { from {transform:rotateY(0);} to {transform:rotateY(105deg);} }
 .cultural-presentation { max-width:1400px; margin:auto; }
-.cultural-landscape { position:relative; width:100%; aspect-ratio:16/9; background:url('assets/background-stage 3.png') center/cover; overflow:hidden; border-radius:1rem; box-shadow:0 5px 30px #0007; }
-.phase3-art { position:absolute; inset:0; width:100%; height:100%; }
-.phase3-layer { position:absolute; inset:0; width:100%; height:100%; object-fit:fill; pointer-events:none; }
+.cultural-landscape { position:relative; width:100%; background:url('assets/background-stage 3.png') center/cover; overflow:hidden; border-radius:1rem; box-shadow:0 5px 30px #0007; }
+.phase3-art { position:absolute; top:0; bottom:0; left:0; width:100%; height:auto; z-index:1; }
+/* Classic positioned overflow crops work even when inset/clip-path are ignored. */
+.tree-crop { position:absolute; overflow:hidden; z-index:1; pointer-events:none; }
+.phase3-layer { position:absolute; display:block; max-width:none; opacity:1; pointer-events:none; }
 .phase3-root,.phase3-leaf,.phase3-trunk-label { position:absolute; z-index:2; padding:.35em .65em; border:1px solid #f2ce83; background:#102b24eb; border-radius:.5rem; font-size:clamp(.8rem,2vw,1.7rem); text-align:center; box-shadow:0 2px 8px #0008; }
 .phase3-root { bottom:2%; max-width:31%; }
 .root-name-0 { left:2%; }.root-name-1 { left:50%; transform:translateX(-50%); }.root-name-2 { right:2%; }

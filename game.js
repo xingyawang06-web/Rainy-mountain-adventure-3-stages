@@ -587,13 +587,17 @@ function syncDoorOpening(){
   if(currentStage===2&&!evidenceView&&!keyActivity){feedback='';render();focusMain();}
  },Math.max(0,duration-elapsed));
 }
+// Overflow windows crop the unchanged full-size image without clip-path support.
+function treePiece(className,alt,left,top,width,height,revealed){
+ return `<div class="tree-crop" style="left:${left}%;top:${top}%;width:${width}%;height:${height}%"><img class="phase3-layer ${className} ${revealed?'tree-just-revealed':''}" src="assets/cultural%20identity%20tree.png" alt="${alt}" style="left:${-left/width*100}%;top:${-top/height*100}%;width:${100/width*100}%;height:${100/height*100}%"></div>`;
+}
 function treeArtwork(s){
  const roots=KEYS.map(k=>k.name);
- // All layers use precisely the same original artwork and coordinate system.
+ // Each crop shares the original image's coordinate system and reveal boundaries.
  return `<div class="phase3-art" data-ink-region="cultural-tree-art" aria-label="Cultural Identity Tree: ${s.roots} roots, ${s.trunk?'trunk':'no trunk'}, ${s.canopy} canopy examples">
- ${roots.slice(0,s.roots).map((name,i)=>`<img class="phase3-layer root-piece root-piece-${i} ${treeReveal===`root-${i}`?'tree-just-revealed':''}" src="assets/cultural%20identity%20tree.png" alt="${name} root" style="clip-path:inset(79% ${100-(i+1)*100/3}% 0 ${i*100/3}%)"><span class="phase3-root root-name-${i}" data-ink-region="root-name-${i}">${name}</span>`).join('')}
- ${s.trunk?`<img class="phase3-layer identity-trunk ${treeReveal==='trunk'?'tree-just-revealed':''}" src="assets/cultural%20identity%20tree.png" alt="Trunk connecting the cultural roots" style="clip-path:inset(43% 0 21% 0)"><strong class="phase3-trunk-label" data-ink-region="cultural-identity">CULTURAL IDENTITY</strong>`:''}
- ${CANOPY_WORDS.slice(0,s.canopy).map((word,i)=>`<img class="phase3-layer canopy-piece ${treeReveal===`canopy-${i}`?'tree-just-revealed':''}" src="assets/cultural%20identity%20tree.png" alt="Growing tree canopy" style="clip-path:inset(0 ${100-(i+1)*25}% 57% ${i*25}%)"><span class="phase3-leaf leaf-name-${i}" data-ink-region="canopy-word-${i}">${word}</span>`).join('')}
+ ${roots.slice(0,s.roots).map((name,i)=>`${treePiece(`root-piece root-piece-${i}`,`${name} root`,i*100/3,79,100/3,21,treeReveal===`root-${i}`)}<span class="phase3-root root-name-${i}" data-ink-region="root-name-${i}">${name}</span>`).join('')}
+ ${s.trunk?`${treePiece('identity-trunk','Trunk connecting the cultural roots',0,43,100,36,treeReveal==='trunk')}<strong class="phase3-trunk-label" data-ink-region="cultural-identity">CULTURAL IDENTITY</strong>`:''}
+ ${CANOPY_WORDS.slice(0,s.canopy).map((word,i)=>`${treePiece('canopy-piece','Growing tree canopy',i*25,0,25,43,treeReveal===`canopy-${i}`)}<span class="phase3-leaf leaf-name-${i}" data-ink-region="canopy-word-${i}">${word}</span>`).join('')}
  </div>`;
 }
 function assignmentHTML(){

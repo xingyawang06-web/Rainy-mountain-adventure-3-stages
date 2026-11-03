@@ -165,3 +165,45 @@ The full existing Phase 5 regression also passed at 1280×720, 1366×768 and
 progress and annotation persistence, all six ink tools/history, sound/mute PCM,
 fullscreen, resize/scroll alignment, tree/assignment and mobile overflow. No
 JavaScript/resource errors or external requests were reported in those runs.
+
+## Current tree-rendering correction for older 360 engines
+
+The real Windows classroom report is consistent with a reproduced legacy CSS
+failure: after one Reveal next root click, state.roots was 1 and the PNG was
+loaded, but the tree container began at y=640 below a landscape spanning y=64–640.
+Without support for the inset shorthand, the absolutely positioned tree used its
+static position after the landscape's ratio spacer. Landscape overflow clipped
+it completely. Lack of clip-path support would also defeat the approved partial
+reveals; counting DOM nodes alone did not verify visible artwork.
+
+The tree now has explicit top/bottom/left positioning and stacking. Landscape
+height comes from the existing percentage spacer, with no aspect-ratio dependency.
+Each image portion uses a positioned overflow-hidden rectangle and an inversely
+scaled/offset copy of the unchanged original PNG. This uses basic CSS positioning,
+percentage dimensions and overflow rather than clip-path, masks, inset, object-fit
+or CSS feature detection. All original 3-root/1-trunk/4-canopy crop coordinates,
+labels, reveal actions and animation definitions are retained. Base opacity is
+explicitly visible when animations are unavailable. Game state and teaching flow
+were not changed.
+
+The new pixel regression hides labels while checking actual artwork changes on
+each click, verifies loaded images and nonzero/aligned containers, and compares
+native output at every stage to the frozen pre-fix approved masking renderer.
+It tests both Independent Rehearsal (Teacher Access off) and Teacher Access at
+1280×720, 1366×768, 1920×1080 and 375×812, also stripping unsupported CSS declarations
+before parsing for legacy runs. Screenshots were visually inspected. The one
+rendering-template fingerprint was updated intentionally for the crop-wrapper
+markup; original image/document/content/evidence and other teaching hashes were
+preserved. The runtime manifest was refreshed for game.js and styles.css only.
+
+These are Linux Chromium/offline-local-byte tests. Physical Windows/360, its exact
+engine and offline file:// behavior remain manual acceptance checks. No physical
+Windows/360 verification is claimed.
+
+Results: all 16 visible-tree pixel cases passed. Both full three-stage UI journeys
+passed separately, including the rehearsal run with no Teacher Access. Existing
+Phase 5 regressions passed at 1280×720, 1366×768 and 1920×1080, covering evidence,
+all annotation tools/history and alignment, progress, sound/mute, fullscreen,
+walking, doors, celebration, tree and assignment. Original-asset/content audits,
+JavaScript syntax and whitespace checks passed; no runtime/resource errors or
+external requests were reported by the browser suites.

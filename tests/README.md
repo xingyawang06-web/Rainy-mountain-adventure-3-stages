@@ -222,3 +222,24 @@ teaching content. That broad scope was split into unchanged teaching-only scopes
 insights). Every new hash was derived from the pre-correction work-branch source
 and checked byte-for-byte against the correction; teaching data, evidence maps,
 objectives and original asset hashes retain their previous fingerprints.
+
+# Visible Cultural Identity Tree compatibility
+
+    python3 tests/tree-rendering-compat.py
+
+Requires the existing development Python Playwright and Pillow installations.
+For each of four viewport sizes, both Independent Rehearsal and Teacher Access,
+and native/legacy CSS, clicks through every root, trunk, canopy section and the
+assignment. Checks nonzero layer/crop geometry, actual image loading and changed
+artwork pixels after each reveal with labels hidden. Native rendering is compared
+at each step against the frozen pre-fix clip-path template in
+`fixtures/tree-artwork-before-compat.js`; this fixture is never used by the game.
+Legacy simulation removes aspect-ratio, inset, clip-path/masks, animation and
+min()/clamp() dimensions before CSS parsing. It does not represent physical 360
+Browser or Windows/file:// verification.
+
+The treeArtwork rendering fingerprint was intentionally updated for the new
+crop-wrapper markup. The approved picture, teaching data, root/canopy labels,
+trunk label, prompts, evidence, assignment and other teaching fingerprints remain
+unchanged; the visual reference regression additionally protects the old reveal
+boundaries and artwork alignment.
