@@ -20,7 +20,7 @@ const offline=require('./offline-harness.cjs');
   for(let gate=0;gate<5;gate++){
    await p.locator(`[data-checkpoint="${gate}"]`).first().click();
    const questions=await p.evaluate(i=>CONTENT.checkpoints[i].challenges,gate);
-   for(const q of questions){if(q.type==='blanks'){for(let i=0;i<q.answers.length;i++)await p.locator(`[data-route="${i}"]`).fill(q.answers[i]);}else for(const a of q.answers)await p.locator(`[data-answer="${a}"]`).check();await act('check-answer');await p.locator('#evidence-response').fill('We discussed the original paragraph and supporting expressions.');await act('confirm-evidence');await act('next-challenge');}
+   for(const q of questions){if(q.type==='blanks'){for(let i=0;i<q.answers.length;i++)await p.locator(`[data-route="${i}"]`).fill(q.answers[i]);}else for(const a of q.answers)await p.locator(`[data-answer="${a}"]`).check();await act('check-answer');assert.equal(await p.locator('#evidence-response').count(),0);await act('confirm-evidence');}
    assert(await p.locator('.clue-card').isVisible());await act('continue-journey');await p.waitForFunction(()=>!state().mapWalk);
   }
   assert.equal(await p.evaluate(()=>state().checkpoints.filter(c=>c.complete).length),5);await stage(2);
@@ -43,7 +43,7 @@ const offline=require('./offline-harness.cjs');
   await p.evaluate(()=>{ACTIONS['start-roots']();ACTIONS['reveal-root']();});assert.equal(await p.evaluate(()=>state().roots),0);assert.equal(await p.evaluate(()=>toneVoices.size),0); // default muted
   await p.evaluate(()=>render());assert(await p.locator('.arrival-celebration').isVisible());await act('continue-journey-arrival');assert.equal(await p.locator('.arrival-celebration').count(),0);
   await p.locator('#home').click();await stage(2);assert.equal(await p.locator('.arrival-celebration').count(),0);
-  await act('start-roots');for(let i=0;i<3;i++){await act('reveal-root');assert.equal(await p.locator('.phase3-root').count(),i+1);assert.equal(await p.locator('.identity-trunk').count(),0);}await act('reveal-trunk');assert.equal(await p.locator('.identity-trunk').count(),1);await act('start-growth');for(let i=0;i<4;i++){await act('reveal-canopy');assert.equal(await p.locator('.phase3-leaf').count(),i+1);}
+  await act('start-roots');for(let i=0;i<3;i++){await act('reveal-root');assert.equal(await p.locator('.phase3-root').count(),i+1);assert.equal(await p.locator('.identity-trunk').count(),0);}await act('reveal-trunk');assert.equal(await p.locator('.identity-trunk').count(),1);await act('start-growth');for(let i=0;i<2;i++){await act('reveal-canopy');assert.equal(await p.locator('.phase3-leaf').count(),i+1);}
   await act('show-assignment');assert(await p.locator('.assignment-screen').isVisible());assert(await p.evaluate(()=>state().complete));
   if(mode==='rehearsal'){assert.equal(await p.evaluate(()=>presenter),false);assert.equal(await p.evaluate(()=>accessChanges),0);assert.equal(await p.evaluate(()=>studentState.keys.filter(k=>k.unlocked).length),0);}
   assert.deepEqual(errors,[]);console.log('PASS complete three-stage journey:',mode,'progressive keys, celebration, roots/trunk/canopy, assignment; no external requests or JS errors');await context.close();

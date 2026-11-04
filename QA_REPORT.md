@@ -207,3 +207,48 @@ all annotation tools/history and alignment, progress, sound/mute, fullscreen,
 walking, doors, celebration, tree and assignment. Original-asset/content audits,
 JavaScript syntax and whitespace checks passed; no runtime/resource errors or
 external requests were reported by the browser suites.
+
+## Current update: objectives, two-part crown, two assignments, oral discussion
+
+The clean existing work branch at 1563883 was the starting point. No main-branch
+changes or resets were made. The four objective cards retain their numbering,
+colors and two-column layout, with the exact new titles and full descriptions.
+Descriptions remain 25px and titles 27px at classroom widths; cards expand and the
+page scrolls rather than shrinking or clipping content.
+
+The crown now consists of two half-image overflow crops with Cultural Exploration
+and Cultural Reflection labels. The new growth question is “How can we deepen and
+develop our cultural identity?” Both modes require two intentional reveals before
+the assignment control appears. Counts and guards use the keyword-array length,
+and old third/fourth label styles are removed. Roots, trunk, source artwork,
+growth effects, earlier Momaday discussion and legacy positioning/cropping fixes
+are retained.
+
+After-Class Assignment has two separate screens. Task 1 presents the supplied
+Chinese cultural roots questions and 2–3-minute reflection. Task 2 presents the
+three numbered steps (Chaoxing questionnaire, four groups in total for lesson
+design, and a 15-minute group microteaching session). No questionnaire items or
+optional classroom reflection form are displayed. Navigation supports both task
+directions and return to the tree; annotation histories are separate by task.
+The longer lesson-design step receives a wider column without smaller text.
+
+All Stage 2 evidence-entry headings/fields and written-evidence validation are
+removed from the student challenge view. A correct answer exposes Confirm
+discussion & continue immediately; one click records oral confirmation and moves
+to the next existing question or original clue reward. Wrong answers still cannot
+advance. Original question/answer data, feedback, clue cards, walks, sounds and
+unlock sequence are preserved; existing written-note state is not erased.
+
+Verified: separate complete three-stage journeys in Independent Rehearsal and
+Teacher Access; full Phase 5 gameplay/annotation/sound/fullscreen regressions at
+1280×720, 1366×768 and 1920×1080; 16 native/legacy pixel-based tree cases; eight
+exact-content/layout/assignment-annotation cases including mobile; existing
+missing-feature/permission simulations; offline/content/asset audit and syntax.
+Screenshots of objectives, crown and both tasks were visually inspected. Updated
+only the six fingerprints for explicitly requested teaching changes and the
+runtime manifest; original reading/questions/evidence/assets remain protected.
+
+No external runtime requests or dependencies were added. Chaoxing is plain task
+text, not an embedded online service. These checks use Linux Chromium and offline
+local-byte simulations. Physical Windows/360, actual offline file:// and classroom
+hardware remain manual verification, not claimed as tested here.

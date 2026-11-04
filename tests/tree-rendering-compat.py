@@ -53,7 +53,7 @@ with sync_playwright() as p:
                 labels_style=page.add_style_tag(content='.phase3-root,.phase3-trunk-label,.phase3-leaf{visibility:hidden!important}')
                 landscape=page.locator('.cultural-landscape')
                 before=pixels(landscape.screenshot())
-                actions=['reveal-root']*3+['reveal-trunk','start-growth']+['reveal-canopy']*4
+                actions=['reveal-root']*3+['reveal-trunk','start-growth']+['reveal-canopy']*2
                 for step,action in enumerate(actions):
                     page.locator(f'[data-action="{action}"]').click()
                     page.wait_for_function('Array.from(document.querySelectorAll(".phase3-layer")).every(e=>e.complete&&e.naturalWidth>0)')
@@ -75,7 +75,7 @@ with sync_playwright() as p:
                     before=after
                 assert page.locator('.phase3-root').all_text_contents()==['Ancestral Land','Tribal History','Family Memories']
                 assert page.locator('.phase3-trunk-label').text_content()=='CULTURAL IDENTITY'
-                assert page.locator('.phase3-leaf').all_text_contents()==['Writing','Storytelling','Language','Cultural Exchange']
+                assert page.locator('.phase3-leaf').all_text_contents()==['Cultural Exploration','Cultural Reflection']
                 labels_style.evaluate('(e)=>e.remove()')
                 if size==(1280,720):page.screenshot(path=f'/tmp/rainy-tree-{mode}-{"legacy" if legacy else "native"}.png')
                 page.locator('[data-action="show-assignment"]').click()

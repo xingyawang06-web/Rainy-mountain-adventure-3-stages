@@ -43,3 +43,12 @@ Chromium engine and prepare an already-tested Chrome/Edge fallback.
 Automated results are Linux Chromium results and explicit feature/offline
 simulations. They do not certify Windows, 360 Browser, physical equipment, or
 local `file://` behavior in the classroom; complete the Chinese checklist there.
+
+Current teaching updates: the homepage has the four revised objectives. Stage 2
+uses oral evidence discussion: after a correct answer, Confirm discussion &
+continue advances directly without written evidence. The final crown reveals
+Cultural Exploration, then Cultural Reflection in two clicks. After-Class
+Assignment has separate Task 1 (My Chinese Cultural Roots) and Task 2 (From
+Evaluation to Teaching Practice) screens, with navigation back to the tree. Task 2
+uses four groups in total and a 15-minute group microteaching session. Chaoxing is
+mentioned as an assignment destination only; the game makes no network request.

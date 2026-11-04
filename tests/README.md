@@ -243,3 +243,19 @@ crop-wrapper markup. The approved picture, teaching data, root/canopy labels,
 trunk label, prompts, evidence, assignment and other teaching fingerprints remain
 unchanged; the visual reference regression additionally protects the old reveal
 boundaries and artwork alignment.
+
+# Current four teaching updates
+
+    node tests/teaching-updates.cjs
+
+Checks exact objective titles/descriptions and assignment wording, projection-size
+fonts and overflow, two manual crown reveals with no extra click, Task 1 ↔ Task 2
+navigation and return to the tree. Also verifies separate persistent annotation
+histories for the assignment screens. Runs in rehearsal and teacher modes at three
+classroom resolutions and a mobile width. The full journey and Phase 5 drivers
+now confirm all 14 Stage 2 challenges without any evidence text entry or second
+progression click. The tree pixel/reference test uses two half-crown crops instead
+of the previous four quarter-crown crops; roots/trunk crop coordinates are unchanged.
+Only the six teaching fingerprints affected by the explicitly requested content
+changes were updated. Source reading, questions/options, clue cards, evidence maps,
+vocabulary and original assets retain their previous approved hashes.

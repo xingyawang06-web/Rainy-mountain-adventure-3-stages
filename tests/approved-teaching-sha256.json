@@ -9,7 +9,7 @@
   },
   "const LEARNING_OBJECTIVES=": {
     "end": "const interfaceSheets=",
-    "sha256": "cea3c9a0954d00b17a060541567b5f9add910c300946e8cf59807ba55896eae9"
+    "sha256": "d44aafbfa499f5b5679446789ee6704d4aae1ff94af3ef67ca06bf93c876cc6c"
   },
   " const questions=": {
     "end": " const links=",
@@ -21,22 +21,22 @@
   },
   "const CANOPY_WORDS=": {
     "end": "let openingTimer=",
-    "sha256": "c69ea9594ca5fb11e4976e5601d7940b459799e9d1ff561cad3933873c94e035"
+    "sha256": "7bf9e4ba3b0abd053a2a7abf40bdcd3994e264965e04de794c0f8209bb89da4e"
   },
   "function treeArtwork(s){": {
     "end": "function assignmentHTML()",
-    "sha256": "a5996b4da96813e2d07329d62356fa85bc9ae7ab62aa70df0340f7bb6630e555"
+    "sha256": "567bf842ace1e5357251041cb1f3d338f8ad551c523fc9d8050eb4b608d8630b"
   },
   "function assignmentHTML(){": {
     "end": "function treeHTML()",
-    "sha256": "0b6e7fb974d3a35fcde023ef1ef089c283f142a3b90db7ca2261e7a63715c634"
+    "sha256": "425362395d85d828eee08ff8c6a5887cadfa4f87bfddedd6c17e1c7e755118d1"
   },
   " const prompt=": {
     "end": " const actions=",
-    "sha256": "5512a315b72564f9245bce1d707470c4fb3f5a625cc9c074ba63d7f71abd1471"
+    "sha256": "0f58d2a43909cd0e217f13f6a3a0a6cbbbedff9e3546f2838200fb48d526f680"
   },
   " ${step==='identity'?": {
     "end": "function celebrationHTML(",
-    "sha256": "9cc5bdc930ec6c06f8c18fb94e99e500148850850c638d1895d7a6b94ffd8626"
+    "sha256": "7cf19aad958cf54e986880110286b1e32350fec7db5869f967d8be76ea7e1d86"
   }
 }
